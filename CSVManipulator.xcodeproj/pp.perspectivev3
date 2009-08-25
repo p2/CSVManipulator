@@ -233,8 +233,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -279,8 +277,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>20</integer>
-									<integer>17</integer>
+									<integer>10</integer>
+									<integer>8</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -316,12 +314,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>EEF027910D6D8015000532A4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>DataTableColumn.h</string>
+								<string>CSVDocument.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -329,11 +329,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>EEF027920D6D8015000532A4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>DataTableColumn.h</string>
+										<string>CSVDocument.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>EE9E188C10442F7200554687</string>
+										<string>EE9E18D51044368800554687</string>
 										<key>history</key>
 										<array>
 											<string>EECAA3C10D803E5200AE2D4A</string>
@@ -352,11 +352,8 @@
 											<string>EE9E11301042D26300554687</string>
 											<string>EE9E11391042D26300554687</string>
 											<string>EE9E13C81042E6AB00554687</string>
-											<string>EE9E13CA1042E6AB00554687</string>
 											<string>EE9E14371042EF1C00554687</string>
 											<string>EE9E14651042F32700554687</string>
-											<string>EE9E15331043E78200554687</string>
-											<string>EE9E15351043E78200554687</string>
 											<string>EE9E160C1044043E00554687</string>
 											<string>EE9E16ED1044166A00554687</string>
 											<string>EE9E16EE1044166A00554687</string>
@@ -364,14 +361,14 @@
 											<string>EE9E17011044184700554687</string>
 											<string>EE9E1745104420B100554687</string>
 											<string>EE9E175A1044212B00554687</string>
-											<string>EE9E17FB1044295E00554687</string>
 											<string>EE9E184D10442B8900554687</string>
 											<string>EE9E184E10442B8900554687</string>
 											<string>EE9E185F10442D2C00554687</string>
-											<string>EE9E187310442E2900554687</string>
 											<string>EE9E187B10442E7400554687</string>
-											<string>EE9E188910442F7200554687</string>
-											<string>EE9E188A10442F7200554687</string>
+											<string>EE9E18B41044351E00554687</string>
+											<string>EE9E18B51044351E00554687</string>
+											<string>EE9E18BE104435BC00554687</string>
+											<string>EE9E18D01044361000554687</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -401,646 +398,17 @@
 											<string>EEE8F3C00F13AB520081E83D</string>
 											<string>EEE8FA4D0F15240D0081E83D</string>
 											<string>EEE8FA600F15272A0081E83D</string>
-											<string>EE9E113E1042D26300554687</string>
-											<string>EE9E11401042D26300554687</string>
-											<string>EE9E11411042D26300554687</string>
-											<string>EE9E11421042D26300554687</string>
-											<string>EE9E11431042D26300554687</string>
-											<string>EE9E11451042D26300554687</string>
-											<string>EE9E11461042D26300554687</string>
-											<string>EE9E11471042D26300554687</string>
-											<string>EE9E11481042D26300554687</string>
 											<string>EE9E114A1042D26300554687</string>
 											<string>EE9E114B1042D26300554687</string>
-											<string>EE9E114D1042D26300554687</string>
-											<string>EE9E114E1042D26300554687</string>
-											<string>EE9E11501042D26300554687</string>
-											<string>EE9E11511042D26300554687</string>
-											<string>EE9E11521042D26300554687</string>
-											<string>EE9E11541042D26300554687</string>
-											<string>EE9E11551042D26300554687</string>
-											<string>EE9E11561042D26300554687</string>
-											<string>EE9E11571042D26300554687</string>
-											<string>EE9E11581042D26300554687</string>
-											<string>EE9E115A1042D26300554687</string>
-											<string>EE9E115B1042D26300554687</string>
-											<string>EE9E115C1042D26300554687</string>
-											<string>EE9E115D1042D26300554687</string>
 											<string>EE9E115F1042D26300554687</string>
-											<string>EE9E11601042D26300554687</string>
-											<string>EE9E11611042D26300554687</string>
-											<string>EE9E11621042D26300554687</string>
-											<string>EE9E11631042D26300554687</string>
-											<string>EE9E11641042D26300554687</string>
-											<string>EE9E11651042D26300554687</string>
-											<string>EE9E11661042D26300554687</string>
-											<string>EE9E11671042D26300554687</string>
-											<string>EE9E11681042D26300554687</string>
-											<string>EE9E11691042D26300554687</string>
-											<string>EE9E116A1042D26300554687</string>
-											<string>EE9E116B1042D26300554687</string>
-											<string>EE9E116C1042D26300554687</string>
-											<string>EE9E116D1042D26300554687</string>
-											<string>EE9E116E1042D26300554687</string>
-											<string>EE9E116F1042D26300554687</string>
-											<string>EE9E11701042D26300554687</string>
-											<string>EE9E11721042D26300554687</string>
-											<string>EE9E11731042D26300554687</string>
-											<string>EE9E11741042D26300554687</string>
-											<string>EE9E11751042D26300554687</string>
-											<string>EE9E11761042D26300554687</string>
-											<string>EE9E11771042D26300554687</string>
-											<string>EE9E11781042D26300554687</string>
-											<string>EE9E117A1042D26300554687</string>
-											<string>EE9E117B1042D26300554687</string>
-											<string>EE9E117C1042D26300554687</string>
-											<string>EE9E117D1042D26300554687</string>
-											<string>EE9E117E1042D26300554687</string>
-											<string>EE9E117F1042D26300554687</string>
-											<string>EE9E11801042D26300554687</string>
-											<string>EE9E11811042D26300554687</string>
-											<string>EE9E11821042D26300554687</string>
-											<string>EE9E11831042D26300554687</string>
-											<string>EE9E11851042D26300554687</string>
-											<string>EE9E11871042D26300554687</string>
-											<string>EE9E11891042D26300554687</string>
-											<string>EE9E118B1042D26300554687</string>
-											<string>EE9E118C1042D26300554687</string>
-											<string>EE9E118E1042D26300554687</string>
-											<string>EE9E11901042D26300554687</string>
-											<string>EE9E11911042D26300554687</string>
-											<string>EE9E11921042D26300554687</string>
-											<string>EE9E11931042D26300554687</string>
-											<string>EE9E11941042D26300554687</string>
-											<string>EE9E11951042D26300554687</string>
-											<string>EE9E11961042D26300554687</string>
-											<string>EE9E11971042D26300554687</string>
-											<string>EE9E11981042D26300554687</string>
-											<string>EE9E11991042D26300554687</string>
-											<string>EE9E119A1042D26300554687</string>
-											<string>EE9E119B1042D26300554687</string>
-											<string>EE9E119D1042D26300554687</string>
-											<string>EE9E119E1042D26300554687</string>
-											<string>EE9E119F1042D26300554687</string>
-											<string>EE9E11A01042D26300554687</string>
-											<string>EE9E11A11042D26300554687</string>
-											<string>EE9E11A21042D26300554687</string>
-											<string>EE9E11A31042D26300554687</string>
-											<string>EE9E11A41042D26300554687</string>
-											<string>EE9E11A51042D26300554687</string>
-											<string>EE9E11A61042D26300554687</string>
-											<string>EE9E11A71042D26300554687</string>
-											<string>EE9E11A81042D26300554687</string>
-											<string>EE9E11A91042D26300554687</string>
-											<string>EE9E11AA1042D26300554687</string>
-											<string>EE9E11AB1042D26300554687</string>
-											<string>EE9E11AC1042D26300554687</string>
-											<string>EE9E11AD1042D26300554687</string>
-											<string>EE9E11AE1042D26300554687</string>
-											<string>EE9E11AF1042D26300554687</string>
-											<string>EE9E11B01042D26300554687</string>
-											<string>EE9E11B11042D26300554687</string>
-											<string>EE9E11B21042D26300554687</string>
-											<string>EE9E11B31042D26300554687</string>
-											<string>EE9E11B41042D26300554687</string>
-											<string>EE9E11B61042D26300554687</string>
-											<string>EE9E11B81042D26300554687</string>
-											<string>EE9E11B91042D26300554687</string>
-											<string>EE9E11BA1042D26300554687</string>
-											<string>EE9E11BB1042D26300554687</string>
-											<string>EE9E11BC1042D26300554687</string>
-											<string>EE9E11BD1042D26300554687</string>
-											<string>EE9E11BE1042D26300554687</string>
-											<string>EE9E11BF1042D26300554687</string>
-											<string>EE9E11C11042D26300554687</string>
-											<string>EE9E11C21042D26300554687</string>
-											<string>EE9E11C31042D26300554687</string>
-											<string>EE9E11C41042D26300554687</string>
-											<string>EE9E11C61042D26300554687</string>
-											<string>EE9E11C81042D26300554687</string>
-											<string>EE9E11CA1042D26300554687</string>
-											<string>EE9E11CC1042D26300554687</string>
-											<string>EE9E11CE1042D26300554687</string>
-											<string>EE9E11CF1042D26300554687</string>
-											<string>EE9E11D01042D26300554687</string>
-											<string>EE9E11D11042D26300554687</string>
-											<string>EE9E11D21042D26300554687</string>
-											<string>EE9E11D41042D26300554687</string>
-											<string>EE9E11D51042D26300554687</string>
-											<string>EE9E11D61042D26300554687</string>
-											<string>EE9E11D71042D26300554687</string>
-											<string>EE9E11D91042D26300554687</string>
-											<string>EE9E11DA1042D26300554687</string>
-											<string>EE9E11DB1042D26300554687</string>
-											<string>EE9E11DC1042D26300554687</string>
-											<string>EE9E11DE1042D26300554687</string>
-											<string>EE9E11DF1042D26300554687</string>
-											<string>EE9E11E01042D26300554687</string>
 											<string>EE9E11E11042D26300554687</string>
-											<string>EE9E11E21042D26300554687</string>
 											<string>EE9E11E31042D26300554687</string>
-											<string>EE9E11E41042D26300554687</string>
-											<string>EE9E11E61042D26300554687</string>
-											<string>EE9E11E81042D26300554687</string>
-											<string>EE9E11E91042D26300554687</string>
-											<string>EE9E11EA1042D26300554687</string>
-											<string>EE9E11EB1042D26300554687</string>
-											<string>EE9E11EC1042D26300554687</string>
-											<string>EE9E11ED1042D26300554687</string>
-											<string>EE9E11EE1042D26300554687</string>
-											<string>EE9E11F01042D26300554687</string>
-											<string>EE9E11F21042D26300554687</string>
-											<string>EE9E11F41042D26300554687</string>
-											<string>EE9E11F51042D26300554687</string>
-											<string>EE9E11F61042D26300554687</string>
-											<string>EE9E11F71042D26300554687</string>
-											<string>EE9E11F81042D26300554687</string>
-											<string>EE9E11F91042D26300554687</string>
-											<string>EE9E11FA1042D26300554687</string>
-											<string>EE9E11FB1042D26300554687</string>
-											<string>EE9E11FC1042D26300554687</string>
-											<string>EE9E11FD1042D26300554687</string>
-											<string>EE9E11FE1042D26300554687</string>
-											<string>EE9E11FF1042D26300554687</string>
-											<string>EE9E12011042D26300554687</string>
-											<string>EE9E12031042D26300554687</string>
-											<string>EE9E12051042D26300554687</string>
-											<string>EE9E12071042D26300554687</string>
-											<string>EE9E12091042D26300554687</string>
-											<string>EE9E120B1042D26300554687</string>
-											<string>EE9E120C1042D26300554687</string>
-											<string>EE9E120D1042D26300554687</string>
-											<string>EE9E120E1042D26300554687</string>
-											<string>EE9E120F1042D26300554687</string>
-											<string>EE9E12101042D26300554687</string>
-											<string>EE9E12111042D26300554687</string>
-											<string>EE9E12121042D26300554687</string>
-											<string>EE9E12131042D26300554687</string>
-											<string>EE9E12141042D26300554687</string>
-											<string>EE9E12151042D26300554687</string>
-											<string>EE9E12161042D26300554687</string>
-											<string>EE9E12171042D26300554687</string>
-											<string>EE9E12191042D26300554687</string>
-											<string>EE9E121A1042D26300554687</string>
-											<string>EE9E121B1042D26300554687</string>
-											<string>EE9E121C1042D26300554687</string>
-											<string>EE9E121E1042D26300554687</string>
-											<string>EE9E121F1042D26300554687</string>
-											<string>EE9E12201042D26300554687</string>
-											<string>EE9E12211042D26300554687</string>
-											<string>EE9E12221042D26300554687</string>
-											<string>EE9E12231042D26300554687</string>
-											<string>EE9E12241042D26300554687</string>
-											<string>EE9E12261042D26300554687</string>
-											<string>EE9E12271042D26300554687</string>
-											<string>EE9E12281042D26300554687</string>
-											<string>EE9E12291042D26300554687</string>
-											<string>EE9E122A1042D26300554687</string>
-											<string>EE9E122B1042D26300554687</string>
-											<string>EE9E122C1042D26300554687</string>
-											<string>EE9E122D1042D26300554687</string>
-											<string>EE9E122E1042D26300554687</string>
-											<string>EE9E122F1042D26300554687</string>
-											<string>EE9E12301042D26300554687</string>
-											<string>EE9E12311042D26300554687</string>
-											<string>EE9E12321042D26300554687</string>
-											<string>EE9E12331042D26300554687</string>
-											<string>EE9E12341042D26300554687</string>
-											<string>EE9E12351042D26300554687</string>
-											<string>EE9E12371042D26300554687</string>
-											<string>EE9E12391042D26300554687</string>
-											<string>EE9E123B1042D26300554687</string>
-											<string>EE9E123C1042D26300554687</string>
-											<string>EE9E123E1042D26300554687</string>
-											<string>EE9E123F1042D26300554687</string>
-											<string>EE9E12401042D26300554687</string>
-											<string>EE9E12411042D26300554687</string>
-											<string>EE9E12421042D26300554687</string>
-											<string>EE9E12431042D26300554687</string>
-											<string>EE9E12441042D26300554687</string>
-											<string>EE9E12451042D26300554687</string>
-											<string>EE9E12461042D26300554687</string>
-											<string>EE9E12471042D26300554687</string>
-											<string>EE9E12481042D26300554687</string>
-											<string>EE9E12491042D26300554687</string>
-											<string>EE9E124A1042D26300554687</string>
-											<string>EE9E124C1042D26300554687</string>
-											<string>EE9E124D1042D26300554687</string>
-											<string>EE9E124E1042D26300554687</string>
-											<string>EE9E124F1042D26300554687</string>
-											<string>EE9E12501042D26300554687</string>
-											<string>EE9E12511042D26300554687</string>
-											<string>EE9E12521042D26300554687</string>
-											<string>EE9E12531042D26300554687</string>
-											<string>EE9E12541042D26300554687</string>
-											<string>EE9E12551042D26300554687</string>
-											<string>EE9E12561042D26300554687</string>
-											<string>EE9E12571042D26300554687</string>
-											<string>EE9E12581042D26300554687</string>
-											<string>EE9E12591042D26300554687</string>
-											<string>EE9E125A1042D26300554687</string>
-											<string>EE9E125B1042D26300554687</string>
-											<string>EE9E125C1042D26300554687</string>
-											<string>EE9E125D1042D26300554687</string>
-											<string>EE9E125F1042D26300554687</string>
-											<string>EE9E12611042D26300554687</string>
-											<string>EE9E12631042D26300554687</string>
-											<string>EE9E12641042D26300554687</string>
-											<string>EE9E12651042D26300554687</string>
-											<string>EE9E12661042D26300554687</string>
-											<string>EE9E12671042D26300554687</string>
-											<string>EE9E12681042D26300554687</string>
-											<string>EE9E12691042D26300554687</string>
-											<string>EE9E126B1042D26300554687</string>
-											<string>EE9E126C1042D26300554687</string>
-											<string>EE9E126D1042D26300554687</string>
-											<string>EE9E126E1042D26300554687</string>
-											<string>EE9E126F1042D26300554687</string>
-											<string>EE9E12701042D26300554687</string>
-											<string>EE9E12711042D26300554687</string>
-											<string>EE9E12731042D26300554687</string>
-											<string>EE9E12741042D26300554687</string>
-											<string>EE9E12751042D26300554687</string>
-											<string>EE9E12761042D26300554687</string>
-											<string>EE9E12781042D26300554687</string>
-											<string>EE9E12791042D26300554687</string>
-											<string>EE9E127A1042D26300554687</string>
-											<string>EE9E128A1042D2CB00554687</string>
-											<string>EE9E12921042D2E000554687</string>
-											<string>EE9E12D11042D92F00554687</string>
-											<string>EE9E12D21042D92F00554687</string>
-											<string>EE9E12D31042D92F00554687</string>
-											<string>EE9E12D41042D92F00554687</string>
-											<string>EE9E12D51042D92F00554687</string>
-											<string>EE9E12D61042D92F00554687</string>
-											<string>EE9E12D81042D92F00554687</string>
-											<string>EE9E12D91042D92F00554687</string>
-											<string>EE9E12DA1042D92F00554687</string>
-											<string>EE9E12DB1042D92F00554687</string>
-											<string>EE9E12DC1042D92F00554687</string>
-											<string>EE9E12DD1042D92F00554687</string>
-											<string>EE9E12DE1042D92F00554687</string>
-											<string>EE9E12DF1042D92F00554687</string>
-											<string>EE9E12E11042D92F00554687</string>
-											<string>EE9E12E21042D92F00554687</string>
-											<string>EE9E12ED1042D99900554687</string>
-											<string>EE9E12EF1042D99900554687</string>
-											<string>EE9E12FF1042D9D100554687</string>
-											<string>EE9E13001042D9D100554687</string>
-											<string>EE9E13011042D9D100554687</string>
-											<string>EE9E13161042DDC100554687</string>
-											<string>EE9E13171042DDC100554687</string>
-											<string>EE9E13181042DDC100554687</string>
-											<string>EE9E13191042DDC100554687</string>
-											<string>EE9E131A1042DDC100554687</string>
-											<string>EE9E131B1042DDC100554687</string>
-											<string>EE9E131D1042DDC100554687</string>
-											<string>EE9E131F1042DDC100554687</string>
-											<string>EE9E13201042DDC100554687</string>
-											<string>EE9E13211042DDC100554687</string>
-											<string>EE9E13221042DDC100554687</string>
-											<string>EE9E13231042DDC100554687</string>
-											<string>EE9E13241042DDC100554687</string>
-											<string>EE9E13251042DDC100554687</string>
-											<string>EE9E13261042DDC100554687</string>
-											<string>EE9E13271042DDC100554687</string>
-											<string>EE9E13281042DDC100554687</string>
-											<string>EE9E13291042DDC100554687</string>
-											<string>EE9E132A1042DDC100554687</string>
-											<string>EE9E132B1042DDC100554687</string>
-											<string>EE9E13341042DE5100554687</string>
-											<string>EE9E13351042DE5100554687</string>
-											<string>EE9E133E1042DE7700554687</string>
-											<string>EE9E13461042DEF500554687</string>
-											<string>EE9E13471042DEF500554687</string>
-											<string>EE9E13541042DF9800554687</string>
-											<string>EE9E13551042DF9800554687</string>
-											<string>EE9E13571042DF9800554687</string>
-											<string>EE9E13581042DF9800554687</string>
-											<string>EE9E13591042DF9800554687</string>
-											<string>EE9E135A1042DF9800554687</string>
-											<string>EE9E135B1042DF9800554687</string>
-											<string>EE9E135C1042DF9800554687</string>
-											<string>EE9E135D1042DF9800554687</string>
-											<string>EE9E135E1042DF9800554687</string>
-											<string>EE9E13671042E00600554687</string>
-											<string>EE9E13681042E00600554687</string>
-											<string>EE9E13701042E09900554687</string>
-											<string>EE9E13711042E09900554687</string>
-											<string>EE9E13721042E09900554687</string>
-											<string>EE9E13731042E09900554687</string>
-											<string>EE9E137A1042E0BD00554687</string>
-											<string>EE9E137B1042E0BD00554687</string>
-											<string>EE9E13821042E12500554687</string>
-											<string>EE9E13831042E12500554687</string>
-											<string>EE9E138A1042E16D00554687</string>
-											<string>EE9E138B1042E16D00554687</string>
-											<string>EE9E139A1042E1DA00554687</string>
-											<string>EE9E139B1042E1DA00554687</string>
-											<string>EE9E139C1042E1DA00554687</string>
-											<string>EE9E13AC1042E46500554687</string>
-											<string>EE9E13AD1042E46500554687</string>
-											<string>EE9E13AE1042E46500554687</string>
-											<string>EE9E13AF1042E46500554687</string>
-											<string>EE9E13B01042E46500554687</string>
-											<string>EE9E13B11042E46500554687</string>
-											<string>EE9E13B21042E46500554687</string>
-											<string>EE9E13B31042E46500554687</string>
-											<string>EE9E13B41042E46500554687</string>
-											<string>EE9E13B51042E46500554687</string>
-											<string>EE9E13B61042E46500554687</string>
-											<string>EE9E13B71042E46500554687</string>
-											<string>EE9E13B81042E46500554687</string>
-											<string>EE9E13B91042E46500554687</string>
-											<string>EE9E13BA1042E46500554687</string>
-											<string>EE9E13BB1042E46500554687</string>
-											<string>EE9E13BC1042E46500554687</string>
-											<string>EE9E13BD1042E46500554687</string>
-											<string>EE9E13D01042E6AB00554687</string>
-											<string>EE9E13D21042E6AB00554687</string>
-											<string>EE9E13D31042E6AB00554687</string>
-											<string>EE9E13D41042E6AB00554687</string>
-											<string>EE9E13D51042E6AB00554687</string>
-											<string>EE9E13D61042E6AB00554687</string>
-											<string>EE9E13D71042E6AB00554687</string>
-											<string>EE9E13D81042E6AB00554687</string>
-											<string>EE9E13D91042E6AB00554687</string>
-											<string>EE9E13DA1042E6AB00554687</string>
-											<string>EE9E13DB1042E6AB00554687</string>
-											<string>EE9E13DC1042E6AB00554687</string>
-											<string>EE9E13DD1042E6AB00554687</string>
-											<string>EE9E13DE1042E6AB00554687</string>
-											<string>EE9E13DF1042E6AB00554687</string>
-											<string>EE9E13E01042E6AB00554687</string>
-											<string>EE9E13E11042E6AB00554687</string>
-											<string>EE9E13E21042E6AB00554687</string>
-											<string>EE9E13E31042E6AB00554687</string>
-											<string>EE9E13E41042E6AB00554687</string>
-											<string>EE9E13E51042E6AB00554687</string>
-											<string>EE9E13E61042E6AB00554687</string>
-											<string>EE9E13E71042E6AB00554687</string>
-											<string>EE9E13E81042E6AB00554687</string>
-											<string>EE9E13E91042E6AB00554687</string>
-											<string>EE9E13EA1042E6AB00554687</string>
-											<string>EE9E13EB1042E6AB00554687</string>
-											<string>EE9E13F91042E72100554687</string>
-											<string>EE9E13FA1042E72100554687</string>
-											<string>EE9E13FB1042E72100554687</string>
-											<string>EE9E13FC1042E72100554687</string>
-											<string>EE9E13FD1042E72100554687</string>
-											<string>EE9E13FE1042E72100554687</string>
-											<string>EE9E14051042E74600554687</string>
-											<string>EE9E14061042E74600554687</string>
-											<string>EE9E140F1042E77500554687</string>
-											<string>EE9E14161042ECC500554687</string>
-											<string>EE9E14181042ECC500554687</string>
-											<string>EE9E14191042ECC500554687</string>
-											<string>EE9E141A1042ECC500554687</string>
-											<string>EE9E141B1042ECC500554687</string>
-											<string>EE9E141C1042ECC500554687</string>
-											<string>EE9E141D1042ECC500554687</string>
-											<string>EE9E141E1042ECC500554687</string>
-											<string>EE9E142C1042EDC800554687</string>
-											<string>EE9E142D1042EDC800554687</string>
-											<string>EE9E142E1042EDC800554687</string>
-											<string>EE9E142F1042EDC800554687</string>
-											<string>EE9E143A1042EF1C00554687</string>
-											<string>EE9E143B1042EF1C00554687</string>
-											<string>EE9E143C1042EF1C00554687</string>
-											<string>EE9E143D1042EF1C00554687</string>
-											<string>EE9E143E1042EF1C00554687</string>
-											<string>EE9E14671042F32700554687</string>
-											<string>EE9E14681042F32700554687</string>
-											<string>EE9E14691042F32700554687</string>
-											<string>EE9E146A1042F32700554687</string>
-											<string>EE9E146B1042F32700554687</string>
-											<string>EE9E146C1042F32700554687</string>
-											<string>EE9E146D1042F32700554687</string>
-											<string>EE9E146E1042F32700554687</string>
-											<string>EE9E146F1042F32700554687</string>
-											<string>EE9E14701042F32700554687</string>
-											<string>EE9E14711042F32700554687</string>
-											<string>EE9E14721042F32700554687</string>
-											<string>EE9E14731042F32700554687</string>
-											<string>EE9E14741042F32700554687</string>
-											<string>EE9E14751042F32700554687</string>
-											<string>EE9E14761042F32700554687</string>
-											<string>EE9E14771042F32700554687</string>
-											<string>EE9E14781042F32700554687</string>
-											<string>EE9E14791042F32700554687</string>
-											<string>EE9E147A1042F32700554687</string>
-											<string>EE9E147B1042F32700554687</string>
-											<string>EE9E147C1042F32700554687</string>
-											<string>EE9E147D1042F32700554687</string>
-											<string>EE9E147E1042F32700554687</string>
-											<string>EE9E147F1042F32700554687</string>
-											<string>EE9E14801042F32700554687</string>
-											<string>EE9E14811042F32700554687</string>
-											<string>EE9E14821042F32700554687</string>
-											<string>EE9E14831042F32700554687</string>
-											<string>EE9E14911042F3D500554687</string>
-											<string>EE9E14931042F3D500554687</string>
-											<string>EE9E14941042F3D500554687</string>
-											<string>EE9E149D1042F43000554687</string>
-											<string>EE9E14A51042F45D00554687</string>
-											<string>EE9E14B01042F55900554687</string>
-											<string>EE9E14B21042F55900554687</string>
-											<string>EE9E14B41042F55900554687</string>
-											<string>EE9E14B51042F55900554687</string>
-											<string>EE9E14CF1043DA7100554687</string>
-											<string>EE9E14D01043DA7100554687</string>
-											<string>EE9E14D11043DA7100554687</string>
-											<string>EE9E14D21043DA7100554687</string>
-											<string>EE9E14D41043DA7100554687</string>
-											<string>EE9E14D51043DA7100554687</string>
-											<string>EE9E14D61043DA7100554687</string>
-											<string>EE9E14D71043DA7100554687</string>
-											<string>EE9E14D81043DA7100554687</string>
-											<string>EE9E14D91043DA7100554687</string>
-											<string>EE9E14ED1043DFB500554687</string>
-											<string>EE9E14EE1043DFB500554687</string>
 											<string>EE9E14EF1043DFB500554687</string>
-											<string>EE9E14F11043DFB500554687</string>
-											<string>EE9E14F21043DFB500554687</string>
-											<string>EE9E14F31043DFB500554687</string>
-											<string>EE9E14F61043DFB500554687</string>
-											<string>EE9E14F81043DFB500554687</string>
-											<string>EE9E14F91043DFB500554687</string>
-											<string>EE9E14FA1043DFB500554687</string>
-											<string>EE9E14FB1043DFB500554687</string>
-											<string>EE9E14FC1043DFB500554687</string>
-											<string>EE9E14FD1043DFB500554687</string>
-											<string>EE9E14FE1043DFB500554687</string>
-											<string>EE9E15051043DFB500554687</string>
-											<string>EE9E15071043DFB500554687</string>
-											<string>EE9E150B1043DFB500554687</string>
-											<string>EE9E150C1043DFB500554687</string>
-											<string>EE9E15161043E08400554687</string>
-											<string>EE9E151B1043E08400554687</string>
-											<string>EE9E15211043E1F100554687</string>
-											<string>EE9E15231043E1F100554687</string>
-											<string>EE9E15241043E1F100554687</string>
-											<string>EE9E15251043E1F100554687</string>
-											<string>EE9E153C1043E78200554687</string>
-											<string>EE9E153D1043E78200554687</string>
-											<string>EE9E153E1043E78200554687</string>
-											<string>EE9E153F1043E78200554687</string>
-											<string>EE9E15401043E78200554687</string>
-											<string>EE9E15411043E78200554687</string>
-											<string>EE9E15421043E78200554687</string>
-											<string>EE9E15431043E78200554687</string>
-											<string>EE9E15441043E78200554687</string>
-											<string>EE9E15451043E78200554687</string>
-											<string>EE9E15461043E78200554687</string>
-											<string>EE9E15481043E78200554687</string>
-											<string>EE9E154A1043E78200554687</string>
-											<string>EE9E154B1043E78200554687</string>
-											<string>EE9E154C1043E78200554687</string>
-											<string>EE9E154D1043E78200554687</string>
-											<string>EE9E154E1043E78200554687</string>
-											<string>EE9E154F1043E78200554687</string>
-											<string>EE9E15501043E78200554687</string>
-											<string>EE9E15511043E78200554687</string>
-											<string>EE9E15521043E78200554687</string>
-											<string>EE9E15531043E78200554687</string>
-											<string>EE9E15541043E78200554687</string>
-											<string>EE9E15551043E78200554687</string>
-											<string>EE9E15561043E78200554687</string>
-											<string>EE9E15571043E78200554687</string>
-											<string>EE9E15641043E96B00554687</string>
-											<string>EE9E15651043E96B00554687</string>
-											<string>EE9E15661043E96B00554687</string>
-											<string>EE9E15671043E96B00554687</string>
-											<string>EE9E15681043E96B00554687</string>
-											<string>EE9E15691043E96B00554687</string>
-											<string>EE9E156A1043E96B00554687</string>
-											<string>EE9E156B1043E96B00554687</string>
-											<string>EE9E156C1043E96B00554687</string>
-											<string>EE9E15721043E97600554687</string>
-											<string>EE9E157B1043E9D100554687</string>
-											<string>EE9E157C1043E9D100554687</string>
-											<string>EE9E157D1043E9D100554687</string>
-											<string>EE9E15871043EA9D00554687</string>
-											<string>EE9E15881043EA9D00554687</string>
-											<string>EE9E15891043EA9D00554687</string>
-											<string>EE9E15931043EACF00554687</string>
-											<string>EE9E15941043EACF00554687</string>
-											<string>EE9E15A41043EB9C00554687</string>
-											<string>EE9E15A51043EB9C00554687</string>
-											<string>EE9E15B41043EE1A00554687</string>
-											<string>EE9E15B51043EE1A00554687</string>
-											<string>EE9E15B61043EE1A00554687</string>
-											<string>EE9E15B71043EE1A00554687</string>
-											<string>EE9E15B81043EE1A00554687</string>
-											<string>EE9E15B91043EE1A00554687</string>
-											<string>EE9E15BA1043EE1A00554687</string>
-											<string>EE9E15BB1043EE1A00554687</string>
-											<string>EE9E15BC1043EE1A00554687</string>
-											<string>EE9E15BD1043EE1A00554687</string>
-											<string>EE9E15BE1043EE1A00554687</string>
-											<string>EE9E15BF1043EE1A00554687</string>
-											<string>EE9E15C01043EE1A00554687</string>
-											<string>EE9E15C11043EE1A00554687</string>
-											<string>EE9E15C21043EE1A00554687</string>
-											<string>EE9E15C31043EE1A00554687</string>
-											<string>EE9E15C41043EE1A00554687</string>
-											<string>EE9E15F01043F1FB00554687</string>
-											<string>EE9E15F11043F1FB00554687</string>
-											<string>EE9E15F21043F1FB00554687</string>
-											<string>EE9E15F81043F24900554687</string>
-											<string>EE9E15F91043F24900554687</string>
-											<string>EE9E160E1044043E00554687</string>
-											<string>EE9E160F1044043E00554687</string>
-											<string>EE9E16101044043E00554687</string>
-											<string>EE9E169A10440F4700554687</string>
-											<string>EE9E16CA104413AC00554687</string>
-											<string>EE9E16CB104413AC00554687</string>
-											<string>EE9E16D31044152900554687</string>
-											<string>EE9E16D41044152900554687</string>
-											<string>EE9E16D51044152900554687</string>
-											<string>EE9E16D61044152900554687</string>
-											<string>EE9E16E4104415D100554687</string>
-											<string>EE9E16E5104415D100554687</string>
-											<string>EE9E16E6104415D100554687</string>
-											<string>EE9E16F11044166A00554687</string>
-											<string>EE9E16F21044166A00554687</string>
-											<string>EE9E16F31044166A00554687</string>
-											<string>EE9E16F41044166A00554687</string>
-											<string>EE9E16FC1044168E00554687</string>
-											<string>EE9E17031044184700554687</string>
-											<string>EE9E17041044184700554687</string>
-											<string>EE9E17051044184700554687</string>
-											<string>EE9E17061044184700554687</string>
-											<string>EE9E17071044184700554687</string>
-											<string>EE9E17081044184700554687</string>
-											<string>EE9E17091044184700554687</string>
-											<string>EE9E170A1044184700554687</string>
-											<string>EE9E170B1044184700554687</string>
-											<string>EE9E170C1044184700554687</string>
-											<string>EE9E170D1044184700554687</string>
-											<string>EE9E171D1044198200554687</string>
-											<string>EE9E171E1044198200554687</string>
-											<string>EE9E171F1044198200554687</string>
-											<string>EE9E17201044198200554687</string>
-											<string>EE9E172D10441B2D00554687</string>
-											<string>EE9E172E10441B2D00554687</string>
-											<string>EE9E172F10441B2D00554687</string>
-											<string>EE9E173010441B2D00554687</string>
-											<string>EE9E173110441B2D00554687</string>
-											<string>EE9E173210441B2D00554687</string>
-											<string>EE9E173310441B2D00554687</string>
-											<string>EE9E173410441B2D00554687</string>
-											<string>EE9E173510441B2D00554687</string>
-											<string>EE9E1749104420B100554687</string>
-											<string>EE9E174A104420B100554687</string>
 											<string>EE9E174B104420B100554687</string>
-											<string>EE9E174C104420B100554687</string>
-											<string>EE9E174D104420B100554687</string>
-											<string>EE9E174E104420B100554687</string>
-											<string>EE9E174F104420B100554687</string>
-											<string>EE9E1750104420B100554687</string>
-											<string>EE9E1751104420B100554687</string>
-											<string>EE9E1752104420B100554687</string>
-											<string>EE9E175C1044212B00554687</string>
-											<string>EE9E175D1044212B00554687</string>
-											<string>EE9E17691044213B00554687</string>
-											<string>EE9E179D1044252000554687</string>
-											<string>EE9E179E1044252000554687</string>
-											<string>EE9E17AE1044259E00554687</string>
-											<string>EE9E17AF1044259E00554687</string>
-											<string>EE9E17B01044259E00554687</string>
-											<string>EE9E17B6104425A500554687</string>
-											<string>EE9E17CC1044273300554687</string>
-											<string>EE9E17CD1044273300554687</string>
-											<string>EE9E17D41044275B00554687</string>
-											<string>EE9E17D51044275B00554687</string>
-											<string>EE9E17DF1044287F00554687</string>
-											<string>EE9E17E01044287F00554687</string>
-											<string>EE9E17E11044287F00554687</string>
-											<string>EE9E17E21044287F00554687</string>
-											<string>EE9E17E31044287F00554687</string>
-											<string>EE9E17E41044287F00554687</string>
-											<string>EE9E17E51044287F00554687</string>
-											<string>EE9E17E61044287F00554687</string>
-											<string>EE9E17EE104428A800554687</string>
-											<string>EE9E17F3104428CE00554687</string>
-											<string>EE9E17FD1044295E00554687</string>
-											<string>EE9E17FE1044295E00554687</string>
-											<string>EE9E17FF1044295E00554687</string>
-											<string>EE9E1811104429D300554687</string>
-											<string>EE9E1817104429E500554687</string>
-											<string>EE9E182510442A1400554687</string>
-											<string>EE9E182A10442A2800554687</string>
-											<string>EE9E185110442B8900554687</string>
-											<string>EE9E185210442B8900554687</string>
-											<string>EE9E185310442B8900554687</string>
-											<string>EE9E185410442B8900554687</string>
-											<string>EE9E185510442B8900554687</string>
-											<string>EE9E186110442D2C00554687</string>
-											<string>EE9E186210442D2C00554687</string>
-											<string>EE9E187510442E2900554687</string>
-											<string>EE9E187D10442E7400554687</string>
-											<string>EE9E188B10442F7200554687</string>
+											<string>EE9E18B71044351E00554687</string>
+											<string>EE9E18B81044351E00554687</string>
+											<string>EE9E18C0104435BC00554687</string>
+											<string>EE9E18C1104435BC00554687</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -1080,6 +448,8 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1086, -27}}</string>
+										<key>RubberWindowFrame</key>
+										<string>271 152 1330 876 0 0 1680 1028 </string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -1096,8 +466,6 @@
 									<dict>
 										<key>Frame</key>
 										<string>{{10, 27}, {1086, -27}}</string>
-										<key>RubberWindowFrame</key>
-										<string>271 152 1330 876 0 0 1680 1028 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -1163,11 +531,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE9E127E1042D26400554687</string>
+				<string>EE9E18A7104431DB00554687</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>EE9E127F1042D26400554687</string>
+				<string>EE9E18A8104431DB00554687</string>
 				<string>EEF027910D6D8015000532A4</string>
-				<string>EE9E12801042D26400554687</string>
+				<string>EE9E18A9104431DB00554687</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -1313,14 +681,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE9E12811042D26400554687</string>
+				<string>EE9E18AA104431DB00554687</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>EE9E12821042D26400554687</string>
-				<string>EE9E12831042D26400554687</string>
-				<string>EE9E12841042D26400554687</string>
-				<string>EE9E12851042D26400554687</string>
-				<string>EEF027910D6D8015000532A4</string>
+				<string>EE9E18AB104431DB00554687</string>
+				<string>EE9E18AC104431DB00554687</string>
+				<string>EE9E18AD104431DB00554687</string>
+				<string>EE9E18AE104431DB00554687</string>
+				<string>EE9E18AF104431DB00554687</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -1350,8 +718,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>EE9E13031042D9D100554687</string>
-		<string>EE9E13041042D9D100554687</string>
+		<string>EE9E18CE104435FC00554687</string>
+		<string>EE9E18CF104435FC00554687</string>
 		<string>/Users/pp/Cocoa/CSVManipulator/CSVManipulator.xcodeproj</string>
 	</array>
 	<key>WindowString</key>

@@ -107,7 +107,9 @@
 	// copy data from the header to a newly inserted row 0
 	else {
 		if (nil != headerRow) {
-			[rowController insertObject:[headerRow copy] atArrangedObjectIndex:0];
+			CSVRow *headerCopy = [headerRow copy];
+			[rowController insertObject:headerCopy atArrangedObjectIndex:0];
+			[headerCopy release];
 		}
 	}
 	
@@ -134,6 +136,8 @@
 	// String is non-empty
 	if ([string length] > 0) {
 		[rows removeAllObjects];
+		
+		// collect the columns
 		NSMutableArray *newColumns = [NSMutableArray array];
 		
 		// Check whether the file uses ";" or TAB as separator by comparing relative occurrences in the first 200 chars
@@ -169,8 +173,12 @@
 		NSUInteger colIndex = 0;
 		CSVColumn *column;
 		
+		// our NSScanner
 		NSScanner *scanner = [NSScanner scannerWithString:string];
 		[scanner setCharactersToBeSkipped:nil];
+		
+		// an inner pool for the loop
+		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 		while (![scanner isAtEnd]) {
 			
 			// we'll end up here after every row
@@ -267,7 +275,15 @@
 			if ((maxRows > 0) && (num_rows > maxRows)) {
 				break;
 			}
+			
+			// clean the pool
+			if (0 == (num_rows % 100)) {
+				[innerPool release];
+				innerPool = [[NSAutoreleasePool alloc] init];
+			}
 		}
+		
+		[innerPool release];
 		
 		// finished scanning our string; make first row the headerRow
 		self.columns = newColumns;
