@@ -65,7 +65,7 @@
 
 
 
-#pragma mark Returning Columns
+#pragma mark Returning Column Values
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString
 {
 	return [self valuesForColumns:columns combinedByString:sepString quoted:NO];
@@ -96,6 +96,11 @@
 	}
 	
 	return nil;
+}
+
+- (BOOL) isEmptyRow
+{
+	return ([rowValues count] < 1);
 }
 #pragma mark -
 

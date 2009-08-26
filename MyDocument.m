@@ -25,9 +25,15 @@
 
 
 
+@interface MyDocument (Private)
+- (void) detachStringParsing:(NSString *)string;
+@end
+
+
+
 @implementation MyDocument
 
-@synthesize csvDocument, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
+@synthesize fileURL, fileEncoding, displayName, csvDocument, documentLoaded, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
 
 
 #pragma mark Generic
@@ -35,10 +41,12 @@
 {
 	self = [super init];
 	if (nil != self) {
-		documentIsEmpty = YES;
 		exportHeaders = YES;
+		documentLoaded = YES;				// will be set to know when we got instantiated by reading from URL
 		
+		self.displayName = @"New Document";
 		self.csvDocument = [CSVDocument csvDocument];
+		csvDocument.delegate = self;
 	}
 	
     return self;
@@ -46,6 +54,8 @@
 
 - (void) dealloc
 {
+	self.fileURL = nil;
+	self.displayName = nil;
 	self.csvDocument = nil;
  	
 	[super dealloc];
@@ -54,25 +64,109 @@
 
 
 
-#pragma mark KVC
-- (BOOL) calculationShouldTerminate
+#pragma mark Main Methods
+
+// gets called by NSDocumentController when opening a new file
+- (BOOL) readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	return calculationShouldTerminate;
+	self.documentLoaded = NO;
+	
+	// Load document data using NSStrings house methods
+	// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
+	NSStringEncoding stringEncoding;
+	NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
+	
+	// We could not open the file, probably unknown encoding; try ISO-8859-1
+	if (nil == fileString) {
+		stringEncoding = NSISOLatin1StringEncoding;
+		fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
+		
+		// Still no success, give up
+		if (nil == fileString) {
+			if (nil != outError) {
+				NSLog(@"ERROR opening the file: %@", outError);
+			}
+			
+			return NO;
+		}
+	}
+	
+	// parse the CSV on another thread
+	self.fileURL = absoluteURL;
+	self.fileEncoding = stringEncoding;
+	self.displayName = [[absoluteURL absoluteString] lastPathComponent];
+	numRowsToExpect = [csvDocument numRowsToExpect:fileString];
+	
+	// detach to new thread
+	[NSThread detachNewThreadSelector:@selector(detachStringParsing:) toTarget:self withObject:fileString];
+	
+	return YES;
 }
-- (void) setCalculationShouldTerminate:(BOOL)flag
+
+- (void) detachStringParsing:(NSString *)string
 {
-	calculationShouldTerminate = flag;
+	NSAutoreleasePool *detachPool = [[NSAutoreleasePool alloc] init];
+	NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:10 userInfo:nil];
+	
+	[csvDocument parseCSVString:string maxRows:0 error:&error];
+	
+	[detachPool release];
+}
+
+- (void) csvDocumentDidParseNumRows:(NSUInteger)num_parsed
+{
+	CGFloat expecting = (numRowsToExpect > 0) ? (CGFloat)numRowsToExpect : 1.0;
+	CGFloat percentage = (CGFloat)num_parsed / expecting;
+	percentage = (percentage > 1.0) ? 1.0 : percentage;
+	
+	[mainWindowController updateProgressSheetProgress:percentage];
+}
+
+- (void) csvDocumentDidParseString:(CSVDocument *)doc
+{
+	NSLog(@"parsed %@ rows, successful? %i", doc.numRows, doc.parseSuccessful);
+	self.documentLoaded = YES;
+	
+	if (nibIsAlive) {
+		[mainWindowController redefineTable];
+		[mainWindowController hideProgressSheet];
+		
+		// did we abort?
+		[mainWindowController didAbortImport:csvDocument.didAbortImport];
+	}
+}
+
+
+// save
+- (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
+{
+	// use "lastChoiceExportFormat" after window closed!
+	NSString *csvString = [self stringInFormat:[mainWindowController outputFormat] allRows:YES allColumns:NO];
+	
+	// save file
+	BOOL success = [csvString writeToURL:absoluteURL atomically:NO encoding:NSUTF8StringEncoding error:outError];
+	self.documentEdited = !success;
+	return success;
 }
 #pragma mark -
 
 
 
 #pragma mark Data Control
-- (void) documentLoaded
+- (void) awokeFromNib
 {
-	NSLog(@"documentLoaded");
-	//NSLog(@"%@:\n%@", csvDocument, csvDocument.rows);
-	[mainWindowController redefineTable];
+	nibIsAlive = YES;
+	
+	// document is still loading
+	if (!documentLoaded) {
+		[mainWindowController performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01];
+		//[mainWindowController showProgressSheet];			// does not work so shortly after awakeFromNib
+	}
+	
+	// document did already load all data
+	else {
+		[mainWindowController redefineTable];
+	}
 }
 
 - (NSUInteger) numColumns
@@ -110,6 +204,16 @@
 	lastChoiceExportFormat = format;
 }
 
+- (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex
+{
+	CSVRow *desiredRow = [csvDocument rowAtIndex:rowIndex];
+	if (desiredRow) {
+		return ![desiredRow isEmptyRow];
+	}
+	
+	return NO;
+}
+
 - (BOOL) hasDataAtRow:(NSUInteger)rowIndex forColumnKey:(NSString *)columnKey
 {
 	CSVRow *desiredRow = [csvDocument rowAtIndex:rowIndex];
@@ -118,6 +222,13 @@
 	}
 	
 	return NO;
+}
+
+- (void) abortImport
+{
+	if (!documentLoaded) {
+		csvDocument.mustAbortImport = YES;
+	}
 }
 #pragma mark -
 
@@ -376,10 +487,10 @@
 	// We expect that -tableView:namesOfPromisedFilesDroppedAtDestination:forDraggedRowsWithIndexes: will usually be called instead,
 	// but we implement this method to create a file if NSFilenamesPboardType is ever requested directly
 	if([type isEqualToString:NSFilenamesPboardType]) {
-		NSURL *fileURL = [NSURL URLWithString:[@"~/Desktop" stringByExpandingTildeInPath]];
+		NSURL *myFileURL = [NSURL URLWithString:[@"~/Desktop" stringByExpandingTildeInPath]];
 		NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:666 userInfo:nil];
-		if([self writeToURL:fileURL ofType:nil error:&error]) {
-			[pboard setPropertyList:[NSArray arrayWithObject:[fileURL path]] forType:NSFilenamesPboardType];
+		if([self writeToURL:myFileURL ofType:nil error:&error]) {
+			[pboard setPropertyList:[NSArray arrayWithObject:[myFileURL path]] forType:NSFilenamesPboardType];
 		}
 	}
 }
@@ -387,61 +498,6 @@
 - (void) copy:(id)sender
 {
 	[self copySelectionToPasteboard:[NSPasteboard generalPasteboard] forTypes:[self writablePasteboardTypes]];
-}
-#pragma mark -
-
-
-
-#pragma mark File Handling
-
-// gets called by NSDocumentController when opening a new file
-- (BOOL) readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
-{
-	// Load document data using NSStrings house methods
-	// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
-	NSStringEncoding stringEncoding;
-	NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
-	
-	// We could not open the file, probably unknown encoding; try ISO-8859-1
-	if (nil == fileString) {
-		stringEncoding = NSISOLatin1StringEncoding;
-		fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
-		
-		// Still no success, give up
-		if (nil == fileString) {
-			if (nil != outError) {
-				NSLog(@"ERROR opening the file: %@", outError);
-			}
-			
-			return NO;
-		}
-	}
-	
-	// parse the CSV
-	BOOL success = [csvDocument parseCSVString:fileString error:outError];
-	
-	// error
-	if (!success) {
-		NSLog(@"ERROR parsing CSV: %@", outError);
-	}
-	else {
-		//NSLog(@"%@:\n%@", csvDocument, csvDocument.rows);
-	}
-	
-	return success;
-}
-
-
-// save
-- (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
-{
-	// use "lastChoiceExportFormat" after window closed!
-	NSString *csvString = [self stringInFormat:[mainWindowController outputFormat] allRows:YES allColumns:NO];
-	
-	// save file
-	BOOL success = [csvString writeToURL:absoluteURL atomically:NO encoding:NSUTF8StringEncoding error:outError];
-	self.documentEdited = !success;
-	return success;
 }
 #pragma mark -
 

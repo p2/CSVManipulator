@@ -23,7 +23,7 @@
 @synthesize document;
 
 
-- (id)init
+- (id) init
 {
 	self = [super init];
 	if(nil != self) {
@@ -41,7 +41,8 @@
 - (void) awakeFromNib
 {
 	// readFromURL finishes before awakeFromNib, so we can only now redefine the table
-	[document documentLoaded];
+	//[NSThread detachNewThreadSelector:@selector(awokeFromNib) toTarget:document withObject:nil];		// own thread to show the sheet correctly
+	[document awokeFromNib];
 	
 	// DEBUGGING
 	[calculationSourceRegExp setStringValue:@"(\\d+)\\.(\\d+)"];
@@ -145,12 +146,9 @@
 #pragma mark TableView Delegate
 - (void) redefineTable
 {
-	int i;
-	NSArray *oldColumns = [mainTable tableColumns];
-	
 	// remove OLD columns
-	for(i = [oldColumns count]; i > 0; i--) {
-		[mainTable removeTableColumn:[oldColumns objectAtIndex:i - 1]];
+	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
+		[mainTable removeTableColumn:oldColumn];
 	}
 	
 	// clean popups
@@ -167,54 +165,67 @@
 		// loop columns to add them
 		for (CSVColumn *column in [document columns]) {
 			
-			// compose the column
+			// compose the column and add it to the table
 			DataTableColumn *tableColumn = [[DataTableColumn alloc] init];
 			[tableColumn setIdentifier:column.key];
 			[tableColumn setWidth:columnWidth];
 			[tableColumn setMinWidth:COLUMN_MIN_WIDTH];
-			//	[[tableColumn headerCell] setEditable:YES];
+			[[tableColumn headerCell] setEditable:YES];
 			
-			// bind column and...
-			[tableColumn bind:@"value"
-					 toObject:document.csvDocument.rowController
-				  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", column.key]
-					  options:nil];
-			
-			// ...column header
-			[[tableColumn headerCell] bind:@"stringValue"
-								  toObject:document.csvDocument.columnDict
-							   withKeyPath:[NSString stringWithFormat:@"%@.name", column.key]
-								   options:nil];
-			[[tableColumn headerCell] bind:@"checked"
-								  toObject:document.csvDocument.columnDict
-							   withKeyPath:[NSString stringWithFormat:@"%@.active", column.key]
-								   options:nil];
-			
-			// add column to the table
 			[mainTable addTableColumn:tableColumn];
 			
 			// update popups
 			[calculationSourcePopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
 			[calculationTargetPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
 		}
+		
+		// loop columns again to bind them - must be done after adding to prevent a "was mutated while being enumerated" error
+		for (DataTableColumn *tableColumn in [mainTable tableColumns]) {
+			NSString *key = [tableColumn identifier];
+			
+			[tableColumn bind:@"value"
+					 toObject:document.csvDocument.rowController
+				  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", key]
+					  options:nil];
+			
+			// also bind column header
+			[[tableColumn headerCell] bind:@"stringValue"
+								  toObject:document.csvDocument.columnDict
+							   withKeyPath:[NSString stringWithFormat:@"%@.name", key]
+								   options:nil];
+			[[tableColumn headerCell] bind:@"checked"
+								  toObject:document.csvDocument.columnDict
+							   withKeyPath:[NSString stringWithFormat:@"%@.active", key]
+								   options:nil];
+		}
 	}
 	
 	[mainTable setNeedsDisplay:YES];			// !! does not remove redundant column (graphical glitch)
 }
 
+- (void) tableViewSelectionDidChange:(NSNotification *)notification
+{
+	NSInteger selected_row = [mainTable selectedRow];
+	if (selected_row >= 0) {
+		if (![document hasAnyDataAtRow:selected_row]) {
+			[mainTable editColumn:0 row:selected_row withEvent:nil select:YES];
+		}
+	}
+}
+
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
-	if(mainTable == tableView) {
+	if (mainTable == tableView) {
 		NSEvent *current = [[NSApplication sharedApplication] currentEvent];
 		NSPoint windowLocation = [current locationInWindow];
 		NSPoint viewLocation = [tableView convertPoint:windowLocation fromView:nil];
 		
 		NSArray *columns = [tableView tableColumns];
-		int index = [columns indexOfObject:tableColumn];
+		NSUInteger index = [columns indexOfObject:tableColumn];
 		NSRect columnRect = [tableView rectOfColumn:index];
 		
 		// hit the checkbox
-		if((viewLocation.x - columnRect.origin.x) < 20.0) {
+		if ((viewLocation.x - columnRect.origin.x) < 20.0) {
 			DataTableHeaderCell *cell = (DataTableHeaderCell *)[tableColumn headerCell];
 			
 			cell.checked = !cell.isChecked;
@@ -249,6 +260,43 @@
 - (void) refreshData
 {
 	[mainTable reloadData];
+}
+#pragma mark -
+
+
+
+#pragma mark Progress Sheet
+- (void) showProgressSheet
+{
+	[NSApp beginSheet:progressSheet modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+}
+
+- (void) updateProgressSheetProgress:(CGFloat)percentage
+{
+	if ([progressSheet isVisible]) {
+		[progressIndicator setDoubleValue:(double)percentage];
+		[progressPercentage setFloatValue:percentage];
+	}
+}
+
+- (void) hideProgressSheet
+{
+	if ([progressSheet isVisible]) {
+		[self updateProgressSheetProgress:1.0];
+		NSLog(@"hiding sheet");
+		[progressSheet orderOut:nil];
+		[NSApp endSheet:progressSheet];
+	}
+}
+
+- (void) abortImport:(id)sender
+{
+	[document abortImport];
+}
+
+- (void) didAbortImport:(BOOL)flag
+{
+	[importAbortedField setHidden:!flag];
 }
 
 

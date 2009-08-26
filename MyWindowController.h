@@ -15,9 +15,16 @@
 {
 	MyDocument *document;
 	
+	// Progress Window
+	IBOutlet NSPanel *progressSheet;
+	IBOutlet NSProgressIndicator *progressIndicator;
+	IBOutlet NSTextField *progressPercentage;
+	
+	// Main Window
 	IBOutlet DataTableView *mainTable;
 	
 	IBOutlet NSTextField *numEntriesField;
+	IBOutlet NSTextField *importAbortedField;
 	IBOutlet NSPopUpButton *calculationSourcePopup;			// the popup to choose the source column
 	IBOutlet NSPopUpButton *calculationTargetPopup;			// the popup to choose the target column
 	IBOutlet NSTextField *calculationSourceRegExp;			// the text field to define the source RegExp
@@ -48,6 +55,13 @@
 - (void) redefineTable;
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn;
 - (void) refreshData;
+
+// Progress Sheet Actions
+- (void) showProgressSheet;
+- (void) updateProgressSheetProgress:(CGFloat)percentage;
+- (void) hideProgressSheet;
+- (IBAction) abortImport:(id)sender;
+- (void) didAbortImport:(BOOL)flag;
 
 
 @end

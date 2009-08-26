@@ -66,6 +66,7 @@
 		EE9E10F210429B7300554687 /* CSVRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRow.m; sourceTree = "<group>"; };
 		EE9E110F1042BC8A00554687 /* CSVColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVColumn.h; sourceTree = "<group>"; };
 		EE9E11101042BC8A00554687 /* CSVColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVColumn.m; sourceTree = "<group>"; };
+		EE9E19531045380800554687 /* CSVDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDocumentDelegate.h; sourceTree = "<group>"; };
 		EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CSVManipulatorIcon.icns; sourceTree = "<group>"; };
 		EEE8F3B30F13AA720081E83D /* MyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWindowController.h; sourceTree = "<group>"; };
 		EEE8F3B40F13AA720081E83D /* MyWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWindowController.m; sourceTree = "<group>"; };
@@ -193,6 +194,7 @@
 		EE9E14C21043DA5D00554687 /* CSVDocument */ = {
 			isa = PBXGroup;
 			children = (
+				EE9E19531045380800554687 /* CSVDocumentDelegate.h */,
 				EE9E10EF10429B7300554687 /* CSVDocument.h */,
 				EE9E10F010429B7300554687 /* CSVDocument.m */,
 				EE9E10F110429B7300554687 /* CSVRow.h */,

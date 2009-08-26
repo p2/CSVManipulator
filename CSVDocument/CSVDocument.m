@@ -23,7 +23,7 @@
 
 @implementation CSVDocument
 
-@synthesize separator, rows, numRows, columnDict, rowController, autoDetectSeparator, headerRow;
+@synthesize delegate, separator, rows, numRows, columnDict, rowController, parseSuccessful, autoDetectSeparator, headerRow, mustAbortImport, didAbortImport;
 @dynamic columns, firstRowIsHeaderRow;
 
 
@@ -48,6 +48,7 @@
 
 - (void) dealloc
 {
+	self.delegate = nil;
 	self.separator = nil;
 	self.rows = nil;
 	self.columns = nil;
@@ -114,28 +115,45 @@
 	}
 	
 	// update num rows
-	[self willChangeValueForKey:@"numRows"];
-	self.numRows = [NSNumber numberWithInt:[rows count]];
-	[self didChangeValueForKey:@"numRows"];
+	[self setNumRowsWithInt:[rows count]];
+	
 	firstRowIsHeaderRow = isHeaderRow;
+}
+
+- (void) setNumRowsWithInt:(NSInteger)num_rows
+{
+	[self willChangeValueForKey:@"numRows"];
+	self.numRows = [NSNumber numberWithInt:num_rows];
+	[self didChangeValueForKey:@"numRows"];
 }
 #pragma mark -
 
 
 
-#pragma mark Parsing from String
-- (BOOL) parseCSVString:(NSString *)string error:(NSError **)error
+#pragma mark Parsing
+- (NSUInteger) numRowsToExpect:(NSString *)string
 {
-	return [self parseCSVString:string maxRows:0 error:error];
+	return [[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 }
 
-- (BOOL) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error
+- (void) parseCSVString:(NSString *)string error:(NSError **)error
+{
+	[self parseCSVString:string maxRows:0 error:error];
+}
+
+- (void) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error
 {
 	NSUInteger num_rows = 0;
+	BOOL success = YES;
+	
+	// this thing is thread safe
+	[string retain];
+	NSAutoreleasePool *outerPool = [[NSAutoreleasePool alloc] init];
 	
 	// String is non-empty
 	if ([string length] > 0) {
 		[rows removeAllObjects];
+		BOOL sendStatusUpdateToDelegate = (nil != delegate) && [delegate respondsToSelector:@selector(csvDocumentDidParseNumRows:)];
 		
 		// collect the columns
 		NSMutableArray *newColumns = [NSMutableArray array];
@@ -156,11 +174,11 @@
 		}
 		
 		// Get newline character set
-		NSMutableCharacterSet *newlineCharacterSet = (id)[NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
+		NSMutableCharacterSet *newlineCharacterSet = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
 		[newlineCharacterSet formIntersectionWithCharacterSet:[[NSCharacterSet whitespaceCharacterSet] invertedSet]];
 		
 		// Characters where the parser should stop
-		NSMutableCharacterSet *importantCharactersSet = (id)[NSMutableCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%@\"", separator]];
+		NSMutableCharacterSet *importantCharactersSet = [NSMutableCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%@\"", separator]];
 		[importantCharactersSet formUnionWithCharacterSet:newlineCharacterSet];
 		
 		
@@ -180,6 +198,10 @@
 		// an inner pool for the loop
 		NSAutoreleasePool *innerPool = [[NSAutoreleasePool alloc] init];
 		while (![scanner isAtEnd]) {
+			if (self.mustAbortImport) {
+				self.didAbortImport = YES;
+				break;
+			}
 			
 			// we'll end up here after every row
 			insideQuotes = NO;
@@ -276,10 +298,14 @@
 				break;
 			}
 			
-			// clean the pool
+			// clean the pool and update status
 			if (0 == (num_rows % 100)) {
 				[innerPool release];
 				innerPool = [[NSAutoreleasePool alloc] init];
+				
+				if (sendStatusUpdateToDelegate) {
+					[delegate csvDocumentDidParseNumRows:num_rows];
+				}
 			}
 		}
 		
@@ -294,13 +320,22 @@
 	
 	// empty string
 	else if (nil != error) {
-		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse an empty string" forKey:@"userInfo"];
+		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:@"userInfo"];
 		*error = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:errorDict];
-		return NO;
+		success = NO;
 	}
 	
+	// clean the outer pool
+	[outerPool release];
+	[string release];
+	
 	self.numRows = [NSNumber numberWithInt:num_rows];
-	return YES;
+	self.parseSuccessful = success;
+	
+	// tell the delegate
+	if (nil != delegate) {
+		[delegate csvDocumentDidParseString:self];
+	}
 }
 #pragma mark -
 

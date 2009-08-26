@@ -27,6 +27,7 @@
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString quoted:(BOOL)quoteStrings;
 - (NSString *) valueForColumn:(CSVColumn *)column;
 - (NSString *) valueForColumnKey:(NSString *)columnKey;
+- (BOOL) isEmptyRow;
 
 - (void) setValue:(id)value forColumn:(CSVColumn *)column;
 - (void) setValue:(id)value forColumnKey:(NSString *)key;

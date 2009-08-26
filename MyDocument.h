@@ -8,6 +8,7 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import "CSVDocumentDelegate.h"
 @class MyWindowController;
 @class CSVRow;
 @class DataTableView;
@@ -15,15 +16,20 @@
 @class CSVDocument;
 
 
-@interface MyDocument : NSDocument
+@interface MyDocument : NSDocument <CSVDocumentDelegate>
 {
 	MyWindowController *mainWindowController;
 	
+	NSURL *fileURL;
+	NSStringEncoding fileEncoding;
+	NSString *displayName;
 	CSVDocument *csvDocument;
 	
+	BOOL documentLoaded;
+	BOOL nibIsAlive;
 	BOOL documentEdited;
-	BOOL documentIsEmpty;
-	BOOL dataIsAtOriginalOrder;	
+	BOOL dataIsAtOriginalOrder;
+	NSUInteger numRowsToExpect;
 	
 	BOOL exportHeaders;								// bound to a checkbox, tells us whether to export the header on save or not
 	NSInteger lastChoiceExportFormat;
@@ -32,8 +38,12 @@
 }
 
 
+@property (nonatomic, retain) NSURL *fileURL;
+@property (nonatomic, assign) NSStringEncoding fileEncoding;
+@property (nonatomic, retain) NSString *displayName;
 @property (nonatomic, retain) CSVDocument *csvDocument;
 
+@property (nonatomic, assign) BOOL documentLoaded;
 @property (nonatomic, assign, getter=isDocumentEdited) BOOL documentEdited;
 @property (nonatomic, assign) BOOL dataIsAtOriginalOrder;
 @property (nonatomic, assign) BOOL exportHeaders;
@@ -44,15 +54,17 @@
 - (void) setLastChoiceFormat:(NSInteger)format;
 
 // Data control
-- (void) documentLoaded;
+- (void) awokeFromNib;
 - (NSUInteger) numColumns;
 - (NSArray *) columns;
 - (NSString *) stringInFormat:(NSInteger)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;			// 0 = csv, 1 = Tab, 2 = LaTeX
+- (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex;
 - (BOOL) hasDataAtRow:(NSUInteger)rowIndex forColumnKey:(NSString *)columnKey;
 
 - (void) addToCSVRow:(id)sender;
 - (void) removeFromCSVRow:(id)sender;
 - (void) restoreOriginalOrder;
+- (void) abortImport;
 
 // Clipboard and Files
 - (NSArray *) writablePasteboardTypes;
