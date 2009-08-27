@@ -7,7 +7,7 @@
 //
 
 #import "MyDocument.h"
-#import "MyWindowController.h"
+#import "CSVWindowController.h"
 #import "CSVDocument.h"
 #import "CSVRow.h"
 #import "CSVColumn.h"
@@ -511,7 +511,7 @@
 
 - (void) makeWindowControllers
 {
-	mainWindowController = [[[MyWindowController alloc] initWithWindowNibName:[self windowNibName]] autorelease];
+	mainWindowController = [[[CSVWindowController alloc] initWithWindowNibName:[self windowNibName]] autorelease];
 	[self addWindowController:mainWindowController];
 }
 

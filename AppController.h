@@ -13,10 +13,11 @@
 
 }
 
-// READing from clipboard
+// clipboard
 - (IBAction) newDocumentFromClipboard:(id)sender;
 
-// COPYing to clipboard
+// graphs
+- (IBAction) newGraphWindow:(id)sender;
 
 
 @end

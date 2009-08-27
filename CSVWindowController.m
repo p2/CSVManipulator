@@ -1,12 +1,12 @@
 //
-//  MyWindowController.m
+//  CSVWindowController.m
 //  CSVManipulator
 //
 //  Created by Pascal Pfiffner on 06.01.09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "MyWindowController.h"
+#import "CSVWindowController.h"
 #import "MyDocument.h"
 #import "CSVDocument.h"
 #import "CSVColumn.h"
@@ -18,7 +18,7 @@
 #define COLUMN_MIN_WIDTH 40
 
 
-@implementation MyWindowController
+@implementation CSVWindowController
 
 @synthesize document;
 

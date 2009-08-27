@@ -9,7 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "CSVDocumentDelegate.h"
-@class MyWindowController;
+@class CSVWindowController;
 @class CSVRow;
 @class DataTableView;
 
@@ -18,7 +18,7 @@
 
 @interface MyDocument : NSDocument <CSVDocumentDelegate>
 {
-	MyWindowController *mainWindowController;
+	CSVWindowController *mainWindowController;
 	
 	NSURL *fileURL;
 	NSStringEncoding fileEncoding;

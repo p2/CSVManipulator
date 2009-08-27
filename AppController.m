@@ -15,7 +15,7 @@
 @implementation AppController
 
 
-# pragma mark READ from Clipboard
+# pragma mark Clipboard
 - (IBAction) newDocumentFromClipboard:(id)sender
 {
 	NSString *pboardData = [[NSPasteboard generalPasteboard] stringForType:NSStringPboardType];
@@ -36,6 +36,15 @@
 	else {
 		NSLog(@"No data is available from the clipboard");
 	}
+}
+#pragma mark -
+
+
+
+#pragma mark Graphs
+- (IBAction) newGraphWindow:(id)sender
+{
+	
 }
 #pragma mark -
 

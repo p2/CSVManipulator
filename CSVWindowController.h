@@ -1,5 +1,5 @@
 //
-//  MyWindowController.h
+//  CSVWindowController.h
 //  CSVManipulator
 //
 //  Created by Pascal Pfiffner on 06.01.09.
@@ -11,7 +11,7 @@
 @class DataTableView;
 
 
-@interface MyWindowController : NSWindowController
+@interface CSVWindowController : NSWindowController
 {
 	MyDocument *document;
 	
