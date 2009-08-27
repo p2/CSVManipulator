@@ -7,12 +7,26 @@
 //
 
 #import "GraphDocument.h"
+#import "GraphWindowController.h"
 
 
 @implementation GraphDocument
 
+@synthesize mainWindowController;
 
 
+
+- (void) dealloc
+{
+	self.mainWindowController = nil;
+	
+	[super dealloc];
+}
+#pragma mark -
+
+
+
+#pragma mark Data
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     // Insert code here to write your document to data of the specified type. If the given outError != NULL, ensure that you set *outError when returning nil.
@@ -41,6 +55,12 @@
 #pragma mark Document Based Musts
 - (NSString *) windowNibName {
     return @"GraphDocument";
+}
+
+- (void) makeWindowControllers
+{
+	self.mainWindowController = [[[GraphWindowController alloc] initWithWindowNibName:[self windowNibName]] autorelease];
+	[self addWindowController:mainWindowController];
 }
 
 

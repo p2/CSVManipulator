@@ -29,6 +29,7 @@
 		EE9E1DEE1046BDC400554687 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DED1046BDC400554687 /* MyDocument.xib */; };
 		EE9E1DF01046BDCD00554687 /* GraphDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DEF1046BDCD00554687 /* GraphDocument.xib */; };
 		EE9E1DF41046BE3900554687 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DF31046BE3900554687 /* MainMenu.xib */; };
+		EE9E1E421046C90E00554687 /* GraphWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E1E411046C90E00554687 /* GraphWindowController.m */; };
 		EEC9006A0DD04898006716F9 /* CSVManipulatorIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */; };
 		EEE8F3B50F13AA720081E83D /* CSVWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */; };
 		EEE8FA460F1523B70081E83D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8FA450F1523B70081E83D /* AppController.m */; };
@@ -120,6 +121,8 @@
 		EE9E1DC71046BC7C00554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GraphDocument.xib; sourceTree = "<group>"; };
 		EE9E1DEB1046BDC100554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		EE9E1DF11046BE1F00554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		EE9E1E401046C90E00554687 /* GraphWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphWindowController.h; sourceTree = "<group>"; };
+		EE9E1E411046C90E00554687 /* GraphWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphWindowController.m; sourceTree = "<group>"; };
 		EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CSVManipulatorIcon.icns; sourceTree = "<group>"; };
 		EEE8F3B30F13AA720081E83D /* CSVWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVWindowController.h; sourceTree = "<group>"; };
 		EEE8F3B40F13AA720081E83D /* CSVWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVWindowController.m; sourceTree = "<group>"; };
@@ -190,6 +193,8 @@
 				EE9E1DC31046BC1E00554687 /* GraphDocument.m */,
 				EEE8F3B30F13AA720081E83D /* CSVWindowController.h */,
 				EEE8F3B40F13AA720081E83D /* CSVWindowController.m */,
+				EE9E1E401046C90E00554687 /* GraphWindowController.h */,
+				EE9E1E411046C90E00554687 /* GraphWindowController.m */,
 				EE9E14C21043DA5D00554687 /* CSVDocument */,
 				EE1512230D7F04910092C02F /* DataTable */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
@@ -388,6 +393,7 @@
 				EE9E10F410429B7300554687 /* CSVRow.m in Sources */,
 				EE9E11111042BC8A00554687 /* CSVColumn.m in Sources */,
 				EE9E1DC41046BC1E00554687 /* GraphDocument.m in Sources */,
+				EE9E1E421046C90E00554687 /* GraphWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +478,7 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "../core-plot/**";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

@@ -9,6 +9,22 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>graph</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Graph</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>GraphDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>csv</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
@@ -21,8 +37,16 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.csv</string>
+				<string>dyn.age80g650</string>
+				<string>dyn.ah62d4rv4ge80g650</string>
+			</array>
 			<key>NSDocumentClass</key>
 			<string>MyDocument</string>
+			<key>NSPersistentStoreTypeKey</key>
+			<string>XML</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -30,7 +54,7 @@
 	<key>CFBundleIconFile</key>
 	<string>CSVManipulatorIcon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.CSVManipulator</string>
+	<string>ch.iiaprism.unibe.CSVManipulator</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -40,7 +64,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.1</string>
+	<string>0.2</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

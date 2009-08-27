@@ -8,6 +8,7 @@
 
 #import "AppController.h"
 #import "MyDocument.h"
+#import "GraphDocument.h"
 #import "CSVDocument.h"
 #import "CSVRowController.h"
 
@@ -27,6 +28,11 @@
 		NSError *error;
 		if (!myDocument || [[myDocument.csvDocument numRows] intValue] > 0) {
 			myDocument = [docController openUntitledDocumentAndDisplay:YES error:&error];
+			
+			// Failed to open a new document
+			if (!myDocument) {
+				[docController presentError:error];
+			}
 		}
 		
 		// parse string
@@ -44,7 +50,21 @@
 #pragma mark Graphs
 - (IBAction) newGraphWindow:(id)sender
 {
+	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
+	NSError *error = nil;
 	
+	// create the new document
+	GraphDocument *newGraphDocument = [docController makeUntitledDocumentOfType:@"Graph" error:&error];
+	if (nil != newGraphDocument) {
+		[docController addDocument:newGraphDocument];
+		[newGraphDocument makeWindowControllers];
+		[newGraphDocument showWindows];
+	}
+	
+	// got an error
+	else {
+		[docController presentError:error];
+	}
 }
 #pragma mark -
 

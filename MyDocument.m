@@ -106,7 +106,7 @@
 - (void) detachStringParsing:(NSString *)string
 {
 	NSAutoreleasePool *detachPool = [[NSAutoreleasePool alloc] init];
-	NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:10 userInfo:nil];
+	NSError *error;
 	
 	[csvDocument parseCSVString:string maxRows:0 error:&error];
 	
@@ -488,7 +488,7 @@
 	// but we implement this method to create a file if NSFilenamesPboardType is ever requested directly
 	if([type isEqualToString:NSFilenamesPboardType]) {
 		NSURL *myFileURL = [NSURL URLWithString:[@"~/Desktop" stringByExpandingTildeInPath]];
-		NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:666 userInfo:nil];
+		NSError *error;
 		if([self writeToURL:myFileURL ofType:nil error:&error]) {
 			[pboard setPropertyList:[NSArray arrayWithObject:[myFileURL path]] forType:NSFilenamesPboardType];
 		}

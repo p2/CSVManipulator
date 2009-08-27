@@ -7,10 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class GraphWindowController;
 
 
 @interface GraphDocument : NSDocument {
-
+	GraphWindowController *mainWindowController;
 }
+
+@property (nonatomic, retain) GraphWindowController *mainWindowController;
+
 
 @end
