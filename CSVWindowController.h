@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 @class MyDocument;
 @class DataTableView;
+@class PPToolbarView;
 
 
 @interface CSVWindowController : NSWindowController
@@ -22,6 +23,7 @@
 	
 	// Main Window
 	IBOutlet DataTableView *mainTable;
+	IBOutlet PPToolbarView *mainToolbar;
 	
 	IBOutlet NSTextField *numEntriesField;
 	IBOutlet NSTextField *importAbortedField;
@@ -37,6 +39,9 @@
 }
 
 @property (nonatomic, assign) MyDocument *document;
+
+@property (nonatomic, retain) IBOutlet DataTableView *mainTable;
+@property (nonatomic, retain) IBOutlet PPToolbarView *mainToolbar;
 
 
 - (NSInteger) outputFormat;

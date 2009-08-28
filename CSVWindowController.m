@@ -13,6 +13,7 @@
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
+#import "PPToolbarView.h"
 #import "RegexKitLite.h"
 
 #define COLUMN_MIN_WIDTH 40
@@ -21,6 +22,8 @@
 @implementation CSVWindowController
 
 @synthesize document;
+@synthesize mainTable;
+@synthesize mainToolbar;
 
 
 - (id) init
@@ -35,13 +38,18 @@
 
 - (void) dealloc
 {
+	self.document = nil;
+	
+	self.mainTable = nil;
+	self.mainToolbar = nil;
+	
 	[super dealloc];
 }
 
 - (void) awakeFromNib
 {
-	// readFromURL finishes before awakeFromNib, so we can only now redefine the table
-	//[NSThread detachNewThreadSelector:@selector(awokeFromNib) toTarget:document withObject:nil];		// own thread to show the sheet correctly
+	NSNumber *top_border_width = [NSNumber numberWithInt:1];
+	mainToolbar.borderWidths = [NSArray arrayWithObjects:top_border_width, [NSNull null], [NSNull null], [NSNull null], nil];
 	[document awokeFromNib];
 	
 	// DEBUGGING
@@ -283,7 +291,7 @@
 {
 	if ([progressSheet isVisible]) {
 		[self updateProgressSheetProgress:1.0];
-		NSLog(@"hiding sheet");
+		
 		[progressSheet orderOut:nil];
 		[NSApp endSheet:progressSheet];
 	}

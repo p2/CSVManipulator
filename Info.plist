@@ -37,12 +37,6 @@
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.csv</string>
-				<string>dyn.age80g650</string>
-				<string>dyn.ah62d4rv4ge80g650</string>
-			</array>
 			<key>NSDocumentClass</key>
 			<string>MyDocument</string>
 			<key>NSPersistentStoreTypeKey</key>
