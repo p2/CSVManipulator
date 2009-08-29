@@ -11,6 +11,7 @@
 #import "CSVRow.h"
 #import "CSVColumn.h"
 #import "CSVRowController.h"
+#import "PPExportFormat.h"
 
 
 @interface CSVDocument (Private)
@@ -342,7 +343,7 @@
 
 
 #pragma mark Returning as String
-- (NSString *) stringInFormat:(NSUInteger)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
+- (NSString *) stringInFormat:(PPExportFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
 {
 	if ([columnArray count] < 1) {
 		return @"";
@@ -352,7 +353,7 @@
 	NSString *fieldSeparator = @",";
 	BOOL quoteStrings = YES;
 	NSString *lineSeparator = @"\n";
-	
+	/*
 	switch(format) {
 		case 1:										// Tab
 			fieldSeparator = @"\t";
@@ -368,7 +369,7 @@
 		case 3:										// SQL
 			break;
 	}
-	
+	*/
 	NSMutableString *csv = [NSMutableString string];
 	
 	// write headers

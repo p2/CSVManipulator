@@ -7,6 +7,7 @@
 //
 
 #import "AppController.h"
+#import "MyDocumentController.h"
 #import "MyDocument.h"
 #import "GraphDocument.h"
 #import "CSVDocument.h"

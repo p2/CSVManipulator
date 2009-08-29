@@ -11,6 +11,7 @@
 #import "CSVDocument.h"
 #import "CSVRow.h"
 #import "CSVColumn.h"
+#import "PPExportFormat.h"
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
@@ -34,6 +35,7 @@
 @implementation MyDocument
 
 @synthesize fileURL, fileEncoding, displayName, csvDocument, documentLoaded, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
+@synthesize documentFormat;
 
 
 #pragma mark Generic
@@ -57,6 +59,7 @@
 	self.fileURL = nil;
 	self.displayName = nil;
 	self.csvDocument = nil;
+	self.documentFormat = nil;
  	
 	[super dealloc];
 }
@@ -64,35 +67,48 @@
 
 
 
-#pragma mark Main Methods
+#pragma mark Opening Files
+// the open-a-file sequence
+//	openDocument:										<< NSDocumentController >>
+//	openDocumentWithContentsOfURL:display:error:		<< NSDocumentController >>
+//	makeDocumentWithContentsOfURL:ofType:error:			<< NSDocumentController >>
+//	initWithContentsOfURL:ofType:error:					<< NSDocument >>
+//	readFromURL:ofType:error:							<< NSDocument >>
+//	readFromFileWrapper:ofType:error:					<< NSDocument >>
+//	readFromData:ofType:error:							<< NSDocument >>
 
-// gets called by NSDocumentController when opening a new file
 - (BOOL) readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	self.documentLoaded = NO;
+	self.fileURL = absoluteURL;
+	
+	// TODO: create an NSFileWrapper > fileWrapperOfType:error:
 	
 	// Load document data using NSStrings house methods
 	// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
 	NSStringEncoding stringEncoding;
-	NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
+	NSString *fileString = [NSString stringWithContentsOfURL:fileURL usedEncoding:&stringEncoding error:outError];
 	
-	// We could not open the file, probably unknown encoding; try ISO-8859-1
+	// We could not open the file, explicitly try utf-8
 	if (nil == fileString) {
-		stringEncoding = NSISOLatin1StringEncoding;
-		fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
+		stringEncoding = NSUTF8StringEncoding;
+		fileString = [NSString stringWithContentsOfURL:fileURL encoding:stringEncoding error:outError];
 		
-		// Still no success, give up
+		// We could still not open the file, probably unknown encoding; try ISO-8859-1
 		if (nil == fileString) {
-			if (nil != outError) {
-				NSLog(@"ERROR opening the file: %@", outError);
-			}
+			stringEncoding = NSISOLatin1StringEncoding;
+			fileString = [NSString stringWithContentsOfURL:fileURL encoding:stringEncoding error:outError];
 			
-			return NO;
+			// Still no success, give up
+			if (nil == fileString) {
+				[self presentError:outError];
+				
+				return NO;
+			}
 		}
 	}
 	
 	// parse the CSV on another thread
-	self.fileURL = absoluteURL;
 	self.fileEncoding = stringEncoding;
 	self.displayName = [[absoluteURL absoluteString] lastPathComponent];
 	numRowsToExpect = [csvDocument numRowsToExpect:fileString];
@@ -127,21 +143,29 @@
 	NSLog(@"parsed %@ rows, successful? %i", doc.numRows, doc.parseSuccessful);
 	self.documentLoaded = YES;
 	
-	if (nibIsAlive) {
-		[mainWindowController redefineTable];
-		[mainWindowController hideProgressSheet];
-		
-		// did we abort?
-		[mainWindowController didAbortImport:csvDocument.didAbortImport];
-	}
+	[mainWindowController redefineTable];
+	[mainWindowController hideProgressSheet];
+	
+	// did we abort?
+	[mainWindowController didAbortImport:csvDocument.didAbortImport];
 }
+#pragma mark -
+
+
+
+#pragma mark Saving Files
+// the save-a-file sequence
+//	saveDocument:								<< NSDocument >>
+//	writeToURL:ofType:error:					<< NSDocument >>
+//	fileWrapperOfType:error:					<< NSDocument >>
+//	writeToFile:atomically:updateFilenames:		<< NSFileWrapper >>
 
 
 // save
 - (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	// use "lastChoiceExportFormat" after window closed!
-	NSString *csvString = [self stringInFormat:[mainWindowController outputFormat] allRows:YES allColumns:NO];
+	NSString *csvString = [self stringInFormat:documentFormat allRows:YES allColumns:YES];
 	
 	// save file
 	BOOL success = [csvString writeToURL:absoluteURL atomically:NO encoding:NSUTF8StringEncoding error:outError];
@@ -153,22 +177,6 @@
 
 
 #pragma mark Data Control
-- (void) awokeFromNib
-{
-	nibIsAlive = YES;
-	
-	// document is still loading
-	if (!documentLoaded) {
-		[mainWindowController performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01];
-		//[mainWindowController showProgressSheet];			// does not work so shortly after awakeFromNib
-	}
-	
-	// document did already load all data
-	else {
-		[mainWindowController redefineTable];
-	}
-}
-
 - (NSUInteger) numColumns
 {
 	return [csvDocument.columns count];
@@ -197,11 +205,6 @@
 	[mainWindowController didRestoreOriginalOrder];
 	
 	self.dataIsAtOriginalOrder = YES;
-}
-
-- (void) setLastChoiceFormat:(NSInteger)format
-{
-	lastChoiceExportFormat = format;
 }
 
 - (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex
@@ -351,10 +354,12 @@
     return [NSArray arrayWithObjects:NSFilesPromisePboardType, NSRTFPboardType, NSStringPboardType, nil];		// NSFilenamesPboardType, @"SFVNativePBMetaDataPBType08", @"SFVNativePBClassesListPBType08", @"SFVNativePBObject08"
 }
 
-- (NSArray *) fileSuffixesForFormat:(NSInteger)format
+
+// TODO: put into PPExportFormat
+- (NSArray *) fileSuffixesForFormat:(PPExportFormat *)format
 {
 	NSArray *suffixes = nil;
-	
+	/*
 	// switch formats
 	switch(format) {
 		case 1:									// Tab
@@ -369,12 +374,12 @@
 			suffixes = [NSArray arrayWithObject:@"csv"];
 			break;
 	}
-	
+	*/
 	return suffixes;
 }
 
 
-- (NSString *) stringInFormat:(NSInteger)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;
+- (NSString *) stringInFormat:(PPExportFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;
 {
 	// get the row indexes we want
 	NSIndexSet *rowIndexes = nil;
@@ -435,11 +440,9 @@
 {
 	BOOL result = NO;
 	
-	NSInteger format = [mainWindowController outputFormat];
-	
 	// we want a file - provide the file extension
 	if([type isEqualToString:NSFilesPromisePboardType]) {
-		result = [pboard setPropertyList:[self fileSuffixesForFormat:format] forType:NSFilesPromisePboardType];
+		result = [pboard setPropertyList:[self fileSuffixesForFormat:documentFormat] forType:NSFilesPromisePboardType];
 	}
 	
 	// we want a filename - only write to file when actually requested (pasteboard:provideDataForType:)
@@ -465,7 +468,7 @@
 	
 	// RTF
 	else if([type isEqualToString:NSRTFPboardType]) {
-		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:1 allRows:NO allColumns:NO]] autorelease];
+		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPExportFormat tabFormat] allRows:NO allColumns:NO]] autorelease];
 		if(attributedString && [attributedString length] > 0) {
 			result = [pboard setData:[attributedString RTFFromRange:NSMakeRange(0, [attributedString length]) documentAttributes:nil] forType:NSRTFPboardType];
 		}
@@ -473,7 +476,7 @@
 	
 	// Plain Text
 	else if([type isEqualToString:NSStringPboardType]) {
-		NSString *string = [self stringInFormat:format allRows:NO allColumns:NO];
+		NSString *string = [self stringInFormat:documentFormat allRows:NO allColumns:NO];
 		if(string && [string length] > 0) {
 			result = [pboard setString:string forType:NSStringPboardType];
 		}

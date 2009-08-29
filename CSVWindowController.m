@@ -50,7 +50,17 @@
 {
 	NSNumber *top_border_width = [NSNumber numberWithInt:1];
 	mainToolbar.borderWidths = [NSArray arrayWithObjects:top_border_width, [NSNull null], [NSNull null], [NSNull null], nil];
-	[document awokeFromNib];
+	
+	// document is still loading
+	if (!document.documentLoaded) {
+		[self performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01];
+		//[self showProgressSheet];			// does somehow not work so shortly after awakeFromNib
+	}
+	
+	// document did already load all data
+	else {
+		[self redefineTable];
+	}
 	
 	// DEBUGGING
 	[calculationSourceRegExp setStringValue:@"(\\d+)\\.(\\d+)"];
@@ -59,13 +69,14 @@
 
 - (void) windowWillClose:(NSNotification *)notification
 {
-	[document setLastChoiceFormat:[self outputFormat]];
+	//[document setLastChoiceFormat:[self outputFormat]];
 }
 #pragma mark -
 
 
 
 #pragma mark Actions
+// TODO: needed?
 - (NSInteger) outputFormat
 {
 	NSMenuItem *selectedItem = [copyAsKindPopup selectedItem];
@@ -276,14 +287,16 @@
 #pragma mark Progress Sheet
 - (void) showProgressSheet
 {
-	[NSApp beginSheet:progressSheet modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+	if (!document.documentLoaded) {
+		[NSApp beginSheet:progressSheet modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+	}
 }
 
 - (void) updateProgressSheetProgress:(CGFloat)percentage
 {
 	if ([progressSheet isVisible]) {
 		[progressIndicator setDoubleValue:(double)percentage];
-		[progressPercentage setFloatValue:percentage];
+		[progressPercentage setFloatValue:(100 * percentage)];
 	}
 }
 
