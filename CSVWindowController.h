@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 @class MyDocument;
+@class PPStringFormat;
 @class DataTableView;
 @class PPToolbarView;
 
@@ -16,26 +17,22 @@
 {
 	MyDocument *document;
 	
-	// Progress Window
-	IBOutlet NSPanel *progressSheet;
-	IBOutlet NSProgressIndicator *progressIndicator;
-	IBOutlet NSTextField *progressPercentage;
-	
-	// Main Window
+	// Main window
 	IBOutlet DataTableView *mainTable;
 	IBOutlet PPToolbarView *mainToolbar;
 	
 	IBOutlet NSTextField *numEntriesField;
 	IBOutlet NSTextField *importAbortedField;
-	IBOutlet NSPopUpButton *calculationSourcePopup;			// the popup to choose the source column
-	IBOutlet NSPopUpButton *calculationTargetPopup;			// the popup to choose the target column
-	IBOutlet NSTextField *calculationSourceRegExp;			// the text field to define the source RegExp
-	IBOutlet NSTextField *calculationTargetExpr;			// the text field to define the target expression
-	IBOutlet NSButton *calculationStartButton;				// the "Go" button (changes to "Cancel")
-	IBOutlet NSProgressIndicator *calculationProgress;		// the progress indicator
+	
 	IBOutlet NSPopUpButton *copyAsKindPopup;
 	
-	BOOL calculationIsRunning;
+	// Export sheet
+	IBOutlet NSView *exportAccessoryView;
+	
+	// Progress window
+	IBOutlet NSPanel *progressSheet;
+	IBOutlet NSProgressIndicator *progressIndicator;
+	IBOutlet NSTextField *progressPercentage;
 }
 
 @property (nonatomic, assign) MyDocument *document;
@@ -43,18 +40,20 @@
 @property (nonatomic, retain) IBOutlet DataTableView *mainTable;
 @property (nonatomic, retain) IBOutlet PPToolbarView *mainToolbar;
 
+@property (nonatomic, retain) IBOutlet NSView *exportAccessoryView;
 
+
+// Export Sheet
+- (IBAction) exportDocument:(id)sender;
 - (NSInteger) outputFormat;
 
 // Data control
 - (void) addToCSVRow:(id)sender;
 - (void) removeFromCSVRow:(id)sender;
 
-// Display options and calculations
+// Display options
 - (IBAction) restoreOriginalOrder:(id)sender;
 - (void) didRestoreOriginalOrder;
-- (IBAction) performCalculation:(id)sender;
-- (void) updateCalculationStatus:(NSNumber *)alreadyDone;
 
 // TableView delegate
 - (void) redefineTable;
@@ -67,6 +66,7 @@
 - (void) hideProgressSheet;
 - (IBAction) abortImport:(id)sender;
 - (void) didAbortImport:(BOOL)flag;
+
 
 
 @end

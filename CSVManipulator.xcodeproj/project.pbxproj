@@ -20,18 +20,18 @@
 		EE2EE5820DFD3B32005764C0 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2EE5810DFD3B32005764C0 /* libicucore.dylib */; };
 		EE2EE5AC0DFD3C3A005764C0 /* RKLMatchEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE5AB0DFD3C3A005764C0 /* RKLMatchEnumerator.m */; };
 		EE2EE6E80DFD8BDF005764C0 /* BC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE6E70DFD8BDF005764C0 /* BC.m */; };
-		EE64B5A41049D9E6000DF5D2 /* PPExportFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B5A31049D9E6000DF5D2 /* PPExportFormat.m */; };
+		EE64B5A41049D9E6000DF5D2 /* PPStringFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B5A31049D9E6000DF5D2 /* PPStringFormat.m */; };
 		EE64B6281049E967000DF5D2 /* MyDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6271049E967000DF5D2 /* MyDocumentController.m */; };
+		EE64B697104A80FF000DF5D2 /* CSVInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B696104A80FF000DF5D2 /* CSVInspector.m */; };
+		EE64B6AE104A8598000DF5D2 /* CSVInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */; };
+		EE64B6F9104A9648000DF5D2 /* PPStringFormatEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */; };
+		EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */; };
 		EE9E10F310429B7300554687 /* CSVDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E10F010429B7300554687 /* CSVDocument.m */; };
 		EE9E10F410429B7300554687 /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E10F210429B7300554687 /* CSVRow.m */; };
 		EE9E11111042BC8A00554687 /* CSVColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E11101042BC8A00554687 /* CSVColumn.m */; };
-		EE9E1DA41046B82800554687 /* CorePlot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9E1D9B1046B80B00554687 /* CorePlot.framework */; };
-		EE9E1DA51046B83400554687 /* CorePlot.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = EE9E1D9B1046B80B00554687 /* CorePlot.framework */; };
-		EE9E1DC41046BC1E00554687 /* GraphDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E1DC31046BC1E00554687 /* GraphDocument.m */; };
 		EE9E1DEE1046BDC400554687 /* MyDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DED1046BDC400554687 /* MyDocument.xib */; };
 		EE9E1DF01046BDCD00554687 /* GraphDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DEF1046BDCD00554687 /* GraphDocument.xib */; };
 		EE9E1DF41046BE3900554687 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE9E1DF31046BE3900554687 /* MainMenu.xib */; };
-		EE9E1E421046C90E00554687 /* GraphWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E1E411046C90E00554687 /* GraphWindowController.m */; };
 		EE9E21231047CF8700554687 /* PPToolbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E21221047CF8700554687 /* PPToolbarView.m */; };
 		EE9E2267104805E300554687 /* PPToolbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E2266104805E300554687 /* PPToolbarButton.m */; };
 		EE9E22FD104812F800554687 /* PPToolbarButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E22FC104812F800554687 /* PPToolbarButtonCell.m */; };
@@ -39,58 +39,6 @@
 		EEE8F3B50F13AA720081E83D /* CSVWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */; };
 		EEE8FA460F1523B70081E83D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8FA450F1523B70081E83D /* AppController.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		EE9E1D9A1046B80B00554687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = CorePlot;
-		};
-		EE9E1D9C1046B80B00554687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4CBF252C0F3CDED400DAE1A8;
-			remoteInfo = "CorePlot-UnitTests";
-		};
-		EE9E1D9E1046B80B00554687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4C2D58DE0FB78208008275E0;
-			remoteInfo = "CorePlot-PerformanceTests";
-		};
-		EE9E1DA01046B80B00554687 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4C32D3560F43B36F00EDFE7A;
-			remoteInfo = CPTestHarness;
-		};
-		EEA3A5F81048A70000AA5FA8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = CorePlot;
-		};
-/* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		EE9E1DB51046B8BD00554687 /* Copy Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				EE9E1DA51046B83400554687 /* CorePlot.framework in Copy Frameworks */,
-			);
-			name = "Copy Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -120,10 +68,17 @@
 		EE2EE5AB0DFD3C3A005764C0 /* RKLMatchEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLMatchEnumerator.m; sourceTree = "<group>"; };
 		EE2EE6E60DFD8BDE005764C0 /* BC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BC.h; sourceTree = "<group>"; };
 		EE2EE6E70DFD8BDF005764C0 /* BC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BC.m; sourceTree = "<group>"; };
-		EE64B5A21049D9E6000DF5D2 /* PPExportFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPExportFormat.h; sourceTree = "<group>"; };
-		EE64B5A31049D9E6000DF5D2 /* PPExportFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPExportFormat.m; sourceTree = "<group>"; };
+		EE64B5A21049D9E6000DF5D2 /* PPStringFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormat.h; sourceTree = "<group>"; };
+		EE64B5A31049D9E6000DF5D2 /* PPStringFormat.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormat.m; sourceTree = "<group>"; };
 		EE64B6261049E967000DF5D2 /* MyDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyDocumentController.h; sourceTree = "<group>"; };
 		EE64B6271049E967000DF5D2 /* MyDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyDocumentController.m; sourceTree = "<group>"; };
+		EE64B695104A80FF000DF5D2 /* CSVInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVInspector.h; sourceTree = "<group>"; };
+		EE64B696104A80FF000DF5D2 /* CSVInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVInspector.m; sourceTree = "<group>"; };
+		EE64B6AB104A858A000DF5D2 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/CSVInspector.xib; sourceTree = "<group>"; };
+		EE64B6F7104A9648000DF5D2 /* PPStringFormatEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatEntity.h; sourceTree = "<group>"; };
+		EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatEntity.m; sourceTree = "<group>"; };
+		EE64B6FC104A9761000DF5D2 /* PPStringFormatRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatRow.h; sourceTree = "<group>"; };
+		EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatRow.m; sourceTree = "<group>"; };
 		EE9E10EF10429B7300554687 /* CSVDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDocument.h; sourceTree = "<group>"; };
 		EE9E10F010429B7300554687 /* CSVDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDocument.m; sourceTree = "<group>"; };
 		EE9E10F110429B7300554687 /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
@@ -131,14 +86,9 @@
 		EE9E110F1042BC8A00554687 /* CSVColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVColumn.h; sourceTree = "<group>"; };
 		EE9E11101042BC8A00554687 /* CSVColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVColumn.m; sourceTree = "<group>"; };
 		EE9E19531045380800554687 /* CSVDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDocumentDelegate.h; sourceTree = "<group>"; };
-		EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CorePlot.xcodeproj; path = "../core-plot/framework/CorePlot.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		EE9E1DC21046BC1E00554687 /* GraphDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphDocument.h; sourceTree = "<group>"; };
-		EE9E1DC31046BC1E00554687 /* GraphDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphDocument.m; sourceTree = "<group>"; };
 		EE9E1DC71046BC7C00554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GraphDocument.xib; sourceTree = "<group>"; };
 		EE9E1DEB1046BDC100554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		EE9E1DF11046BE1F00554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		EE9E1E401046C90E00554687 /* GraphWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphWindowController.h; sourceTree = "<group>"; };
-		EE9E1E411046C90E00554687 /* GraphWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphWindowController.m; sourceTree = "<group>"; };
 		EE9E21211047CF8700554687 /* PPToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPToolbarView.h; sourceTree = "<group>"; };
 		EE9E21221047CF8700554687 /* PPToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPToolbarView.m; sourceTree = "<group>"; };
 		EE9E2265104805E300554687 /* PPToolbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPToolbarButton.h; sourceTree = "<group>"; };
@@ -158,7 +108,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE2EE5820DFD3B32005764C0 /* libicucore.dylib in Frameworks */,
-				EE9E1DA41046B82800554687 /* CorePlot.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -195,7 +144,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* CSVManipulator */ = {
 			isa = PBXGroup;
 			children = (
-				EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
@@ -213,12 +161,10 @@
 				EE64B6271049E967000DF5D2 /* MyDocumentController.m */,
 				2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */,
 				2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */,
-				EE9E1DC21046BC1E00554687 /* GraphDocument.h */,
-				EE9E1DC31046BC1E00554687 /* GraphDocument.m */,
 				EEE8F3B30F13AA720081E83D /* CSVWindowController.h */,
 				EEE8F3B40F13AA720081E83D /* CSVWindowController.m */,
-				EE9E1E401046C90E00554687 /* GraphWindowController.h */,
-				EE9E1E411046C90E00554687 /* GraphWindowController.m */,
+				EE64B695104A80FF000DF5D2 /* CSVInspector.h */,
+				EE64B696104A80FF000DF5D2 /* CSVInspector.m */,
 				EE64B59F1049D9C5000DF5D2 /* FileExport */,
 				EE9E14C21043DA5D00554687 /* CSVDocument */,
 				EE9E220D1047FF7100554687 /* ViewClasses */,
@@ -249,6 +195,7 @@
 				EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				EE9E1DF31046BE3900554687 /* MainMenu.xib */,
+				EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */,
 				EE9E1DED1046BDC400554687 /* MyDocument.xib */,
 				EE9E1DEF1046BDCD00554687 /* GraphDocument.xib */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
@@ -283,8 +230,12 @@
 		EE64B59F1049D9C5000DF5D2 /* FileExport */ = {
 			isa = PBXGroup;
 			children = (
-				EE64B5A21049D9E6000DF5D2 /* PPExportFormat.h */,
-				EE64B5A31049D9E6000DF5D2 /* PPExportFormat.m */,
+				EE64B5A21049D9E6000DF5D2 /* PPStringFormat.h */,
+				EE64B5A31049D9E6000DF5D2 /* PPStringFormat.m */,
+				EE64B6FC104A9761000DF5D2 /* PPStringFormatRow.h */,
+				EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */,
+				EE64B6F7104A9648000DF5D2 /* PPStringFormatEntity.h */,
+				EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */,
 			);
 			path = FileExport;
 			sourceTree = "<group>";
@@ -303,17 +254,6 @@
 				EE24A39A0D6ECCCB00C251A6 /* CSVRowController.m */,
 			);
 			path = CSVDocument;
-			sourceTree = "<group>";
-		};
-		EE9E1D921046B80B00554687 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EE9E1D9B1046B80B00554687 /* CorePlot.framework */,
-				EE9E1D9D1046B80B00554687 /* CorePlot-UnitTests.octest */,
-				EE9E1D9F1046B80B00554687 /* CorePlot-PerformanceTests.octest */,
-				EE9E1DA11046B80B00554687 /* CPTestHarness.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		EE9E220D1047FF7100554687 /* ViewClasses */ = {
@@ -339,12 +279,10 @@
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				EE9E1DB51046B8BD00554687 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				EEA3A5F91048A70000AA5FA8 /* PBXTargetDependency */,
 			);
 			name = CSVManipulator;
 			productInstallPath = "$(HOME)/Applications";
@@ -362,49 +300,12 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* CSVManipulator */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = EE9E1D921046B80B00554687 /* Products */;
-					ProjectRef = EE9E1D911046B80B00554687 /* CorePlot.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* CSVManipulator */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		EE9E1D9B1046B80B00554687 /* CorePlot.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = CorePlot.framework;
-			remoteRef = EE9E1D9A1046B80B00554687 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EE9E1D9D1046B80B00554687 /* CorePlot-UnitTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "CorePlot-UnitTests.octest";
-			remoteRef = EE9E1D9C1046B80B00554687 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EE9E1D9F1046B80B00554687 /* CorePlot-PerformanceTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "CorePlot-PerformanceTests.octest";
-			remoteRef = EE9E1D9E1046B80B00554687 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		EE9E1DA11046B80B00554687 /* CPTestHarness.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = CPTestHarness.app;
-			remoteRef = EE9E1DA01046B80B00554687 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
@@ -417,6 +318,7 @@
 				EE9E1DF01046BDCD00554687 /* GraphDocument.xib in Resources */,
 				EE9E1DEE1046BDC400554687 /* MyDocument.xib in Resources */,
 				EE9E1DF41046BE3900554687 /* MainMenu.xib in Resources */,
+				EE64B6AE104A8598000DF5D2 /* CSVInspector.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,25 +343,18 @@
 				EE9E10F310429B7300554687 /* CSVDocument.m in Sources */,
 				EE9E10F410429B7300554687 /* CSVRow.m in Sources */,
 				EE9E11111042BC8A00554687 /* CSVColumn.m in Sources */,
-				EE9E1DC41046BC1E00554687 /* GraphDocument.m in Sources */,
-				EE9E1E421046C90E00554687 /* GraphWindowController.m in Sources */,
 				EE9E21231047CF8700554687 /* PPToolbarView.m in Sources */,
 				EE9E2267104805E300554687 /* PPToolbarButton.m in Sources */,
 				EE9E22FD104812F800554687 /* PPToolbarButtonCell.m in Sources */,
-				EE64B5A41049D9E6000DF5D2 /* PPExportFormat.m in Sources */,
+				EE64B5A41049D9E6000DF5D2 /* PPStringFormat.m in Sources */,
 				EE64B6281049E967000DF5D2 /* MyDocumentController.m in Sources */,
+				EE64B697104A80FF000DF5D2 /* CSVInspector.m in Sources */,
+				EE64B6F9104A9648000DF5D2 /* PPStringFormatEntity.m in Sources */,
+				EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		EEA3A5F91048A70000AA5FA8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CorePlot;
-			targetProxy = EEA3A5F81048A70000AA5FA8 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
@@ -476,6 +371,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EE64B6AB104A858A000DF5D2 /* English */,
+			);
+			name = CSVInspector.xib;
 			sourceTree = "<group>";
 		};
 		EE9E1DED1046BDC400554687 /* MyDocument.xib */ = {

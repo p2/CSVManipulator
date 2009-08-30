@@ -23,6 +23,8 @@
 + (id) rowForDocument:(CSVDocument *)forDocument;
 + (id) rowFromDict:(NSMutableDictionary *)dict forDocument:(CSVDocument *)forDocument;
 
+- (NSArray *) valuesForColumns:(NSArray *)columns;
+- (NSArray *) valuesForColumnKeys:(NSArray *)columnKeys;
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString;
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString quoted:(BOOL)quoteStrings;
 - (NSString *) valueForColumn:(CSVColumn *)column;

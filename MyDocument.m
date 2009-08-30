@@ -11,7 +11,7 @@
 #import "CSVDocument.h"
 #import "CSVRow.h"
 #import "CSVColumn.h"
-#import "PPExportFormat.h"
+#import "PPStringFormat.h"
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
@@ -34,8 +34,8 @@
 
 @implementation MyDocument
 
-@synthesize fileURL, fileEncoding, displayName, csvDocument, documentLoaded, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
-@synthesize documentFormat;
+@synthesize fileEncoding, csvDocument, documentLoaded, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
+@dynamic documentFormat;
 
 
 #pragma mark Generic
@@ -46,7 +46,6 @@
 		exportHeaders = YES;
 		documentLoaded = YES;				// will be set to know when we got instantiated by reading from URL
 		
-		self.displayName = @"New Document";
 		self.csvDocument = [CSVDocument csvDocument];
 		csvDocument.delegate = self;
 	}
@@ -56,12 +55,30 @@
 
 - (void) dealloc
 {
-	self.fileURL = nil;
-	self.displayName = nil;
 	self.csvDocument = nil;
 	self.documentFormat = nil;
  	
 	[super dealloc];
+}
+#pragma mark -
+
+
+
+#pragma mark KVC
+- (PPStringFormat *) documentFormat
+{
+	if (nil == documentFormat) {
+		self.documentFormat = [PPStringFormat flatXMLFormat];
+	}
+	
+	return documentFormat;
+}
+- (void) setDocumentFormat:(PPStringFormat *)newFormat
+{
+	if (newFormat != documentFormat) {
+		[documentFormat release];
+		documentFormat = [newFormat retain];
+	}
 }
 #pragma mark -
 
@@ -80,28 +97,28 @@
 - (BOOL) readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	self.documentLoaded = NO;
-	self.fileURL = absoluteURL;
+	[self setFileURL:absoluteURL];
 	
 	// TODO: create an NSFileWrapper > fileWrapperOfType:error:
 	
 	// Load document data using NSStrings house methods
 	// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
 	NSStringEncoding stringEncoding;
-	NSString *fileString = [NSString stringWithContentsOfURL:fileURL usedEncoding:&stringEncoding error:outError];
+	NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
 	
 	// We could not open the file, explicitly try utf-8
 	if (nil == fileString) {
 		stringEncoding = NSUTF8StringEncoding;
-		fileString = [NSString stringWithContentsOfURL:fileURL encoding:stringEncoding error:outError];
+		fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
 		
 		// We could still not open the file, probably unknown encoding; try ISO-8859-1
 		if (nil == fileString) {
 			stringEncoding = NSISOLatin1StringEncoding;
-			fileString = [NSString stringWithContentsOfURL:fileURL encoding:stringEncoding error:outError];
+			fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
 			
 			// Still no success, give up
 			if (nil == fileString) {
-				[self presentError:outError];
+				[self presentError:*outError];
 				
 				return NO;
 			}
@@ -110,7 +127,6 @@
 	
 	// parse the CSV on another thread
 	self.fileEncoding = stringEncoding;
-	self.displayName = [[absoluteURL absoluteString] lastPathComponent];
 	numRowsToExpect = [csvDocument numRowsToExpect:fileString];
 	
 	// detach to new thread
@@ -160,17 +176,44 @@
 //	fileWrapperOfType:error:					<< NSDocument >>
 //	writeToFile:atomically:updateFilenames:		<< NSFileWrapper >>
 
-
-// save
 - (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	// use "lastChoiceExportFormat" after window closed!
-	NSString *csvString = [self stringInFormat:documentFormat allRows:YES allColumns:YES];
+	NSString *csvString = [self stringInFormat:self.documentFormat allRows:YES allColumns:YES];
+	NSLog(@"-----\n%@-----", csvString);
+	return NO;
 	
 	// save file
 	BOOL success = [csvString writeToURL:absoluteURL atomically:NO encoding:NSUTF8StringEncoding error:outError];
 	self.documentEdited = !success;
 	return success;
+}
+
+- (NSString *) stringInFormat:(PPStringFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;
+{
+	// get the row indexes we want
+	NSIndexSet *rowIndexes = nil;
+	if (allRows) {
+		NSRange fullRange = NSMakeRange(0, [csvDocument.rows count]);
+		rowIndexes = [NSIndexSet indexSetWithIndexesInRange:fullRange];
+	}
+	
+	// get columns
+	NSArray *columns;
+	if (allColumns) {
+		columns = csvDocument.columns;
+	}
+	else {
+		NSMutableArray *foo = [NSMutableArray array];
+		for (CSVColumn *column in csvDocument.columns) {
+			if (column.active) {
+				[foo addObject:column];
+			}
+		}
+		columns = [foo copy];
+	}
+	
+	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes writeHeader:exportHeaders];
 }
 #pragma mark -
 
@@ -355,8 +398,8 @@
 }
 
 
-// TODO: put into PPExportFormat
-- (NSArray *) fileSuffixesForFormat:(PPExportFormat *)format
+// TODO: put into PPStringFormat
+- (NSArray *) fileSuffixesForFormat:(PPStringFormat *)format
 {
 	NSArray *suffixes = nil;
 	/*
@@ -376,34 +419,6 @@
 	}
 	*/
 	return suffixes;
-}
-
-
-- (NSString *) stringInFormat:(PPExportFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;
-{
-	// get the row indexes we want
-	NSIndexSet *rowIndexes = nil;
-	if (allRows) {
-		NSRange fullRange = NSMakeRange(0, [csvDocument.rows count]);
-		rowIndexes = [NSIndexSet indexSetWithIndexesInRange:fullRange];
-	}
-	
-	// get columns
-	NSArray *columns;
-	if (allColumns) {
-		columns = csvDocument.columns;
-	}
-	else {
-		NSMutableArray *foo = [NSMutableArray array];
-		for (CSVColumn *column in csvDocument.columns) {
-			if (column.active) {
-				[foo addObject:column];
-			}
-		}
-		columns = [foo copy];
-	}
-	
-	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes writeHeader:exportHeaders];
 }
 
 
@@ -442,7 +457,7 @@
 	
 	// we want a file - provide the file extension
 	if([type isEqualToString:NSFilesPromisePboardType]) {
-		result = [pboard setPropertyList:[self fileSuffixesForFormat:documentFormat] forType:NSFilesPromisePboardType];
+		result = [pboard setPropertyList:[self fileSuffixesForFormat:self.documentFormat] forType:NSFilesPromisePboardType];
 	}
 	
 	// we want a filename - only write to file when actually requested (pasteboard:provideDataForType:)
@@ -468,7 +483,7 @@
 	
 	// RTF
 	else if([type isEqualToString:NSRTFPboardType]) {
-		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPExportFormat tabFormat] allRows:NO allColumns:NO]] autorelease];
+		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPStringFormat tabFormat] allRows:NO allColumns:NO]] autorelease];
 		if(attributedString && [attributedString length] > 0) {
 			result = [pboard setData:[attributedString RTFFromRange:NSMakeRange(0, [attributedString length]) documentAttributes:nil] forType:NSRTFPboardType];
 		}
@@ -476,7 +491,7 @@
 	
 	// Plain Text
 	else if([type isEqualToString:NSStringPboardType]) {
-		NSString *string = [self stringInFormat:documentFormat allRows:NO allColumns:NO];
+		NSString *string = [self stringInFormat:self.documentFormat allRows:NO allColumns:NO];
 		if(string && [string length] > 0) {
 			result = [pboard setString:string forType:NSStringPboardType];
 		}

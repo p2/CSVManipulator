@@ -66,6 +66,28 @@
 
 
 #pragma mark Returning Column Values
+- (NSArray *) valuesForColumns:(NSArray *)columns
+{
+	if ((nil != columns) && (nil != rowValues)) {
+		NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columns count]];
+		for (CSVColumn *column in columns) {
+			[columnKeys addObject:column.key];
+		}
+		return [rowValues objectsForKeys:columnKeys notFoundMarker:@""];
+	}
+	
+	return nil;
+}
+
+- (NSArray *) valuesForColumnKeys:(NSArray *)columnKeys
+{
+	if ((nil != columnKeys) && (nil != rowValues)) {
+		return [rowValues objectsForKeys:columnKeys notFoundMarker:@""];
+	}
+	
+	return nil;
+}
+
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString
 {
 	return [self valuesForColumns:columns combinedByString:sepString quoted:NO];
@@ -73,15 +95,7 @@
 
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString quoted:(BOOL)quoteStrings
 {
-	if((nil != columns) && (nil != rowValues)) {
-		NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columns count]];
-		for (CSVColumn *column in columns) {
-			[columnKeys addObject:column.key];
-		}
-		return [[rowValues objectsForKeys:columnKeys notFoundMarker:@""] componentsJoinedByString:sepString];
-	}
-	
-	return nil;
+	return [[self valuesForColumns:columns] componentsJoinedByString:sepString];
 }
 
 - (NSString *) valueForColumn:(CSVColumn *)column
@@ -91,7 +105,7 @@
 
 - (NSString *) valueForColumnKey:(NSString *)columnKey
 {
-	if(nil != columnKey) {
+	if (nil != columnKey) {
 		return [rowValues objectForKey:columnKey];
 	}
 	

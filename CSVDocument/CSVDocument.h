@@ -12,7 +12,7 @@
 @class CSVRow;
 @class CSVColumn;
 @class CSVRowController;
-@class PPExportFormat;
+@class PPStringFormat;
 
 
 @interface CSVDocument : NSObject {
@@ -60,7 +60,7 @@
 - (NSUInteger) numRowsToExpect:(NSString *)string;
 - (void) parseCSVString:(NSString *)string error:(NSError **)error;
 - (void) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error;
-- (NSString *) stringInFormat:(PPExportFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag;
+- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag;
 
 // Retrieving data
 - (void) changeHeaderRow:(CSVRow *)newHeaderRow;

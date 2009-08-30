@@ -49,7 +49,6 @@
 
 - (void) openDocument:(id)sender
 {
-	int result;
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	
 	// configure the panel
@@ -59,7 +58,7 @@
 	[openPanel setAllowsMultipleSelection:YES];
 	
 	// open all selected files
-	result = [openPanel runModalForDirectory:nil file:nil types:fileTypes];
+	NSInteger result = [openPanel runModalForDirectory:nil file:nil types:fileTypes];
 	if (result == NSOKButton) {
 		for (NSURL *filePath in [openPanel URLs]) {
 			NSError *error;

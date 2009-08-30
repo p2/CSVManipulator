@@ -9,7 +9,6 @@
 #import "AppController.h"
 #import "MyDocumentController.h"
 #import "MyDocument.h"
-#import "GraphDocument.h"
 #import "CSVDocument.h"
 #import "CSVRowController.h"
 
@@ -42,29 +41,6 @@
 	}
 	else {
 		NSLog(@"No data is available from the clipboard");
-	}
-}
-#pragma mark -
-
-
-
-#pragma mark Graphs
-- (IBAction) newGraphWindow:(id)sender
-{
-	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
-	NSError *error = nil;
-	
-	// create the new document
-	GraphDocument *newGraphDocument = [docController makeUntitledDocumentOfType:@"Graph" error:&error];
-	if (nil != newGraphDocument) {
-		[docController addDocument:newGraphDocument];
-		[newGraphDocument makeWindowControllers];
-		[newGraphDocument showWindows];
-	}
-	
-	// got an error
-	else {
-		[docController presentError:error];
 	}
 }
 #pragma mark -

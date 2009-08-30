@@ -16,8 +16,5 @@
 // clipboard
 - (IBAction) newDocumentFromClipboard:(id)sender;
 
-// graphs
-- (IBAction) newGraphWindow:(id)sender;
-
 
 @end

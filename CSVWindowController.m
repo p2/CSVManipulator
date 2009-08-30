@@ -8,13 +8,13 @@
 
 #import "CSVWindowController.h"
 #import "MyDocument.h"
+#import "PPStringFormat.h"
 #import "CSVDocument.h"
 #import "CSVColumn.h"
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
 #import "PPToolbarView.h"
-#import "RegexKitLite.h"
 
 #define COLUMN_MIN_WIDTH 40
 
@@ -24,6 +24,8 @@
 @synthesize document;
 @synthesize mainTable;
 @synthesize mainToolbar;
+
+@synthesize exportAccessoryView;
 
 
 - (id) init
@@ -42,6 +44,8 @@
 	
 	self.mainTable = nil;
 	self.mainToolbar = nil;
+	
+	self.exportAccessoryView = nil;
 	
 	[super dealloc];
 }
@@ -62,9 +66,7 @@
 		[self redefineTable];
 	}
 	
-	// DEBUGGING
-	[calculationSourceRegExp setStringValue:@"(\\d+)\\.(\\d+)"];
-	[calculationTargetExpr setStringValue:@"$1 * $2"];
+	
 }
 
 - (void) windowWillClose:(NSNotification *)notification
@@ -75,7 +77,23 @@
 
 
 
-#pragma mark Actions
+#pragma mark Export
+- (IBAction) exportDocument:(id)sender
+{
+	NSSavePanel *exportPanel = [NSSavePanel savePanel];
+	
+	// configure the panel
+	[exportPanel setDelegate:self];
+	[exportPanel setAccessoryView:exportAccessoryView];
+	
+	NSInteger result = [exportPanel runModal];
+	
+	// got the OK, handle export
+	if (result == NSFileHandlingPanelOKButton) {
+		
+	}
+}
+
 // TODO: needed?
 - (NSInteger) outputFormat
 {
@@ -113,55 +131,6 @@
 
 
 
-#pragma mark Calculations
-- (IBAction) performCalculation:(id)sender
-{
-	// should cancel
-	if(calculationIsRunning) {
-		[document setCalculationShouldTerminate:YES];
-		return;
-	}
-	
-	calculationIsRunning = YES;
-	[document setCalculationShouldTerminate:NO];
-	[calculationStartButton setTitle:@"Cancel"];
-	[calculationProgress startAnimation:nil];
-	
-	//--
-	NSString *sourceKey = [[[calculationSourcePopup selectedItem] title] stringByMatching:@"\\(([^\\(\\)]+)\\)$" capture:1];
-	NSString *targetKey = [[[calculationTargetPopup selectedItem] title] stringByMatching:@"\\(([^\\(\\)]+)\\)$" capture:1];
-	//--
-	NSString *regExp = [calculationSourceRegExp stringValue];
-	NSString *expression = [calculationTargetExpr stringValue];
-	
-	// detach a new thread
-	NSDictionary *args = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:sourceKey, targetKey, regExp, expression, nil]
-													 forKeys:[NSArray arrayWithObjects:@"sourceKey", @"targetKey", @"regExp", @"expression", nil]];
-	
-	[NSThread detachNewThreadSelector:@selector(performCalculationWithArgs:)
-							 toTarget:document
-						   withObject:args];			// args is automatically retained for the duration of the loop
-}
-
-- (void) updateCalculationStatus:(NSNumber *)alreadyDone
-{
-	if ([alreadyDone isLessThan:[NSNumber numberWithInt:100]]) {
-		[calculationProgress setDoubleValue:[alreadyDone doubleValue]];
-	}
-	
-	// we've now finished
-	else if (calculationIsRunning) {
-		[calculationStartButton setTitle:@"Go"];
-		[calculationProgress stopAnimation:nil];
-		calculationIsRunning = NO;
-	}
-	
-	[self refreshData];
-}
-#pragma mark -
-
-
-
 #pragma mark TableView Delegate
 - (void) redefineTable
 {
@@ -171,8 +140,8 @@
 	}
 	
 	// clean popups
-	[calculationSourcePopup removeAllItems];
-	[calculationTargetPopup removeAllItems];
+//	[calculationSourcePopup removeAllItems];
+//	[calculationTargetPopup removeAllItems];
 	
 	// new headers, new bindings
 	NSInteger numHeaders = [document numColumns];
@@ -194,8 +163,8 @@
 			[mainTable addTableColumn:tableColumn];
 			
 			// update popups
-			[calculationSourcePopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
-			[calculationTargetPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
+//			[calculationSourcePopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
+//			[calculationTargetPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
 		}
 		
 		// loop columns again to bind them - must be done after adding to prevent a "was mutated while being enumerated" error

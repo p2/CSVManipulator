@@ -11,7 +11,7 @@
 #import "CSVRow.h"
 #import "CSVColumn.h"
 #import "CSVRowController.h"
-#import "PPExportFormat.h"
+#import "PPStringFormat.h"
 
 
 @interface CSVDocument (Private)
@@ -343,42 +343,30 @@
 
 
 #pragma mark Returning as String
-- (NSString *) stringInFormat:(PPExportFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
+- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
 {
 	if ([columnArray count] < 1) {
 		return @"";
 	}
 	
-	// switch formats (CSV is default)
-	NSString *fieldSeparator = @",";
-	BOOL quoteStrings = YES;
-	NSString *lineSeparator = @"\n";
-	/*
-	switch(format) {
-		case 1:										// Tab
-			fieldSeparator = @"\t";
-			quoteStrings = NO;
-			break;
-			
-		case 2:										// LaTeX
-			fieldSeparator = @" & ";
-			quoteStrings = NO;
-			lineSeparator = @" \\\\\n";
-			break;
-		
-		case 3:										// SQL
-			break;
+	if (nil == format) {
+		format = [PPStringFormat csvFormat];
 	}
-	*/
-	NSMutableString *csv = [NSMutableString string];
 	
-	// write headers
+	
+	// extract keys from column objects
+	NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columnArray count]];
+	for (CSVColumn *column in columnArray) {
+		[columnKeys addObject:column.key];
+	}
+	
+	// get header row
+	NSArray *headerRows = nil;
 	if(headerFlag && (nil != headerRow)) {
-		[csv appendString:[headerRow valuesForColumns:columnArray combinedByString:fieldSeparator quoted:quoteStrings]];
-		[csv appendString:lineSeparator];
+		headerRows = [NSArray arrayWithObject:headerRow];
 	}
 	
-	// get desired rows
+	// get desired row indexes if not given
 	if (nil == rowIndexes) {
 		if (NSNotFound == [rowController selectionIndex]) {
 			NSRange fullRange = NSMakeRange(0, [rows count]);
@@ -390,13 +378,9 @@
 	}
 	NSArray *exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
 	
-	// write rows
-	for (CSVRow *row in exportRows) {
-		[csv appendString:[row valuesForColumns:columnArray combinedByString:fieldSeparator quoted:quoteStrings]];
-		[csv appendString:lineSeparator];
-	}
 	
-	return csv;
+	// get the string from the formatter
+	return [format stringForRows:exportRows headerRows:headerRows withKeys:columnKeys];
 }
 #pragma mark -
 
