@@ -20,6 +20,8 @@
 {
 	self = [super init];
 	if (nil != self) {
+		sortPriority = 1;
+		
 		self.headerCheckbox = [[[NSButtonCell alloc] init] autorelease];
 		[headerCheckbox setButtonType:NSSwitchButton];
 		[headerCheckbox setControlSize:NSSmallControlSize];
@@ -63,11 +65,20 @@
 {
 	[headerTextfield setStringValue:newString];
 }
+
+- (BOOL) isChecked
+{
+	return (NSOnState == [headerCheckbox state]);
+}
+- (void) setChecked:(BOOL)flag
+{
+	[headerCheckbox setState:(flag ? NSOnState : NSOffState)];
+}
 #pragma mark -
 
 
 
-#pragma mark Mouse Tracking
+#pragma mark Mouse and state tracking
 /*
 - (BOOL) startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView
 {
@@ -86,6 +97,14 @@
 	}
 }
 //	*/
+
+-(void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority
+{
+	sortAscending = ascending;
+	sortPriority = priority;
+	
+	[(NSControl *)[self controlView] updateCell:self];
+}
 #pragma mark -
 
 
@@ -93,8 +112,47 @@
 #pragma mark Drawing
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
-	[headerCheckbox setState:(self.isChecked) ? 1 : 0];
+	// get appropriate gradient colors
+	//[super drawWithFrame:cellFrame inView:controlView];
+	// TODO: Put this outside of drawWithFrame:
+	NSColor *topColor, *bottomColor;
+	if (NSOnState == [self state]) {										// being clicked on
+		topColor = [NSColor colorWithDeviceWhite:0.74 alpha:1.0];
+		bottomColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
+	}
+	else if (0 == sortPriority) {											// active sorting column
+		NSColor *selectedColor = [NSColor selectedTextBackgroundColor];
+		topColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor whiteColor]];
+		bottomColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor blackColor]];
+	}
+	else {																	// idle
+		topColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+		bottomColor = [NSColor colorWithDeviceWhite:0.74 alpha:1.0];
+	}
 	
+	// create and draw the gradient
+	const CGFloat locations[2] = { 0.0, 1.0 };
+	NSArray *color_array = [NSArray arrayWithObjects:topColor, bottomColor, nil];
+	NSGradient *gradient = [[NSGradient alloc] initWithColors:color_array atLocations:locations colorSpace:[(NSColor *)[color_array objectAtIndex:0] colorSpace]];
+	[gradient drawInRect:cellFrame angle:90.0];
+	
+	// draw the divider
+	[[NSColor grayColor] set];
+	NSRect dividerRect = NSMakeRect(cellFrame.origin.x + cellFrame.size.width - 1.0, 0.0, 1.0, cellFrame.size.height);
+	NSRectFill(dividerRect);
+	
+	// draw interior
+	[self drawInteriorWithFrame:cellFrame inView:controlView];
+}
+
+- (void) highlight:(BOOL)flag withFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
+	[self setHighlighted:flag];
+	[self drawWithFrame:cellFrame inView:controlView];
+}
+
+- (void) drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
 	// rects and cells
 	NSRect buttonFrame = cellFrame;
 	buttonFrame.size.width = 20.0;
@@ -106,18 +164,12 @@
 	textFrame.origin.x += 20;
 	textFrame.size.width -= 20 + sortIndicator.size.width;
 	
-	// draw the background, the checkbox and the text
-	[super drawWithFrame:cellFrame inView:controlView];
+	// draw
 	[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
 	[headerTextfield drawWithFrame:textFrame inView:controlView];
+	
+	[self drawSortIndicatorWithFrame:cellFrame inView:controlView ascending:sortAscending priority:sortPriority];
 }
-
-- (void) highlight:(BOOL)flag withFrame:(NSRect)cellFrame inView:(NSView *)controlView
-{
-	[self setHighlighted:flag];
-	[self drawWithFrame:cellFrame inView:controlView];
-}
-
 
 
 @end

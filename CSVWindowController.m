@@ -42,6 +42,13 @@
 
 - (void) awakeFromNib
 {
+	//--
+	NSTableHeaderView *tableHeader = [mainTable headerView];
+	NSRect frame = [tableHeader frame];
+	frame.size.height = 30.0;
+	[tableHeader setFrame:frame];
+	//--
+	
 	NSNumber *top_border_width = [NSNumber numberWithInt:1];
 	mainToolbar.borderWidths = [NSArray arrayWithObjects:top_border_width, [NSNull null], [NSNull null], [NSNull null], nil];
 	
@@ -115,7 +122,7 @@
 - (void) didRestoreOriginalOrder
 {
 	[mainTable setSortDescriptors:nil];
-	[mainTable reallySetSortDescriptors];		// necessary since we have overridden setSortDescriptors:
+	[mainTable reallySetSortDescriptorsWithColumn:nil];		// necessary since we have overridden setSortDescriptors:
 }
 #pragma mark -
 
@@ -218,7 +225,8 @@
 		
 		// hit the column header title
 		else {
-			[(DataTableView *)tableView reallySetSortDescriptors];
+			// TODO: Improve
+			[(DataTableView *)tableView reallySetSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
 			[document setDataIsAtOriginalOrder:NO];
 		}
 	}

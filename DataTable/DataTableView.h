@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "MyDocument.h"
-@class CSVRowController;
+@class DataTableColumn;
 
 
 @interface DataTableView : NSTableView {
@@ -18,6 +18,6 @@
 - (void) drawRow:(NSInteger) rowIndex clipRect:(NSRect) clipRect;
 
 - (void) setSortDescriptors:(NSArray *) array;
-- (void) reallySetSortDescriptors;
+- (void) reallySetSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
 
 @end
