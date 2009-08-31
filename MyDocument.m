@@ -68,7 +68,7 @@
 - (PPStringFormat *) documentFormat
 {
 	if (nil == documentFormat) {
-		self.documentFormat = [PPStringFormat flatXMLFormat];
+		self.documentFormat = [PPStringFormat csvFormat];
 	}
 	
 	return documentFormat;
@@ -140,7 +140,12 @@
 	NSAutoreleasePool *detachPool = [[NSAutoreleasePool alloc] init];
 	NSError *error;
 	
-	[csvDocument parseCSVString:string maxRows:0 error:&error];
+	if ([csvDocument parseCSVString:string maxRows:0 error:&error]) {
+		self.documentFormat = [PPStringFormat csvFormat];
+	}
+	else {
+		[self presentError:error];
+	}
 	
 	[detachPool release];
 }
@@ -181,11 +186,11 @@
 	// use "lastChoiceExportFormat" after window closed!
 	NSString *csvString = [self stringInFormat:self.documentFormat allRows:YES allColumns:YES];
 	NSLog(@"-----\n%@-----", csvString);
-	return NO;
 	
 	// save file
-	BOOL success = [csvString writeToURL:absoluteURL atomically:NO encoding:NSUTF8StringEncoding error:outError];
+	BOOL success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
 	self.documentEdited = !success;
+	
 	return success;
 }
 
@@ -275,6 +280,11 @@
 	if (!documentLoaded) {
 		csvDocument.mustAbortImport = YES;
 	}
+}
+
+- (void) setColumnOrder:(NSArray *)newOrder
+{
+	[csvDocument setColumnOrderByKeys:newOrder];
 }
 #pragma mark -
 

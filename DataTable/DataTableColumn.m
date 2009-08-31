@@ -13,12 +13,15 @@
 
 @implementation DataTableColumn
 
+@synthesize headerCell;
+
+
 - (id) init
-{	
+{
 	self = [super init];
 	if (nil != self) {
-		[self setHeaderCell:[[[DataTableHeaderCell alloc] init] autorelease]];
-		[self headerCell].checked = YES;
+		self.headerCell = [[[DataTableHeaderCell alloc] init] autorelease];
+		headerCell.checked = YES;
 	}
 	
 	return self;
@@ -26,21 +29,11 @@
 
 - (void) dealloc
 {
+	self.headerCell = nil;
+	
 	[super dealloc];
 }
 #pragma mark -
-
-
-
-#pragma mark KVC
-- (DataTableHeaderCell *) headerCell
-{
-	return [super headerCell];
-}
-- (void) setHeaderCell:(DataTableHeaderCell *)newHeaderCell
-{
-	[super setHeaderCell:newHeaderCell];
-}
 
 
 @end

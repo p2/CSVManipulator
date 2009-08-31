@@ -61,6 +61,8 @@
 - (void) restoreOriginalOrder;
 - (void) abortImport;
 
+- (void) setColumnOrder:(NSArray *)newOrder;		// awaits an array of column keys
+
 // Clipboard and Files
 - (NSArray *) writablePasteboardTypes;
 - (NSArray *) fileSuffixesForFormat:(PPStringFormat *)format;

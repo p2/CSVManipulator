@@ -80,7 +80,7 @@
 
 #pragma mark Generic
 - (void) dealloc
-{	
+{
 	[sortDescriptorsArray release];
 	
 	[super dealloc];

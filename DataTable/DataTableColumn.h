@@ -11,11 +11,10 @@
 
 
 @interface DataTableColumn : NSTableColumn {
-
+	DataTableHeaderCell *headerCell;
 }
 
-- (DataTableHeaderCell *) headerCell;
-- (void) setHeaderCell:(DataTableHeaderCell *)newHeaderCell;
+@property (nonatomic, retain) DataTableHeaderCell *headerCell;
 
 
 @end

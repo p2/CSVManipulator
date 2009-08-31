@@ -24,8 +24,8 @@
 	NSNumber *numRows;
 	CSVRowController *rowController;
 	
-	NSArray *columns;
-	NSDictionary *columnDict;
+	NSArray *columns;					// needs to be an array to preserve column order
+	NSDictionary *columnDict;			// readonly to allow fast access to columns by key
 	
 	BOOL parseSuccessful;
 	BOOL autoDetectSeparator;			// if YES will check for other separators (";" and TAB) than the comma
@@ -58,20 +58,23 @@
 + (id) csvDocument;
 - (void) setNumRowsWithInt:(NSInteger)num_rows;
 - (NSUInteger) numRowsToExpect:(NSString *)string;
-- (void) parseCSVString:(NSString *)string error:(NSError **)error;
-- (void) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error;
+- (BOOL) parseCSVString:(NSString *)string error:(NSError **)error;
+- (BOOL) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error;
 - (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag;
 
-// Retrieving data
+// column handling
 - (void) changeHeaderRow:(CSVRow *)newHeaderRow;
+- (void) setNewColumns:(NSArray *)newColumns;
 - (BOOL) isFirstColumnKey:(NSString *)columnKey;
 - (BOOL) hasColumnKey:(NSString *)columnKey;
+- (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
 
 - (NSString *) nameForColumn:(NSString *)columnKey;
 - (NSString *) nameForColumn:(NSString *)columnKey quoted:(BOOL)quoted;
 - (void) setHeaderName:(NSString *)newName forColumnKey:(NSString *)columnKey;
 - (void) setHeaderActive:(BOOL)active forColumnKey:(NSString *)columnKey;
 
+// row handling
 - (CSVRow *) rowAtIndex:(NSUInteger)rowIndex;
 
 

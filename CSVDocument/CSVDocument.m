@@ -25,7 +25,8 @@
 @implementation CSVDocument
 
 @synthesize delegate, separator, rows, numRows, columnDict, rowController, parseSuccessful, autoDetectSeparator, headerRow, mustAbortImport, didAbortImport;
-@dynamic columns, firstRowIsHeaderRow;
+@synthesize columns;
+@dynamic firstRowIsHeaderRow;
 
 
 - (id) init
@@ -33,7 +34,7 @@
 	self = [super init];
 	if (nil != self) {
 		self.separator = @",";
-		self.columns = [NSArray arrayWithObject:[CSVColumn columnWithKey:@"col_0"]];
+		[self setNewColumns:[NSArray arrayWithObject:[CSVColumn columnWithKey:@"col_0"]]];
 		self.rows = [NSMutableArray array];
 		self.rowController = [[[CSVRowController alloc] initWithContent:rows] autorelease];
 		rowController.document = self;
@@ -63,27 +64,6 @@
 
 
 #pragma mark  KVC
-- (NSArray *) columns
-{
-	return columns;
-}
-- (void) setColumns:(NSArray *)newColumns
-{
-	if (newColumns != columns) {
-		[columns release];
-		columns = [newColumns retain];
-		
-		// we also represent the columns in a hash, mostly due to faster access and bindability
-		if (nil != columns) {
-			NSMutableDictionary *columnHash = [NSMutableDictionary dictionaryWithCapacity:[columns count]];
-			for (CSVColumn *column in columns) {
-				[columnHash setObject:column forKey:column.key];
-			}
-			[self setColumnDict:columnHash];
-		}
-	}
-}
-
 - (void) setColumnDict:(NSDictionary *)newColumnDict
 {
 	if (newColumnDict != columnDict) {
@@ -137,12 +117,12 @@
 	return [[string componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] count];
 }
 
-- (void) parseCSVString:(NSString *)string error:(NSError **)error
+- (BOOL) parseCSVString:(NSString *)string error:(NSError **)error
 {
-	[self parseCSVString:string maxRows:0 error:error];
+	return [self parseCSVString:string maxRows:0 error:error];
 }
 
-- (void) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error
+- (BOOL) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error
 {
 	NSUInteger num_rows = 0;
 	BOOL success = YES;
@@ -313,14 +293,14 @@
 		[innerPool release];
 		
 		// finished scanning our string; make first row the headerRow
-		self.columns = newColumns;
+		[self setNewColumns:newColumns];
 		if ([rows count] > 0) {
 			[self changeHeaderRow:[rows objectAtIndex:0]];
 		}
 	}
 	
 	// empty string
-	else if (nil != error) {
+	else {
 		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:@"userInfo"];
 		*error = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:errorDict];
 		success = NO;
@@ -337,6 +317,8 @@
 	if (nil != delegate) {
 		[delegate csvDocumentDidParseString:self];
 	}
+	
+	return success;
 }
 #pragma mark -
 
@@ -403,6 +385,22 @@
 	}
 }
 
+- (void) setNewColumns:(NSArray *)newColumns
+{
+	if (columns != newColumns) {
+		self.columns = newColumns;
+		
+		// we also represent the columns in a hash, mostly due to faster access and bindability
+		if (nil != newColumns) {
+			NSMutableDictionary *columnHash = [NSMutableDictionary dictionaryWithCapacity:[columns count]];
+			for (CSVColumn *column in columns) {
+				[columnHash setObject:column forKey:column.key];
+			}
+			[self setColumnDict:columnHash];
+		}
+	}
+}
+
 - (BOOL) isFirstColumnKey:(NSString *)columnKey
 {
 	if ((nil != columns) && ([columns count] > 0)) {
@@ -417,6 +415,21 @@
 {
 	return (nil != [columnDict objectForKey:columnKey]);
 }
+
+- (void) setColumnOrderByKeys:(NSArray *)newOrderKeys
+{
+	NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[newOrderKeys count]];
+	for (NSString *columnKey in newOrderKeys) {
+		CSVColumn *column = [columnDict objectForKey:columnKey];
+		if (nil != column) {
+			[arr addObject:column];
+		}
+	}
+	
+	self.columns = arr;
+	NSLog(@"columns: %@", columns);
+}
+
 
 - (NSString *) nameForColumn:(NSString *)columnKey
 {	

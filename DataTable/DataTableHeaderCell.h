@@ -11,13 +11,13 @@
 
 @interface DataTableHeaderCell : NSTableHeaderCell {
 	BOOL checked;
-	NSButtonCell *checkbox;
-	NSTextFieldCell *textfield;
+	NSButtonCell *headerCheckbox;
+	NSTextFieldCell *headerTextfield;
 }
 
 @property (nonatomic, assign, getter=isChecked) BOOL checked;
-
-- (NSButtonCell *) checkbox;
+@property (nonatomic, retain) NSButtonCell *headerCheckbox;
+@property (nonatomic, retain) NSTextFieldCell *headerTextfield;
 
 
 @end

@@ -28,16 +28,6 @@
 @synthesize exportAccessoryView;
 
 
-- (id) init
-{
-	self = [super init];
-	if(nil != self) {
-		
-	}
-	
-	return self;
-}
-
 - (void) dealloc
 {
 	self.document = nil;
@@ -136,6 +126,9 @@
 {
 	// remove OLD columns
 	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
+		[[oldColumn headerCell] unbind:@"stringValue"];
+		[[oldColumn headerCell] unbind:@"checked"];
+		[oldColumn unbind:@"value"];
 		[mainTable removeTableColumn:oldColumn];
 	}
 	
@@ -195,6 +188,8 @@
 {
 	NSInteger selected_row = [mainTable selectedRow];
 	if (selected_row >= 0) {
+		
+		// if an empty row was selected, jump into edit mode of the first field
 		if (![document hasAnyDataAtRow:selected_row]) {
 			[mainTable editColumn:0 row:selected_row withEvent:nil select:YES];
 		}
@@ -240,7 +235,7 @@
 			[arr addObject:[col identifier]];
 		}
 		
-//		[document setColumnOrder:arr];
+		//[document setColumnOrder:arr];
 		document.documentEdited = YES;
 	}
 }

@@ -67,7 +67,7 @@
 	self.borderColor = self.borderHighlightColor = self.borderActiveColor = self.borderDisabledColor = [NSColor grayColor];
 	
 	self.baseColor = [NSColor whiteColor];
-	self.highlightColor = [NSColor colorWithDeviceRed:0.4 green:0.9 blue:0.2 alpha:1.0];
+	self.highlightColor = [NSColor colorWithDeviceWhite:0.8 alpha:1.0];
 	self.activeColor = [NSColor selectedTextBackgroundColor];
 	self.disabledColor = [NSColor whiteColor];
 }

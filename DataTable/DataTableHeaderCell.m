@@ -12,18 +12,20 @@
 @implementation DataTableHeaderCell
 
 @synthesize checked;
+@synthesize headerCheckbox;
+@synthesize headerTextfield;
 
 
 - (id) init
 {
 	self = [super init];
 	if (nil != self) {
-		checkbox = [[NSButtonCell alloc] init];
-		[checkbox setButtonType:NSSwitchButton];
-		[checkbox setControlSize:NSSmallControlSize];
+		self.headerCheckbox = [[[NSButtonCell alloc] init] autorelease];
+		[headerCheckbox setButtonType:NSSwitchButton];
+		[headerCheckbox setControlSize:NSSmallControlSize];
 		
-		textfield = [[NSTextFieldCell alloc] init];
-		[textfield setTextColor:[NSColor blackColor]];
+		self.headerTextfield = [[[NSTextFieldCell alloc] init] autorelease];
+		[headerTextfield setTextColor:[NSColor blackColor]];
 	}
 	
 	return self;
@@ -31,8 +33,8 @@
 
 - (void) dealloc
 {
-	[checkbox release];
-	[textfield release];
+	self.headerCheckbox = nil;
+	self.headerTextfield = nil;
 	
 	[super dealloc];
 }
@@ -40,17 +42,26 @@
 - (id) copyWithZone:(NSZone*)zone
 {
 	DataTableHeaderCell *cell = (DataTableHeaderCell *)[super copyWithZone:zone];
-	//cell.checkbox = checkbox;
+	
+	cell->headerCheckbox = nil;
+	cell.headerCheckbox = [headerCheckbox copyWithZone:zone];
+	cell->headerTextfield = nil;
+	cell.headerTextfield = [headerTextfield copyWithZone:zone];
+	
 	return cell;
 }
 #pragma mark -
 
 
 
-#pragma mark KVC
-- (NSButtonCell *) checkbox
+#pragma mark KVC Overrides
+- (NSString *) stringValue
 {
-	return checkbox;
+	return [headerTextfield stringValue];
+}
+- (void) setStringValue:(NSString *)newString
+{
+	[headerTextfield setStringValue:newString];
 }
 #pragma mark -
 
@@ -82,10 +93,7 @@
 #pragma mark Drawing
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
-	NSString *title = [self stringValue];
-	[textfield setStringValue:title];
-	
-	[checkbox setState:(self.isChecked) ? 1 : 0];
+	[headerCheckbox setState:(self.isChecked) ? 1 : 0];
 	
 	// rects and cells
 	NSRect buttonFrame = cellFrame;
@@ -98,47 +106,16 @@
 	textFrame.origin.x += 20;
 	textFrame.size.width -= 20 + sortIndicator.size.width;
 	
-	// no background
-	[self setStringValue:@""];
-	
 	// draw the background, the checkbox and the text
 	[super drawWithFrame:cellFrame inView:controlView];
-	[checkbox drawWithFrame:buttonFrame inView:controlView];
-	[textfield drawWithFrame:textFrame inView:controlView];
-	
-	// and set the title
-	[self setStringValue:title];
+	[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
+	[headerTextfield drawWithFrame:textFrame inView:controlView];
 }
 
 - (void) highlight:(BOOL)flag withFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-	NSString *title = [self stringValue];
-	[textfield setStringValue:title];
 	[self setHighlighted:flag];
-	
-	[checkbox setState:(self.isChecked) ? 1 : 0];
-	
-	// rects and cells
-	NSRect buttonFrame = cellFrame;
-	buttonFrame.size.width = 20.0;
-	
-	NSRect sortIndicator = [self sortIndicatorRectForBounds:cellFrame];
-	
-	NSRect textFrame;
-	textFrame = cellFrame;
-	textFrame.origin.x += 20;
-	textFrame.size.width -= 20 + sortIndicator.size.width;
-	
-	// no background
-	[self setStringValue: @""];
-
-	// draw the background, the checkbox and the text
-	[super highlight:flag withFrame:cellFrame inView:controlView];
-	[checkbox drawWithFrame:buttonFrame inView:controlView];
-	[textfield drawWithFrame:textFrame inView:controlView];
-	
-	// set the title
-	[self setStringValue:title];
+	[self drawWithFrame:cellFrame inView:controlView];
 }
 
 
