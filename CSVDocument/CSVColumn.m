@@ -22,6 +22,14 @@
 	
 	return column;
 }
+
+- (void) dealloc
+{
+	self.key = nil;
+	self.name = nil;
+	
+	[super dealloc];
+}
 #pragma mark -
 
 

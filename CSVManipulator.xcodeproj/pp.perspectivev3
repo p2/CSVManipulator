@@ -200,8 +200,8 @@
 	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
-		<integer>1402</integer>
-		<integer>1402</integer>
+		<integer>1372</integer>
+		<integer>1372</integer>
 	</array>
 	<key>Perspectives</key>
 	<array>
@@ -210,9 +210,7 @@
 			<array>
 				<string>XCToolbarPerspectiveControl</string>
 				<string>NSToolbarSeparatorItem</string>
-				<string>active-buildstyle-popup</string>
-				<string>active-target-popup</string>
-				<string>active-platform-popup</string>
+				<string>active-combo-popup</string>
 				<string>NSToolbarFlexibleSpaceItem</string>
 				<string>buildOrClean</string>
 				<string>build-and-goOrGo</string>
@@ -279,14 +277,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>42</integer>
-									<integer>36</integer>
+									<integer>7</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {227, 841}}</string>
+							<string>{{0, 0}, {227, 776}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -296,7 +293,7 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {244, 859}}</string>
+						<string>{{0, 0}, {244, 794}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>SCMStatusColumn</string>
@@ -305,7 +302,7 @@
 							<real>205</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>138 128 1402 900 0 0 1680 1028 </string>
+						<string>31 43 1372 835 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -323,7 +320,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>EEF027910D6D8015000532A4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>DataTableHeaderCell.m</string>
+								<string>CSVDocument.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +328,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>EEF027920D6D8015000532A4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>DataTableHeaderCell.m</string>
+										<string>CSVDocument.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>EE90E490104C36E5006A65FC</string>
+										<string>EECDBB96104DA80900260BC7</string>
 										<key>history</key>
 										<array>
 											<string>EECAA3C10D803E5200AE2D4A</string>
@@ -351,7 +348,6 @@
 											<string>EE9E241410482B3300554687</string>
 											<string>EE9E24901048392600554687</string>
 											<string>EE64B60C1049E8A1000DF5D2</string>
-											<string>EE64B6821049F133000DF5D2</string>
 											<string>EE64B6D8104A8803000DF5D2</string>
 											<string>EE64B712104AADA2000DF5D2</string>
 											<string>EE64B713104AADA2000DF5D2</string>
@@ -370,24 +366,11 @@
 											<string>EECDB98B104AC66700260BC7</string>
 											<string>EECDB98C104AC66700260BC7</string>
 											<string>EECDB98D104AC66700260BC7</string>
-											<string>EECDB9A9104AC6CD00260BC7</string>
-											<string>EE90DF97104BD95A006A65FC</string>
-											<string>EE90E2C1104C1983006A65FC</string>
-											<string>EE90E2DF104C1AFB006A65FC</string>
-											<string>EE90E31B104C1D8B006A65FC</string>
-											<string>EE90E33D104C1ED3006A65FC</string>
-											<string>EE90E36D104C20A6006A65FC</string>
-											<string>EE90E36E104C20A6006A65FC</string>
-											<string>EE90E3A8104C2797006A65FC</string>
-											<string>EE90E3AA104C2797006A65FC</string>
-											<string>EE90E3AB104C2797006A65FC</string>
-											<string>EE90E40F104C3134006A65FC</string>
-											<string>EE90E410104C3134006A65FC</string>
-											<string>EE90E458104C3441006A65FC</string>
-											<string>EE90E459104C3441006A65FC</string>
-											<string>EE90E467104C34A2006A65FC</string>
-											<string>EE90E489104C36D8006A65FC</string>
-											<string>EE90E48F104C36E4006A65FC</string>
+											<string>EECDBB8D104DA80900260BC7</string>
+											<string>EECDBB8E104DA80900260BC7</string>
+											<string>EECDBB8F104DA80900260BC7</string>
+											<string>EECDBB90104DA80900260BC7</string>
+											<string>EECDBB91104DA80900260BC7</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -441,234 +424,10 @@
 											<string>EE64B73B104AADA2000DF5D2</string>
 											<string>EE64B741104AADA2000DF5D2</string>
 											<string>EE64B747104AADA2000DF5D2</string>
-											<string>EE90DF99104BD95A006A65FC</string>
-											<string>EE90DF9A104BD95A006A65FC</string>
-											<string>EE90DF9B104BD95A006A65FC</string>
-											<string>EE90DFA6104BD9D8006A65FC</string>
-											<string>EE90DFD4104BE85D006A65FC</string>
-											<string>EE90DFD5104BE85D006A65FC</string>
-											<string>EE90DFDF104BE932006A65FC</string>
-											<string>EE90DFE0104BE932006A65FC</string>
-											<string>EE90DFE1104BE932006A65FC</string>
-											<string>EE90DFE2104BE932006A65FC</string>
-											<string>EE90DFF0104BE9E5006A65FC</string>
-											<string>EE90DFF1104BE9E5006A65FC</string>
-											<string>EE90DFF2104BE9E5006A65FC</string>
-											<string>EE90DFF3104BE9E5006A65FC</string>
-											<string>EE90DFF4104BE9E5006A65FC</string>
-											<string>EE90E005104BEADE006A65FC</string>
-											<string>EE90E006104BEADE006A65FC</string>
-											<string>EE90E007104BEADE006A65FC</string>
-											<string>EE90E008104BEADE006A65FC</string>
-											<string>EE90E013104BEB96006A65FC</string>
-											<string>EE90E014104BEB96006A65FC</string>
-											<string>EE90E015104BEB96006A65FC</string>
-											<string>EE90E016104BEB96006A65FC</string>
-											<string>EE90E017104BEB96006A65FC</string>
-											<string>EE90E018104BEB96006A65FC</string>
-											<string>EE90E019104BEB96006A65FC</string>
-											<string>EE90E023104BEBF2006A65FC</string>
-											<string>EE90E024104BEBF2006A65FC</string>
-											<string>EE90E02E104BEC5C006A65FC</string>
-											<string>EE90E03C104BEC95006A65FC</string>
-											<string>EE90E03D104BEC95006A65FC</string>
-											<string>EE90E052104BED36006A65FC</string>
-											<string>EE90E053104BED36006A65FC</string>
-											<string>EE90E05C104BEDE9006A65FC</string>
-											<string>EE90E05D104BEDE9006A65FC</string>
-											<string>EE90E066104BEE06006A65FC</string>
-											<string>EE90E07A104BEF47006A65FC</string>
-											<string>EE90E07B104BEF47006A65FC</string>
-											<string>EE90E07C104BEF47006A65FC</string>
-											<string>EE90E07D104BEF47006A65FC</string>
-											<string>EE90E07E104BEF47006A65FC</string>
-											<string>EE90E07F104BEF47006A65FC</string>
-											<string>EE90E087104BEFFA006A65FC</string>
-											<string>EE90E088104BEFFA006A65FC</string>
-											<string>EE90E09D104BF1FE006A65FC</string>
-											<string>EE90E09E104BF1FE006A65FC</string>
-											<string>EE90E09F104BF1FE006A65FC</string>
-											<string>EE90E0A0104BF1FE006A65FC</string>
-											<string>EE90E0A1104BF1FE006A65FC</string>
-											<string>EE90E0A9104BF210006A65FC</string>
-											<string>EE90E0B7104BF230006A65FC</string>
-											<string>EE90E0C6104BF3B5006A65FC</string>
-											<string>EE90E0C7104BF3B5006A65FC</string>
-											<string>EE90E0C8104BF3B5006A65FC</string>
-											<string>EE90E0EC104BF683006A65FC</string>
-											<string>EE90E0ED104BF683006A65FC</string>
-											<string>EE90E0F7104BF717006A65FC</string>
-											<string>EE90E0F8104BF717006A65FC</string>
-											<string>EE90E107104BF79E006A65FC</string>
-											<string>EE90E108104BF79E006A65FC</string>
-											<string>EE90E109104BF79E006A65FC</string>
-											<string>EE90E131104BF90E006A65FC</string>
-											<string>EE90E132104BF90E006A65FC</string>
-											<string>EE90E133104BF90E006A65FC</string>
-											<string>EE90E134104BF90E006A65FC</string>
-											<string>EE90E142104BFAE7006A65FC</string>
-											<string>EE90E143104BFAE7006A65FC</string>
-											<string>EE90E144104BFAE7006A65FC</string>
-											<string>EE90E152104BFB8F006A65FC</string>
-											<string>EE90E153104BFB8F006A65FC</string>
-											<string>EE90E154104BFB8F006A65FC</string>
-											<string>EE90E155104BFB8F006A65FC</string>
-											<string>EE90E156104BFB8F006A65FC</string>
-											<string>EE90E157104BFB8F006A65FC</string>
-											<string>EE90E170104BFCAA006A65FC</string>
-											<string>EE90E171104BFCAA006A65FC</string>
-											<string>EE90E172104BFCAA006A65FC</string>
-											<string>EE90E173104BFCAA006A65FC</string>
-											<string>EE90E184104BFD25006A65FC</string>
-											<string>EE90E185104BFD25006A65FC</string>
-											<string>EE90E18D104BFD52006A65FC</string>
-											<string>EE90E18E104BFD52006A65FC</string>
-											<string>EE90E19C104BFD98006A65FC</string>
-											<string>EE90E1A0104BFDF6006A65FC</string>
-											<string>EE90E1AC104BFF08006A65FC</string>
-											<string>EE90E1AD104BFF08006A65FC</string>
-											<string>EE90E1B5104C0042006A65FC</string>
-											<string>EE90E1B6104C0042006A65FC</string>
-											<string>EE90E1B7104C0042006A65FC</string>
-											<string>EE90E1B8104C0042006A65FC</string>
-											<string>EE90E1B9104C0042006A65FC</string>
-											<string>EE90E1C0104C005C006A65FC</string>
-											<string>EE90E1C1104C005C006A65FC</string>
-											<string>EE90E1CA104C00E8006A65FC</string>
-											<string>EE90E1CB104C00E8006A65FC</string>
-											<string>EE90E20A104C03D7006A65FC</string>
-											<string>EE90E20B104C03D7006A65FC</string>
-											<string>EE90E244104C0D83006A65FC</string>
-											<string>EE90E245104C0D83006A65FC</string>
-											<string>EE90E246104C0D83006A65FC</string>
-											<string>EE90E247104C0D83006A65FC</string>
-											<string>EE90E248104C0D83006A65FC</string>
-											<string>EE90E251104C0FB2006A65FC</string>
-											<string>EE90E252104C0FB2006A65FC</string>
-											<string>EE90E253104C0FB2006A65FC</string>
-											<string>EE90E254104C0FB2006A65FC</string>
-											<string>EE90E25F104C130F006A65FC</string>
-											<string>EE90E260104C130F006A65FC</string>
-											<string>EE90E261104C130F006A65FC</string>
-											<string>EE90E262104C130F006A65FC</string>
-											<string>EE90E263104C130F006A65FC</string>
-											<string>EE90E264104C130F006A65FC</string>
-											<string>EE90E265104C130F006A65FC</string>
-											<string>EE90E266104C130F006A65FC</string>
-											<string>EE90E267104C130F006A65FC</string>
-											<string>EE90E268104C130F006A65FC</string>
-											<string>EE90E27B104C1682006A65FC</string>
-											<string>EE90E27C104C1682006A65FC</string>
-											<string>EE90E27D104C1682006A65FC</string>
-											<string>EE90E27E104C1682006A65FC</string>
-											<string>EE90E27F104C1682006A65FC</string>
-											<string>EE90E280104C1682006A65FC</string>
-											<string>EE90E281104C1682006A65FC</string>
-											<string>EE90E282104C1682006A65FC</string>
-											<string>EE90E283104C1682006A65FC</string>
-											<string>EE90E284104C1682006A65FC</string>
-											<string>EE90E285104C1682006A65FC</string>
-											<string>EE90E286104C1682006A65FC</string>
-											<string>EE90E287104C1682006A65FC</string>
-											<string>EE90E288104C1682006A65FC</string>
-											<string>EE90E289104C1682006A65FC</string>
-											<string>EE90E28A104C1682006A65FC</string>
-											<string>EE90E28B104C1682006A65FC</string>
-											<string>EE90E28C104C1682006A65FC</string>
-											<string>EE90E28D104C1682006A65FC</string>
-											<string>EE90E28E104C1682006A65FC</string>
-											<string>EE90E299104C17D2006A65FC</string>
-											<string>EE90E29A104C17D2006A65FC</string>
-											<string>EE90E29B104C17D2006A65FC</string>
-											<string>EE90E29C104C17D2006A65FC</string>
-											<string>EE90E29D104C17D2006A65FC</string>
-											<string>EE90E2B1104C188A006A65FC</string>
-											<string>EE90E2C3104C1983006A65FC</string>
-											<string>EE90E2C4104C1983006A65FC</string>
-											<string>EE90E2CD104C19AC006A65FC</string>
-											<string>EE90E2E1104C1AFB006A65FC</string>
-											<string>EE90E2E2104C1AFB006A65FC</string>
-											<string>EE90E2E9104C1B41006A65FC</string>
-											<string>EE90E2F3104C1B80006A65FC</string>
-											<string>EE90E30C104C1D04006A65FC</string>
-											<string>EE90E30D104C1D04006A65FC</string>
-											<string>EE90E30E104C1D04006A65FC</string>
-											<string>EE90E30F104C1D04006A65FC</string>
-											<string>EE90E310104C1D04006A65FC</string>
-											<string>EE90E311104C1D04006A65FC</string>
-											<string>EE90E312104C1D04006A65FC</string>
-											<string>EE90E313104C1D04006A65FC</string>
-											<string>EE90E314104C1D04006A65FC</string>
-											<string>EE90E315104C1D04006A65FC</string>
-											<string>EE90E316104C1D04006A65FC</string>
-											<string>EE90E31C104C1D8B006A65FC</string>
-											<string>EE90E31D104C1D8B006A65FC</string>
-											<string>EE90E332104C1EB6006A65FC</string>
-											<string>EE90E339104C1EC4006A65FC</string>
-											<string>EE90E33F104C1ED3006A65FC</string>
-											<string>EE90E350104C1F30006A65FC</string>
-											<string>EE90E351104C1F30006A65FC</string>
-											<string>EE90E35A104C1F6C006A65FC</string>
-											<string>EE90E362104C2011006A65FC</string>
-											<string>EE90E370104C20A6006A65FC</string>
-											<string>EE90E371104C20A6006A65FC</string>
-											<string>EE90E37A104C20C9006A65FC</string>
-											<string>EE90E37B104C20C9006A65FC</string>
-											<string>EE90E37F104C20E9006A65FC</string>
-											<string>EE90E389104C2149006A65FC</string>
-											<string>EE90E38A104C2149006A65FC</string>
-											<string>EE90E38B104C2149006A65FC</string>
-											<string>EE90E397104C2393006A65FC</string>
-											<string>EE90E398104C2393006A65FC</string>
-											<string>EE90E39C104C23B9006A65FC</string>
-											<string>EE90E3AD104C2797006A65FC</string>
-											<string>EE90E3AE104C2797006A65FC</string>
-											<string>EE90E3AF104C2797006A65FC</string>
-											<string>EE90E3B0104C2797006A65FC</string>
-											<string>EE90E3B1104C2797006A65FC</string>
-											<string>EE90E3B2104C2797006A65FC</string>
-											<string>EE90E3B3104C2797006A65FC</string>
-											<string>EE90E3B4104C2797006A65FC</string>
-											<string>EE90E3B5104C2797006A65FC</string>
-											<string>EE90E3B6104C2797006A65FC</string>
-											<string>EE90E3B7104C2797006A65FC</string>
-											<string>EE90E3B8104C2797006A65FC</string>
-											<string>EE90E3B9104C2797006A65FC</string>
-											<string>EE90E3BA104C2797006A65FC</string>
-											<string>EE90E3BB104C2797006A65FC</string>
-											<string>EE90E3BC104C2797006A65FC</string>
-											<string>EE90E3BD104C2797006A65FC</string>
-											<string>EE90E404104C2FD7006A65FC</string>
-											<string>EE90E405104C2FD7006A65FC</string>
-											<string>EE90E406104C2FD7006A65FC</string>
-											<string>EE90E407104C2FD7006A65FC</string>
-											<string>EE90E408104C2FD7006A65FC</string>
-											<string>EE90E409104C2FD7006A65FC</string>
-											<string>EE90E413104C3134006A65FC</string>
-											<string>EE90E414104C3134006A65FC</string>
-											<string>EE90E415104C3134006A65FC</string>
-											<string>EE90E416104C3134006A65FC</string>
-											<string>EE90E417104C3134006A65FC</string>
-											<string>EE90E418104C3134006A65FC</string>
-											<string>EE90E419104C3134006A65FC</string>
-											<string>EE90E41A104C3134006A65FC</string>
-											<string>EE90E41B104C3134006A65FC</string>
-											<string>EE90E41C104C3134006A65FC</string>
-											<string>EE90E42E104C3209006A65FC</string>
-											<string>EE90E449104C32CC006A65FC</string>
-											<string>EE90E44A104C32CC006A65FC</string>
-											<string>EE90E44B104C32CC006A65FC</string>
-											<string>EE90E45C104C3441006A65FC</string>
-											<string>EE90E45D104C3441006A65FC</string>
-											<string>EE90E45E104C3441006A65FC</string>
-											<string>EE90E45F104C3441006A65FC</string>
-											<string>EE90E460104C3441006A65FC</string>
-											<string>EE90E461104C3441006A65FC</string>
-											<string>EE90E462104C3441006A65FC</string>
-											<string>EE90E469104C34A2006A65FC</string>
-											<string>EE90E46A104C34A2006A65FC</string>
-											<string>EE90E46B104C34A2006A65FC</string>
-											<string>EE90E48B104C36D8006A65FC</string>
+											<string>EECDBB92104DA80900260BC7</string>
+											<string>EECDBB93104DA80900260BC7</string>
+											<string>EECDBB94104DA80900260BC7</string>
+											<string>EECDBB95104DA80900260BC7</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -682,18 +441,18 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {1153, 854}}</string>
+								<string>{{0, 0}, {1123, 552}}</string>
 								<key>RubberWindowFrame</key>
-								<string>138 128 1402 900 0 0 1680 1028 </string>
+								<string>31 43 1372 835 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>854pt</string>
+							<string>552pt</string>
 						</dict>
 						<dict>
 							<key>Proportion</key>
-							<string>0pt</string>
+							<string>237pt</string>
 							<key>Tabs</key>
 							<array>
 								<dict>
@@ -707,7 +466,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1153, -27}}</string>
+										<string>{{10, 27}, {1123, -27}}</string>
 									</dict>
 									<key>Module</key>
 									<string>XCDetailModule</string>
@@ -723,7 +482,9 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1153, -27}}</string>
+										<string>{{10, 27}, {1123, 210}}</string>
+										<key>RubberWindowFrame</key>
+										<string>31 43 1372 835 0 0 1440 878 </string>
 									</dict>
 									<key>Module</key>
 									<string>PBXProjectFindModule</string>
@@ -732,28 +493,7 @@
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXCVSModuleFilterTypeKey</key>
-										<integer>1031</integer>
-										<key>PBXCVSModuleTreeModuleColumnData</key>
-										<dict>
-											<key>PBXCVSModuleTreeModuleColumnWidthsKey</key>
-											<array>
-												<real>735</real>
-												<real>56.66162109375</real>
-												<real>63</real>
-												<real>60</real>
-												<real>63</real>
-												<real>139.556640625</real>
-											</array>
-											<key>PBXCVSModuleTreeModuleColumnsKey</key>
-											<array>
-												<string>Name</string>
-												<string>Status</string>
-												<string>Update</string>
-												<string>Revision</string>
-												<string>Author</string>
-												<string>Date</string>
-											</array>
-										</dict>
+										<integer>1032</integer>
 										<key>PBXProjectModuleGUID</key>
 										<string>1CA23EE10692099D00951B8B</string>
 										<key>PBXProjectModuleLabel</key>
@@ -762,7 +502,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1153, 229}}</string>
+										<string>{{10, 31}, {603, 297}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXCVSModule</string>
@@ -782,9 +522,7 @@
 									<key>GeometryConfiguration</key>
 									<dict>
 										<key>Frame</key>
-										<string>{{10, 27}, {1153, -27}}</string>
-										<key>RubberWindowFrame</key>
-										<string>138 128 1402 900 0 0 1680 1028 </string>
+										<string>{{10, 27}, {1123, -27}}</string>
 									</dict>
 									<key>Module</key>
 									<string>PBXBuildResultsModule</string>
@@ -793,7 +531,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>1153pt</string>
+					<string>1123pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -812,11 +550,11 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE90DF7D104BD8A6006A65FC</string>
+				<string>EECDB9D9104C6A9C00260BC7</string>
 				<string>1CA23ED40692098700951B8B</string>
-				<string>EE90DF7E104BD8A6006A65FC</string>
+				<string>EECDB9DA104C6A9C00260BC7</string>
 				<string>EEF027910D6D8015000532A4</string>
-				<string>EE90DF7F104BD8A6006A65FC</string>
+				<string>EECDB9DB104C6A9C00260BC7</string>
 				<string>1CA23EDF0692099D00951B8B</string>
 				<string>1CA23EE00692099D00951B8B</string>
 				<string>1CA23EE10692099D00951B8B</string>
@@ -864,12 +602,12 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {1402, 431}}</string>
+						<string>{{0, 0}, {1372, 478}}</string>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugCLIModule</string>
 					<key>Proportion</key>
-					<string>431pt</string>
+					<string>478pt</string>
 				</dict>
 				<dict>
 					<key>ContentConfiguration</key>
@@ -888,8 +626,8 @@
 								<string>yes</string>
 								<key>sizes</key>
 								<array>
-									<string>{{0, 0}, {701, 211}}</string>
-									<string>{{0, 211}, {701, 212}}</string>
+									<string>{{0, 0}, {686, 155}}</string>
+									<string>{{0, 155}, {686, 156}}</string>
 								</array>
 							</dict>
 							<key>VerticalSplitView</key>
@@ -904,8 +642,8 @@
 								<string>yes</string>
 								<key>sizes</key>
 								<array>
-									<string>{{0, 0}, {701, 423}}</string>
-									<string>{{701, 0}, {701, 423}}</string>
+									<string>{{0, 0}, {686, 311}}</string>
+									<string>{{686, 0}, {686, 311}}</string>
 								</array>
 							</dict>
 						</dict>
@@ -925,26 +663,26 @@
 						<key>DebugSTDIOWindowFrame</key>
 						<string>{{200, 200}, {500, 300}}</string>
 						<key>Frame</key>
-						<string>{{0, 436}, {1402, 423}}</string>
+						<string>{{0, 483}, {1372, 311}}</string>
 						<key>PBXDebugSessionStackFrameViewKey</key>
 						<dict>
 							<key>DebugVariablesTableConfiguration</key>
 							<array>
 								<string>Name</string>
-								<real>186</real>
+								<real>120</real>
 								<string>Value</string>
 								<real>85</real>
 								<string>Summary</string>
-								<real>405</real>
+								<real>456</real>
 							</array>
 							<key>Frame</key>
-							<string>{{0, 211}, {701, 212}}</string>
+							<string>{{0, 155}, {686, 156}}</string>
 						</dict>
 					</dict>
 					<key>Module</key>
 					<string>PBXDebugSessionModule</string>
 					<key>Proportion</key>
-					<string>423pt</string>
+					<string>311pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -962,14 +700,14 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>EE90DF8D104BD90F006A65FC</string>
+				<string>EECDBB97104DA80900260BC7</string>
 				<string>1CCC7628064C1048000F2A68</string>
 				<string>1CCC7629064C1048000F2A68</string>
-				<string>EE90DF8E104BD90F006A65FC</string>
-				<string>EE90DF8F104BD90F006A65FC</string>
-				<string>EE90DF90104BD90F006A65FC</string>
-				<string>EE90DF91104BD90F006A65FC</string>
-				<string>EE90DF92104BD90F006A65FC</string>
+				<string>EECDBB98104DA80900260BC7</string>
+				<string>EECDBB99104DA80900260BC7</string>
+				<string>EECDBB9A104DA80900260BC7</string>
+				<string>EECDBB9B104DA80900260BC7</string>
+				<string>EECDBB9C104DA80900260BC7</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -986,7 +724,7 @@
 	<key>TimeStamp</key>
 	<real>0.0</real>
 	<key>ToolbarDisplayMode</key>
-	<integer>1</integer>
+	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
 	<true/>
 	<key>ToolbarSizeMode</key>
@@ -998,13 +736,9 @@
 	<key>WindowJustification</key>
 	<integer>5</integer>
 	<key>WindowOrderList</key>
-	<array>
-		<string>EE90DF9F104BD96F006A65FC</string>
-		<string>EE90DFA0104BD96F006A65FC</string>
-		<string>/Users/pp/Cocoa/CSVManipulator/CSVManipulator.xcodeproj</string>
-	</array>
+	<array/>
 	<key>WindowString</key>
-	<string>138 128 1402 900 0 0 1680 1028 </string>
+	<string>31 43 1372 835 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

@@ -53,7 +53,9 @@
 	self.delegate = nil;
 	self.separator = nil;
 	self.rows = nil;
+	self.numRows = nil;
 	self.columns = nil;
+	[self setColumnDict:nil];
 	self.rowController = nil;
 	self.headerRow = nil;
 	
@@ -167,8 +169,9 @@
 		// ideas for the following block from Drew McCormack >> http://www.macresearch.org/cocoa-scientists-part-xxvi-parsing-csv-data
 		BOOL insideQuotes = NO;				// needed to determine whether we're inside doublequotes
 		BOOL finishedRow = NO;				// used for the inner while loop
+		CSVColumn *columnToRename = nil;	// if not nil will set the key to this column after a cell is finished
 		
-		NSMutableString *currentCellString = [NSMutableString string];
+		NSMutableString *currentCellString = [[NSMutableString alloc] init];
 		NSUInteger colIndex = 0;
 		CSVColumn *column;
 		
@@ -192,7 +195,7 @@
 			
 			CSVRow *newRow = [CSVRow rowForDocument:self];
 			
-			// Scan row up to the next terminator
+			// Scan row up to the next interesting character
 			while (!finishedRow) {
 				NSString *tempString;
 				
@@ -204,37 +207,22 @@
 					column = [CSVColumn columnWithKey:[NSString stringWithFormat:@"col_%i", colIndex]];
 					column.active = YES;
 					[newColumns addObject:column];
+					
+					if (firstRowIsHeaderRow) {
+						columnToRename = column;
+					}
 				}
-				
 				
 				// Scan characters into our string
 				if ([scanner scanUpToCharactersFromSet:importantCharactersSet intoString:&tempString] ) {
 					[currentCellString appendString:tempString];
 				}
 				
-				
-				// found the separator
-				if ([scanner scanString:separator intoString:NULL]) {
-					if (insideQuotes) {		// Separator character inside double quotes
-						[currentCellString appendString:separator];
-					}
-					else {					// This is a column separating comma
-						[newRow setValue:[currentCellString copy] forColumn:column];
-						if (![column hasName]) {
-							column.name = [newRow valueForColumn:column];
-						}
-						
-						// on to the next column/cell!
-						[currentCellString setString:@""];
-						[scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
-						colIndex++;
-					}
-				}
-				
+				// ***
 				
 				// found a doublequote (")
-				else if ([scanner scanString:@"\"" intoString:NULL]) {
-					if (insideQuotes && [scanner scanString:@"\"" intoString:NULL]) { // Replace double - doublequotes with a single doublequote in our string.
+				if ([scanner scanString:@"\"" intoString:NULL]) {
+					if (insideQuotes && [scanner scanString:@"\"" intoString:NULL]) { // Replace double - doublequotes with a single doublequote
 						[currentCellString appendString:@"\""]; 
 					}
 					else {					// Start or end of a quoted string.
@@ -242,6 +230,29 @@
 					}
 				}
 				
+				// found the separator
+				else if ([scanner scanString:separator intoString:NULL]) {
+					if (insideQuotes) {		// Separator character inside double quotes
+						[currentCellString appendString:separator];
+					}
+					else {					// This is a column separating separator
+						[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
+						if (![column hasName]) {
+							column.name = [newRow valueForColumn:column];
+						}
+						if (nil != columnToRename) {
+							columnToRename.key = [newRow valueForColumn:column];
+							columnToRename = nil;
+						}
+						
+						// on to the next column/cell!
+						[currentCellString setString:@""];
+						if (NSNotFound == [separator rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]].location) {
+							[scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+						}
+						colIndex++;
+					}
+				}
 				
 				// found a newline
 				else if ([scanner scanCharactersFromSet:newlineCharacterSet intoString:&tempString]) {
@@ -249,10 +260,15 @@
 						[currentCellString appendString:tempString];
 					}
 					else {					// End of row
-						[newRow setValue:[currentCellString copy] forColumn:column];
+						[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
 						if (![column hasName]) {
 							column.name = [newRow valueForColumn:column];
 						}
+						if (nil != columnToRename) {
+							columnToRename.key = [newRow valueForColumn:column];
+							columnToRename = nil;
+						}
+						
 						finishedRow = YES;
 					}
 				}
@@ -260,10 +276,15 @@
 				
 				// found the end
 				else if ([scanner isAtEnd]) {
-					[newRow setValue:[currentCellString copy] forColumn:column];
+					[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
 					if (![column hasName]) {
 						column.name = [newRow valueForColumn:column];
 					}
+					if (nil != columnToRename) {
+						columnToRename.key = [newRow valueForColumn:column];
+						columnToRename = nil;
+					}
+					
 					finishedRow = YES;
 				}
 			}
@@ -271,7 +292,9 @@
 			
 			// one row scanned - add to the lines array
 			if ([newColumns count] > 0) {
-				[rows addObject:newRow];
+				if (!firstRowIsHeaderRow || (num_rows > 1)) {
+					[rows addObject:newRow];
+				}
 			}
 			
 			num_rows++;
@@ -291,6 +314,7 @@
 		}
 		
 		[innerPool release];
+		[currentCellString release];
 		
 		// finished scanning our string; make first row the headerRow
 		[self setNewColumns:newColumns];
@@ -301,7 +325,7 @@
 	
 	// empty string
 	else {
-		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:@"userInfo"];
+		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:NSLocalizedDescriptionKey];
 		*error = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:errorDict];
 		success = NO;
 	}
@@ -310,7 +334,7 @@
 	[outerPool release];
 	[string release];
 	
-	self.numRows = [NSNumber numberWithInt:num_rows];
+	[self setNumRowsWithInt:num_rows];
 	self.parseSuccessful = success;
 	
 	// tell the delegate
