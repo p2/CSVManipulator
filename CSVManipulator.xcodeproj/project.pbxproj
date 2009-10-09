@@ -15,6 +15,7 @@
 		EE0D3A2A0D6F02350009A7B2 /* DataTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0D3A290D6F02350009A7B2 /* DataTableView.m */; };
 		EE1512200D7F048D0092C02F /* DataTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121D0D7F048D0092C02F /* DataTableColumn.m */; };
 		EE1512210D7F048D0092C02F /* DataTableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */; };
+		EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE219ED4107F849100E28D4D /* DataTableCell.m */; };
 		EE24A39B0D6ECCCB00C251A6 /* CSVRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE24A39A0D6ECCCB00C251A6 /* CSVRowController.m */; };
 		EE2EE5770DFD392B005764C0 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE5760DFD392B005764C0 /* RegexKitLite.m */; };
 		EE2EE5820DFD3B32005764C0 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2EE5810DFD3B32005764C0 /* libicucore.dylib */; };
@@ -58,6 +59,8 @@
 		EE15121D0D7F048D0092C02F /* DataTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableColumn.m; sourceTree = "<group>"; };
 		EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableHeaderCell.h; sourceTree = "<group>"; };
 		EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableHeaderCell.m; sourceTree = "<group>"; };
+		EE219ED3107F849100E28D4D /* DataTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableCell.h; sourceTree = "<group>"; };
+		EE219ED4107F849100E28D4D /* DataTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableCell.m; sourceTree = "<group>"; };
 		EE24A3990D6ECCCB00C251A6 /* CSVRowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRowController.h; sourceTree = "<group>"; };
 		EE24A39A0D6ECCCB00C251A6 /* CSVRowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVRowController.m; sourceTree = "<group>"; };
 		EE2EE5750DFD392B005764C0 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
@@ -220,6 +223,8 @@
 				EE15121D0D7F048D0092C02F /* DataTableColumn.m */,
 				EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */,
 				EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */,
+				EE219ED3107F849100E28D4D /* DataTableCell.h */,
+				EE219ED4107F849100E28D4D /* DataTableCell.m */,
 			);
 			path = DataTable;
 			sourceTree = "<group>";
@@ -347,6 +352,7 @@
 				EE64B697104A80FF000DF5D2 /* CSVInspector.m in Sources */,
 				EE64B6F9104A9648000DF5D2 /* PPStringFormatEntity.m in Sources */,
 				EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */,
+				EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +441,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "./**";
+				OTHER_CFLAGS = "-DCSV_STRING_EXPORTING";
 				PREBINDING = NO;
 				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
 			};

@@ -14,7 +14,10 @@
 
 @implementation CSVRow
 
-@synthesize document, rowValues;
+@synthesize document;
+@synthesize rowValues;
+@synthesize isHeaderRow;
+
 
 + (id) rowForDocument:(CSVDocument *)forDocument
 {
@@ -28,7 +31,7 @@
 {
 	CSVRow *row = [self rowForDocument:forDocument];
 	
-	if(dict) {
+	if (dict) {
 		row.rowValues = dict;
 	}
 	
@@ -112,6 +115,17 @@
 	return nil;
 }
 
+- (BOOL) valueForColumnIsEmpty:(CSVColumn *)column
+{
+	return [self valueForColumnKeyIsEmpty:column.key];
+}
+
+- (BOOL) valueForColumnKeyIsEmpty:(NSString *)columnKey
+{
+	return [@"" isEqualToString:[self valueForColumnKey:columnKey]];
+}
+
+
 - (BOOL) isEmptyRow
 {
 	return ([rowValues count] < 1);
@@ -139,7 +153,7 @@
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@", [self className], self, rowValues];
+	return [NSString stringWithFormat:@"%@ <0x%X>; %@", NSStringFromClass([self class]), self, rowValues];
 }
 
 

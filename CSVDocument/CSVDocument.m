@@ -14,9 +14,10 @@
 #import "PPStringFormat.h"
 
 
-@interface CSVDocument (Private)
+@interface CSVDocument ()
 
 - (void) setColumnDict:(NSDictionary *)newColumnDict;
+- (void) notifyDelegateOfParsedRow:(CSVRow *)newRow;
 
 @end
 
@@ -24,9 +25,22 @@
 
 @implementation CSVDocument
 
-@synthesize delegate, separator, rows, numRows, columnDict, rowController, parseSuccessful, autoDetectSeparator, headerRow, mustAbortImport, didAbortImport;
+@synthesize delegate;
+@synthesize separator;
+@synthesize rows;
+@synthesize numRows;
+@synthesize columnDict;
+#ifndef IPHONE
+@synthesize rowController;
+#endif
+@synthesize parseSuccessful;
+@synthesize autoDetectSeparator;
+@synthesize headerRows;
+@synthesize mustAbortImport;
+@synthesize didAbortImport;
+@synthesize reportEveryRowParsed;
 @synthesize columns;
-@dynamic firstRowIsHeaderRow;
+@dynamic numHeaderRows;
 
 
 - (id) init
@@ -34,10 +48,12 @@
 	self = [super init];
 	if (nil != self) {
 		self.separator = @",";
-		[self setNewColumns:[NSArray arrayWithObject:[CSVColumn columnWithKey:@"col_0"]]];
+		[self addColumn:[CSVColumn columnWithKey:@"col_0"]];
 		self.rows = [NSMutableArray array];
+#ifndef IPHONE
 		self.rowController = [[[CSVRowController alloc] initWithContent:rows] autorelease];
 		rowController.document = self;
+#endif
 	}
 	
 	return self;
@@ -56,8 +72,10 @@
 	self.numRows = nil;
 	self.columns = nil;
 	[self setColumnDict:nil];
+#ifndef IPHONE
 	self.rowController = nil;
-	self.headerRow = nil;
+#endif
+	self.headerRows = nil;
 	
 	[super dealloc];
 }
@@ -74,33 +92,45 @@
 	}
 }
 
-- (BOOL) firstRowIsHeaderRow
+- (NSUInteger) numHeaderRows
 {
-	return firstRowIsHeaderRow;
+	return numHeaderRows;
 }
-- (void) setFirstRowIsHeaderRow:(BOOL)isHeaderRow
+- (void) setNumHeaderRows:(NSUInteger)newNum
 {
-	// copy data from row 0 to the header and remove row 0
-	if (isHeaderRow) {
-		if ([rows count] > 0) {
-			[self changeHeaderRow:[[rowController arrangedObjects] objectAtIndex:0]];
-			[rowController removeObjectAtArrangedObjectIndex:0];
+	// MOVE all current header rows to the body
+	if ([headerRows count] > 0) {
+		for (CSVRow *hr in headerRows) {
+#ifdef IPHONE
+			[rows insertObject:hr atIndex:0];
+#else
+			[rowController insertObject:hr atArrangedObjectIndex:0];
+#endif
+			hr.isHeaderRow = NO;
+			[headerRows removeObject:hr];
 		}
 	}
 	
-	// copy data from the header to a newly inserted row 0
-	else {
-		if (nil != headerRow) {
-			CSVRow *headerCopy = [headerRow copy];
-			[rowController insertObject:headerCopy atArrangedObjectIndex:0];
-			[headerCopy release];
+	// COPY data from the first x rows to the header and remove the rows from the body
+	if (newNum > 0) {
+		NSUInteger i;
+		for (i = 0; i < newNum; i++) {
+			if ([rows count] > i) {
+#ifdef IPHONE
+				[self setHeaderRow:[rows objectAtIndex:i]];
+				[rows removeObjectAtIndex:i];
+#else
+				[self setHeaderRow:[[rowController arrangedObjects] objectAtIndex:i]];
+				[rowController removeObjectAtArrangedObjectIndex:i];
+#endif
+			}
 		}
 	}
 	
 	// update num rows
 	[self setNumRowsWithInt:[rows count]];
 	
-	firstRowIsHeaderRow = isHeaderRow;
+	numHeaderRows = newNum;
 }
 
 - (void) setNumRowsWithInt:(NSInteger)num_rows
@@ -136,10 +166,9 @@
 	// String is non-empty
 	if ([string length] > 0) {
 		[rows removeAllObjects];
-		BOOL sendStatusUpdateToDelegate = (nil != delegate) && [delegate respondsToSelector:@selector(csvDocumentDidParseNumRows:)];
-		
-		// collect the columns
-		NSMutableArray *newColumns = [NSMutableArray array];
+		self.columns = nil;
+		BOOL sendRowUpdateToDelegate = reportEveryRowParsed && [delegate respondsToSelector:@selector(csvDocument:didParseRow:)];
+		BOOL sendStatusUpdateToDelegate = (nil != delegate) && [delegate respondsToSelector:@selector(csvDocument:didParseNumRows:)];
 		
 		// Check whether the file uses ";" or TAB as separator by comparing relative occurrences in the first 200 chars
 		if (autoDetectSeparator) {
@@ -169,8 +198,9 @@
 		// ideas for the following block from Drew McCormack >> http://www.macresearch.org/cocoa-scientists-part-xxvi-parsing-csv-data
 		BOOL insideQuotes = NO;				// needed to determine whether we're inside doublequotes
 		BOOL finishedRow = NO;				// used for the inner while loop
-		CSVColumn *columnToRename = nil;	// if not nil will set the key to this column after a cell is finished
-		
+		BOOL skipWhitespace = (NSNotFound == [separator rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]].location);
+		BOOL isNewColumn = NO;				// will be YES when a new column is created
+		BOOL columnHasName = NO;			// we use a BOOL here to avoid calling [column hasName] all too often
 		NSMutableString *currentCellString = [[NSMutableString alloc] init];
 		NSUInteger colIndex = 0;
 		CSVColumn *column;
@@ -192,6 +222,8 @@
 			finishedRow = NO;
 			[currentCellString setString:@""];
 			colIndex = 0;
+			isNewColumn = NO;
+			columnHasName = NO;
 			
 			CSVRow *newRow = [CSVRow rowForDocument:self];
 			
@@ -199,18 +231,16 @@
 			while (!finishedRow) {
 				NSString *tempString;
 				
-				// get the current column
-				if ([newColumns count] > colIndex) {
-					column = [newColumns objectAtIndex:colIndex];
+				// get the current column or create a new one, if needed
+				if ([columns count] > colIndex) {
+					column = [columns objectAtIndex:colIndex];
+					columnHasName = [column hasName];
 				}
 				else {
 					column = [CSVColumn columnWithKey:[NSString stringWithFormat:@"col_%i", colIndex]];
 					column.active = YES;
-					[newColumns addObject:column];
-					
-					if (firstRowIsHeaderRow) {
-						columnToRename = column;
-					}
+					isNewColumn = YES;
+					columnHasName = NO;
 				}
 				
 				// Scan characters into our string
@@ -236,18 +266,27 @@
 						[currentCellString appendString:separator];
 					}
 					else {					// This is a column separating separator
-						[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
-						if (![column hasName]) {
-							column.name = [newRow valueForColumn:column];
+						NSString *newCellString = [[currentCellString copy] autorelease];
+						if (isNewColumn) {
+							if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
+								column.name = newCellString;
+								columnHasName = YES;
+								if (nil == [self columnWithKey:newCellString]) {
+									column.key = newCellString;
+								}
+							}
+							[self addColumn:column];
+							isNewColumn = NO;
 						}
-						if (nil != columnToRename) {
-							columnToRename.key = [newRow valueForColumn:column];
-							columnToRename = nil;
+						if (!columnHasName) {
+							column.name = newCellString;
 						}
+						
+						[newRow setValue:newCellString forColumn:column];
 						
 						// on to the next column/cell!
 						[currentCellString setString:@""];
-						if (NSNotFound == [separator rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]].location) {
+						if (skipWhitespace) {
 							[scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
 						}
 						colIndex++;
@@ -260,41 +299,63 @@
 						[currentCellString appendString:tempString];
 					}
 					else {					// End of row
-						[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
-						if (![column hasName]) {
-							column.name = [newRow valueForColumn:column];
+						NSString *newCellString = [[currentCellString copy] autorelease];
+						if (isNewColumn) {
+							if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
+								column.name = newCellString;
+								columnHasName = YES;
+								if (nil == [self columnWithKey:newCellString]) {
+									column.key = newCellString;
+								}
+							}
+							[self addColumn:column];
+							isNewColumn = NO;
 						}
-						if (nil != columnToRename) {
-							columnToRename.key = [newRow valueForColumn:column];
-							columnToRename = nil;
+						if (!columnHasName) {
+							column.name = newCellString;
 						}
 						
+						[newRow setValue:newCellString forColumn:column];
 						finishedRow = YES;
 					}
 				}
 				
 				
-				// found the end
+				// found the end of the document
 				else if ([scanner isAtEnd]) {
-					[newRow setValue:[[currentCellString copy] autorelease] forColumn:column];
-					if (![column hasName]) {
-						column.name = [newRow valueForColumn:column];
+					NSString *newCellString = [[currentCellString copy] autorelease];
+					if (isNewColumn) {
+						if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
+							column.name = newCellString;
+							columnHasName = YES;
+							if (nil == [self columnWithKey:newCellString]) {
+								column.key = newCellString;
+							}
+						}
+						[self addColumn:column];
+						isNewColumn = NO;
 					}
-					if (nil != columnToRename) {
-						columnToRename.key = [newRow valueForColumn:column];
-						columnToRename = nil;
+					if (!columnHasName) {
+						column.name = newCellString;
 					}
 					
+					[newRow setValue:newCellString forColumn:column];
 					finishedRow = YES;
 				}
 			}
 			
 			
-			// one row scanned - add to the lines array
-			if ([newColumns count] > 0) {
-				if (!firstRowIsHeaderRow || (num_rows > 1)) {
-					[rows addObject:newRow];
+			// one row scanned - add to our header and body arrays and save the columns
+			if (num_rows >= numHeaderRows) {
+				[rows addObject:newRow];
+				
+				// report to delegate if desired
+				if (sendRowUpdateToDelegate) {
+					[self performSelectorOnMainThread:@selector(notifyDelegateOfParsedRow:) withObject:newRow waitUntilDone:NO];
 				}
+			}
+			else {
+				[self setHeaderRow:newRow];
 			}
 			
 			num_rows++;
@@ -308,19 +369,13 @@
 				innerPool = [[NSAutoreleasePool alloc] init];
 				
 				if (sendStatusUpdateToDelegate) {
-					[delegate csvDocumentDidParseNumRows:num_rows];
+					[delegate csvDocument:self didParseNumRows:num_rows];
 				}
 			}
 		}
 		
 		[innerPool release];
 		[currentCellString release];
-		
-		// finished scanning our string; make first row the headerRow
-		[self setNewColumns:newColumns];
-		if ([rows count] > 0) {
-			[self changeHeaderRow:[rows objectAtIndex:0]];
-		}
 	}
 	
 	// empty string
@@ -337,8 +392,8 @@
 	[self setNumRowsWithInt:num_rows];
 	self.parseSuccessful = success;
 	
-	// tell the delegate
-	if (nil != delegate) {
+	// we're done here - tell the delegate
+	if ([delegate respondsToSelector:@selector(csvDocumentDidParseString:)]) {
 		[delegate csvDocumentDidParseString:self];
 	}
 	
@@ -349,6 +404,7 @@
 
 
 #pragma mark Returning as String
+#ifdef CSV_STRING_EXPORTING
 - (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
 {
 	if ([columnArray count] < 1) {
@@ -367,10 +423,10 @@
 	}
 	
 	// get header row
-	NSArray *headerRows = nil;
-	if(headerFlag && (nil != headerRow)) {
-		headerRows = [NSArray arrayWithObject:headerRow];
-	}
+//	NSArray *headerRows = nil;
+//	if (headerFlag && (nil != headerRow)) {
+//		headerRows = [NSArray arrayWithObject:headerRow];
+//	}
 	
 	// get desired row indexes if not given
 	if (nil == rowIndexes) {
@@ -388,40 +444,31 @@
 	// get the string from the formatter
 	return [format stringForRows:exportRows headerRows:headerRows withKeys:columnKeys];
 }
+#endif
 #pragma mark -
 
 
 
 #pragma mark Column Handling
-- (void) changeHeaderRow:(CSVRow *)newHeaderRow
+- (void) addColumn:(CSVColumn *) newColumn
 {
-	if (newHeaderRow != headerRow) {
-		[self willChangeValueForKey:@"headerRow"];
-		self.headerRow = newHeaderRow;
-		[self didChangeValueForKey:@"headerRow"];
+	if (newColumn) {
+		NSUInteger capacity = [columns count] + 1;
+		NSMutableArray *columnArray = [NSMutableArray arrayWithCapacity:capacity];
+		NSMutableDictionary *columnHash = [NSMutableDictionary dictionaryWithCapacity:capacity];
 		
-		// update column names
-		if (nil != headerRow) {
-			for (CSVColumn *column in columns) {
-				column.name = [headerRow valueForColumn:column];
-			}
+		// add existing columns
+		for (CSVColumn *column in columns) {
+			[columnArray addObject:column];
+			[columnHash setObject:column forKey:column.key];
 		}
-	}
-}
-
-- (void) setNewColumns:(NSArray *)newColumns
-{
-	if (columns != newColumns) {
-		self.columns = newColumns;
 		
-		// we also represent the columns in a hash, mostly due to faster access and bindability
-		if (nil != newColumns) {
-			NSMutableDictionary *columnHash = [NSMutableDictionary dictionaryWithCapacity:[columns count]];
-			for (CSVColumn *column in columns) {
-				[columnHash setObject:column forKey:column.key];
-			}
-			[self setColumnDict:columnHash];
-		}
+		// add the new column
+		[columnArray addObject:newColumn];
+		[columnHash setObject:newColumn forKey:newColumn.key];
+		
+		self.columns = columnArray;
+		[self setColumnDict:columnHash];
 	}
 }
 
@@ -433,6 +480,21 @@
 	}
 	
 	return NO;
+}
+
+- (void) setHeaderRow:(CSVRow *)newHeaderRow
+{
+	if (newHeaderRow ) {
+		newHeaderRow.isHeaderRow = YES;
+		[headerRows addObject:newHeaderRow];
+		
+		// update column names (if they don't yet have a name)
+		for (CSVColumn *column in columns) {
+			if (!column.name) {
+				column.name = [newHeaderRow valueForColumn:column];
+			}
+		}
+	}
 }
 
 - (BOOL) hasColumnKey:(NSString *)columnKey
@@ -455,12 +517,17 @@
 }
 
 
-- (NSString *) nameForColumn:(NSString *)columnKey
-{	
-	return [self nameForColumn:columnKey quoted:NO];
+- (CSVColumn *) columnWithKey:(NSString *)columnKey
+{
+	return [columnDict objectForKey:columnKey];
 }
 
-- (NSString *) nameForColumn:(NSString *)columnKey quoted:(BOOL)quoted
+- (NSString *) nameForColumnKey:(NSString *)columnKey
+{	
+	return [self nameForColumnKey:columnKey quoted:NO];
+}
+
+- (NSString *) nameForColumnKey:(NSString *)columnKey quoted:(BOOL)quoted
 {
 	NSString *name = ((CSVColumn *)[columnDict objectForKey:columnKey]).name;
 	return quoted ? [NSString stringWithFormat:@"\"%@\"", name] : name;
@@ -491,9 +558,14 @@
 
 
 #pragma mark Utilities
+- (void) notifyDelegateOfParsedRow:(CSVRow *)newRow				// used to perform the delegate action on a different thread
+{
+	[delegate csvDocument:self didParseRow:newRow];
+}
+
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@ rows", [self className], self, numRows];
+	return [NSString stringWithFormat:@"%@ <0x%X>; %@ rows", NSStringFromClass([self class]), self, numRows];
 }
 
 

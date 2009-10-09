@@ -41,7 +41,7 @@
 }
 - (void) setName:(NSString *)newName
 {
-	if(newName != name) {
+	if (newName != name) {
 		[self willChangeValueForKey:@"name"];
 		[name release];
 		name = [newName retain];
@@ -51,7 +51,7 @@
 
 - (BOOL) hasName
 {
-	return (nil != name);
+	return (nil != name && ![@"" isEqualToString:name]);
 }
 #pragma mark -
 
@@ -60,7 +60,7 @@
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@ -> %@, active: %i", [self className], self, key, name, active];
+	return [NSString stringWithFormat:@"%@ <0x%X>; %@ -> %@, active: %i", NSStringFromClass([self class]), self, key, name, active];
 }
 
 

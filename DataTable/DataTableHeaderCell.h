@@ -10,6 +10,7 @@
 
 
 @interface DataTableHeaderCell : NSTableHeaderCell {
+	BOOL showsCheckbox;
 	BOOL checked;
 	NSButtonCell *headerCheckbox;
 	NSTextFieldCell *headerTextfield;
@@ -18,6 +19,7 @@
 	BOOL sortAscending;					// needed to keep track of the sort state
 }
 
+@property (nonatomic, assign) BOOL showsCheckbox;
 @property (nonatomic, assign, getter=isChecked) BOOL checked;
 @property (nonatomic, retain) NSButtonCell *headerCheckbox;
 @property (nonatomic, retain) NSTextFieldCell *headerTextfield;

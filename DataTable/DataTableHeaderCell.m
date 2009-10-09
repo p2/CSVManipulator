@@ -11,6 +11,7 @@
 
 @implementation DataTableHeaderCell
 
+@synthesize showsCheckbox;
 @synthesize checked;
 @synthesize headerCheckbox;
 @synthesize headerTextfield;
@@ -20,6 +21,7 @@
 {
 	self = [super init];
 	if (nil != self) {
+		showsCheckbox = YES;
 		sortPriority = 1;
 		
 		self.headerCheckbox = [[[NSButtonCell alloc] init] autorelease];
@@ -154,18 +156,20 @@
 - (void) drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	// rects and cells
-	NSRect buttonFrame = cellFrame;
-	buttonFrame.size.width = 20.0;
-	
 	NSRect sortIndicator = [self sortIndicatorRectForBounds:cellFrame];
 	
 	NSRect textFrame;
 	textFrame = cellFrame;
-	textFrame.origin.x += 20;
-	textFrame.size.width -= 20 + sortIndicator.size.width;
 	
 	// draw
-	[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
+	if (showsCheckbox) {
+		NSRect buttonFrame = cellFrame;
+		buttonFrame.size.width = 20.0;
+		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
+		
+		textFrame.origin.x += 20;
+		textFrame.size.width -= 20 + sortIndicator.size.width;
+	}
 	[headerTextfield drawWithFrame:textFrame inView:controlView];
 	
 	[self drawSortIndicatorWithFrame:cellFrame inView:controlView ascending:sortAscending priority:sortPriority];

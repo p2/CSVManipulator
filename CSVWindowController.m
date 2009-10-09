@@ -14,6 +14,7 @@
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
+#import "DataTableCell.h"
 #import "PPToolbarView.h"
 
 #define COLUMN_MIN_WIDTH 40
@@ -43,10 +44,10 @@
 - (void) awakeFromNib
 {
 	//--
-	NSTableHeaderView *tableHeader = [mainTable headerView];
-	NSRect frame = [tableHeader frame];
-	frame.size.height = 30.0;
-	[tableHeader setFrame:frame];
+	//NSTableHeaderView *tableHeader = [mainTable headerView];
+	//NSRect frame = [tableHeader frame];
+	//frame.size.height = 30.0;
+	//[tableHeader setFrame:frame];
 	//--
 	
 	NSNumber *top_border_width = [NSNumber numberWithInt:1];
@@ -139,56 +140,83 @@
 		[mainTable removeTableColumn:oldColumn];
 	}
 	
-	// clean popups
-//	[calculationSourcePopup removeAllItems];
-//	[calculationTargetPopup removeAllItems];
+	// first column is a checkbox column to specify header cells
+	CGFloat firstColumnWidth = 30.0;
+	NSButtonCell *firstDataCell = [[[NSButtonCell alloc] init] autorelease];
+	[firstDataCell setButtonType:NSSwitchButton];
+	[firstDataCell setControlSize:NSSmallControlSize];
+	[firstDataCell setTitle:@""];
+	
+	DataTableColumn *firstTableColumn = [DataTableColumn column];
+	[firstTableColumn setIdentifier:@"_isHeaderRowColumn"];
+	[firstTableColumn setDataCell:firstDataCell];
+	[firstTableColumn setWidth:firstColumnWidth];
+	[firstTableColumn setResizable:NO];
+	[[firstTableColumn headerCell] setTitle:@"H"];
+	[[firstTableColumn headerCell] setShowsCheckbox:NO];
+	
+	[mainTable addTableColumn:firstTableColumn];
 	
 	// new headers, new bindings
 	NSInteger numHeaders = [document numColumns];
 	if (numHeaders > 0) {
 		NSRect mainTableBounds = [mainTable frame];
-		int columnWidth = ceilf(mainTableBounds.size.width / numHeaders);
+		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numHeaders);
 		columnWidth = (columnWidth < COLUMN_MIN_WIDTH) ? COLUMN_MIN_WIDTH : columnWidth;
 		
 		// loop columns to add them
 		for (CSVColumn *column in [document columns]) {
+			DataTableCell *dataCell = [DataTableCell cell];
 			
 			// compose the column and add it to the table
-			DataTableColumn *tableColumn = [[DataTableColumn alloc] init];
+			DataTableColumn *tableColumn = [DataTableColumn column];
 			[tableColumn setIdentifier:column.key];
+			[tableColumn setDataCell:dataCell];
 			[tableColumn setWidth:columnWidth];
 			[tableColumn setMinWidth:COLUMN_MIN_WIDTH];
 			[[tableColumn headerCell] setEditable:YES];
 			
 			[mainTable addTableColumn:tableColumn];
-			
-			// update popups
-//			[calculationSourcePopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
-//			[calculationTargetPopup addItemWithTitle:[NSString stringWithFormat:@"%@ (%@)", column.name, column.key]];
 		}
 		
 		// loop columns again to bind them - must be done after adding to prevent a "was mutated while being enumerated" error
 		for (DataTableColumn *tableColumn in [mainTable tableColumns]) {
 			NSString *key = [tableColumn identifier];
 			
-			[tableColumn bind:@"value"
-					 toObject:document.csvDocument.rowController
-				  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", key]
-					  options:nil];
+			// first column
+			if ([@"_isHeaderRowColumn" isEqualToString:key]) {
+				[tableColumn bind:@"value"
+						 toObject:document.csvDocument.rowController
+					  withKeyPath:@"arrangedObjects.isHeaderRow"
+						  options:nil];
+			}
 			
-			// also bind column header
-			[[tableColumn headerCell] bind:@"stringValue"
-								  toObject:document.csvDocument.columnDict
-							   withKeyPath:[NSString stringWithFormat:@"%@.name", key]
-								   options:nil];
-			[[tableColumn headerCell] bind:@"checked"
-								  toObject:document.csvDocument.columnDict
-							   withKeyPath:[NSString stringWithFormat:@"%@.active", key]
-								   options:nil];
+			// data columns
+			else {
+				[tableColumn bind:@"value"
+						 toObject:document.csvDocument.rowController
+					  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", key]
+						  options:nil];
+				
+				// also bind column header
+				[[tableColumn headerCell] bind:@"stringValue"
+									  toObject:document.csvDocument.columnDict
+								   withKeyPath:[NSString stringWithFormat:@"%@.name", key]
+									   options:nil];
+				[[tableColumn headerCell] bind:@"checked"
+									  toObject:document.csvDocument.columnDict
+								   withKeyPath:[NSString stringWithFormat:@"%@.active", key]
+									   options:nil];
+			}
 		}
 	}
 	
 	[mainTable setNeedsDisplay:YES];			// !! does not remove redundant column (graphical glitch)
+}
+
+- (void) tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+	
 }
 
 - (void) tableViewSelectionDidChange:(NSNotification *)notification

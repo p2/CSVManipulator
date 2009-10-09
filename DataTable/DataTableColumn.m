@@ -27,6 +27,11 @@
 	return self;
 }
 
++ (DataTableColumn *) column
+{
+	return [[[DataTableColumn alloc] init] autorelease];
+}
+
 - (void) dealloc
 {
 	self.headerCell = nil;

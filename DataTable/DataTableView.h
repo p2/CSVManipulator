@@ -15,9 +15,8 @@
 	NSArray *sortDescriptorsArray;
 }
 
-- (void) drawRow:(NSInteger) rowIndex clipRect:(NSRect) clipRect;
-
 - (void) setSortDescriptors:(NSArray *) array;
 - (void) reallySetSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
+
 
 @end

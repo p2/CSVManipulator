@@ -16,5 +16,7 @@
 
 @property (nonatomic, retain) DataTableHeaderCell *headerCell;
 
++ (DataTableColumn *) column;
+
 
 @end

@@ -6,12 +6,17 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
+#ifdef IPHONE
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
+#endif
 
 
 @interface CSVColumn : NSObject {
-	NSString *name;
-	NSString *key;
+	NSString *name;				// the name to display
+	NSString *key;				// a unique key
 	BOOL active;
 }
 

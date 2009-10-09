@@ -6,7 +6,9 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#ifndef IPHONE
 #import <Cocoa/Cocoa.h>
+
 @class CSVDocument;
 
 
@@ -18,3 +20,4 @@
 
 
 @end
+#endif
