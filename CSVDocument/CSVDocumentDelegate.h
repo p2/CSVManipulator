@@ -24,4 +24,6 @@
 - (void) csvDocument:(CSVDocument *)document didParseNumRows:(NSUInteger)num_parsed;
 - (void) csvDocument:(CSVDocument *)document didParseRow:(CSVRow *)row;
 
+- (void) csvDocument:(CSVDocument *)document didChangeRowOrderToOriginalOrder:(BOOL)isOriginalOrder;
+
 @end

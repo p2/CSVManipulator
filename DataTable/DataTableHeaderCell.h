@@ -23,6 +23,7 @@
 @property (nonatomic, assign, getter=isChecked) BOOL checked;
 @property (nonatomic, retain) NSButtonCell *headerCheckbox;
 @property (nonatomic, retain) NSTextFieldCell *headerTextfield;
+@property (nonatomic, readonly) BOOL sortAscending;
 
 -(void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority;			// needed to show sort state of the column
 

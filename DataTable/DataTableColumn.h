@@ -17,6 +17,7 @@
 @property (nonatomic, retain) DataTableHeaderCell *headerCell;
 
 + (DataTableColumn *) column;
+- (BOOL) handlesClickAtPoint:(NSPoint)point;
 
 
 @end

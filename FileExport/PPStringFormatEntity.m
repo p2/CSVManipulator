@@ -48,7 +48,7 @@
 		NSUInteger i = 0;
 		for (NSString *key in keys) {
 			id value = [values objectAtIndex:i];
-			NSMutableString *formatted = @"";
+			NSMutableString *formatted = [NSMutableString string];
 			
 			// NSString
 			if ([value isKindOfClass:[NSString class]] && (nil != stringformat)) {

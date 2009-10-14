@@ -15,6 +15,7 @@
 @synthesize checked;
 @synthesize headerCheckbox;
 @synthesize headerTextfield;
+@synthesize sortAscending;
 
 
 - (id) init
@@ -81,12 +82,12 @@
 
 
 #pragma mark Mouse and state tracking
-/*
-- (BOOL) startTrackingAt:(NSPoint)startPoint inView:(NSView *)controlView
+- (NSUInteger) hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
 {
-	NSLog(@"start");
+	// TODO: Return if we're interested
+	return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];
 }
-
+/*
 - (void) stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
 {
 	NSLog(@"1");
@@ -171,7 +172,6 @@
 		textFrame.size.width -= 20 + sortIndicator.size.width;
 	}
 	[headerTextfield drawWithFrame:textFrame inView:controlView];
-	
 	[self drawSortIndicatorWithFrame:cellFrame inView:controlView ascending:sortAscending priority:sortPriority];
 }
 

@@ -11,9 +11,20 @@
 
 @implementation CSVColumn
 
-@synthesize key, active;
+@synthesize key;
 @dynamic name;
+@synthesize type;
+@synthesize active;
 
+
+- (id) init
+{
+	self = [super init];
+	if (self) {
+		self.type = @"NSString";
+	}
+	return self;
+}
 
 + (id) columnWithKey:(NSString *)newKey
 {
@@ -27,6 +38,7 @@
 {
 	self.key = nil;
 	self.name = nil;
+	self.type = nil;
 	
 	[super dealloc];
 }

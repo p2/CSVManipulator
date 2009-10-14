@@ -16,6 +16,8 @@
 
 @interface CSVDocument ()
 
+@property (nonatomic, readwrite, retain) NSDictionary *columnDict;
+
 - (void) setColumnDict:(NSDictionary *)newColumnDict;
 - (void) notifyDelegateOfParsedRow:(CSVRow *)newRow;
 
@@ -35,12 +37,11 @@
 #endif
 @synthesize parseSuccessful;
 @synthesize autoDetectSeparator;
-@synthesize headerRows;
 @synthesize mustAbortImport;
 @synthesize didAbortImport;
 @synthesize reportEveryRowParsed;
 @synthesize columns;
-@dynamic numHeaderRows;
+@synthesize numHeaderRows;
 
 
 - (id) init
@@ -75,69 +76,8 @@
 #ifndef IPHONE
 	self.rowController = nil;
 #endif
-	self.headerRows = nil;
 	
 	[super dealloc];
-}
-#pragma mark -
-
-
-
-#pragma mark  KVC
-- (void) setColumnDict:(NSDictionary *)newColumnDict
-{
-	if (newColumnDict != columnDict) {
-		[columnDict release];
-		columnDict = [newColumnDict retain];
-	}
-}
-
-- (NSUInteger) numHeaderRows
-{
-	return numHeaderRows;
-}
-- (void) setNumHeaderRows:(NSUInteger)newNum
-{
-	// MOVE all current header rows to the body
-	if ([headerRows count] > 0) {
-		for (CSVRow *hr in headerRows) {
-#ifdef IPHONE
-			[rows insertObject:hr atIndex:0];
-#else
-			[rowController insertObject:hr atArrangedObjectIndex:0];
-#endif
-			hr.isHeaderRow = NO;
-			[headerRows removeObject:hr];
-		}
-	}
-	
-	// COPY data from the first x rows to the header and remove the rows from the body
-	if (newNum > 0) {
-		NSUInteger i;
-		for (i = 0; i < newNum; i++) {
-			if ([rows count] > i) {
-#ifdef IPHONE
-				[self setHeaderRow:[rows objectAtIndex:i]];
-				[rows removeObjectAtIndex:i];
-#else
-				[self setHeaderRow:[[rowController arrangedObjects] objectAtIndex:i]];
-				[rowController removeObjectAtArrangedObjectIndex:i];
-#endif
-			}
-		}
-	}
-	
-	// update num rows
-	[self setNumRowsWithInt:[rows count]];
-	
-	numHeaderRows = newNum;
-}
-
-- (void) setNumRowsWithInt:(NSInteger)num_rows
-{
-	[self willChangeValueForKey:@"numRows"];
-	self.numRows = [NSNumber numberWithInt:num_rows];
-	[self didChangeValueForKey:@"numRows"];
 }
 #pragma mark -
 
@@ -345,17 +285,16 @@
 			}
 			
 			
-			// one row scanned - add to our header and body arrays and save the columns
+			// one row scanned - add to our array, save the columns and report to delegate if desired
+			[rows addObject:newRow];
+			
 			if (num_rows >= numHeaderRows) {
-				[rows addObject:newRow];
-				
-				// report to delegate if desired
 				if (sendRowUpdateToDelegate) {
 					[self performSelectorOnMainThread:@selector(notifyDelegateOfParsedRow:) withObject:newRow waitUntilDone:NO];
 				}
 			}
 			else {
-				[self setHeaderRow:newRow];
+				newRow.headerRow = YES;
 			}
 			
 			num_rows++;
@@ -415,18 +354,11 @@
 		format = [PPStringFormat csvFormat];
 	}
 	
-	
 	// extract keys from column objects
 	NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columnArray count]];
 	for (CSVColumn *column in columnArray) {
 		[columnKeys addObject:column.key];
 	}
-	
-	// get header row
-//	NSArray *headerRows = nil;
-//	if (headerFlag && (nil != headerRow)) {
-//		headerRows = [NSArray arrayWithObject:headerRow];
-//	}
 	
 	// get desired row indexes if not given
 	if (nil == rowIndexes) {
@@ -440,9 +372,8 @@
 	}
 	NSArray *exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
 	
-	
 	// get the string from the formatter
-	return [format stringForRows:exportRows headerRows:headerRows withKeys:columnKeys];
+	return [format stringForRows:exportRows includeHeaderRows:headerFlag withColumnKeys:columnKeys];
 }
 #endif
 #pragma mark -
@@ -482,20 +413,6 @@
 	return NO;
 }
 
-- (void) setHeaderRow:(CSVRow *)newHeaderRow
-{
-	if (newHeaderRow ) {
-		newHeaderRow.isHeaderRow = YES;
-		[headerRows addObject:newHeaderRow];
-		
-		// update column names (if they don't yet have a name)
-		for (CSVColumn *column in columns) {
-			if (!column.name) {
-				column.name = [newHeaderRow valueForColumn:column];
-			}
-		}
-	}
-}
 
 - (BOOL) hasColumnKey:(NSString *)columnKey
 {
@@ -551,7 +468,59 @@
 #pragma mark Row Handling
 - (CSVRow *) rowAtIndex:(NSUInteger)rowIndex
 {
+#ifdef IPHONE
 	return [rows objectAtIndex:rowIndex];
+#else
+	return [[rowController arrangedObjects] objectAtIndex:rowIndex];
+#endif
+}
+
+- (void) changeNumHeaderRows:(NSUInteger)newNum
+{
+	NSUInteger i;
+	NSUInteger max = (newNum > numHeaderRows) ? newNum : numHeaderRows;
+	NSUInteger num_rows = [rows count];
+	
+	for (i = 0; i < max; i++) {
+		if (num_rows > i) {
+			CSVRow *row = [self rowAtIndex:i];
+			[row changeHeaderRow:(i < newNum)];
+		}
+	}
+	
+	[self rearrangeRows];
+	self.numHeaderRows = newNum;
+}
+
+- (void) rearrangeRows
+{
+#ifdef IPHONE
+	// TODO: rearrange on iPhone!
+#else
+	[rowController rearrangeObjects];
+#endif
+}
+
+- (void) setNumRowsWithInt:(NSInteger)num_rows
+{
+	[self willChangeValueForKey:@"numRows"];
+	self.numRows = [NSNumber numberWithInt:num_rows];
+	[self didChangeValueForKey:@"numRows"];
+}
+
+- (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid
+{
+	if (itDid) {
+		numHeaderRows += 1;
+	}
+	else {
+		numHeaderRows -= 1;
+	}
+
+	[self rearrangeRows];
+	if ([delegate respondsToSelector:@selector(csvDocument:didChangeRowOrderToOriginalOrder:)]) {
+		[delegate csvDocument:self didChangeRowOrderToOriginalOrder:NO];
+	}
 }
 #pragma mark -
 

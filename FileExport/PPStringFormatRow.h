@@ -26,7 +26,7 @@
 
 + (PPStringFormatRow *) row;
 
-- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values;
 
 
 @end

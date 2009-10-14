@@ -25,10 +25,9 @@
 	id <CSVDocumentDelegate> delegate;
 	NSString *separator;
 	
-	NSMutableArray *headerRows;			// array full of CSVRow header rows
 	NSMutableArray *rows;
 	NSNumber *numRows;
-
+	
 #ifndef IPHONE
 	CSVRowController *rowController;
 #endif
@@ -48,7 +47,6 @@
 @property (nonatomic, assign) id delegate;
 @property (nonatomic, retain) NSString *separator;
 
-@property (nonatomic, retain) NSMutableArray *headerRows;
 @property (nonatomic, retain) NSMutableArray *rows;
 @property (nonatomic, copy) NSNumber *numRows;
 #ifndef IPHONE
@@ -56,7 +54,7 @@
 #endif
 
 @property (nonatomic, retain) NSArray *columns;
-@property (nonatomic, readonly) NSDictionary *columnDict;
+@property (nonatomic, readonly, retain) NSDictionary *columnDict;
 
 @property (nonatomic, assign) BOOL parseSuccessful;
 @property (nonatomic, assign) BOOL autoDetectSeparator;
@@ -80,7 +78,6 @@
 // column handling
 - (void) addColumn:(CSVColumn *) newColumn;
 - (BOOL) isFirstColumnKey:(NSString *)columnKey;
-- (void) setHeaderRow:(CSVRow *)newHeaderRow;
 - (BOOL) hasColumnKey:(NSString *)columnKey;
 - (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
 
@@ -92,6 +89,9 @@
 
 // row handling
 - (CSVRow *) rowAtIndex:(NSUInteger)rowIndex;
+- (void) changeNumHeaderRows:(NSUInteger)newNum;
+- (void) rearrangeRows;
+- (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid;
 
 
 @end

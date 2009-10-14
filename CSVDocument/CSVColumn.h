@@ -17,11 +17,13 @@
 @interface CSVColumn : NSObject {
 	NSString *name;				// the name to display
 	NSString *key;				// a unique key
+	NSString *type;				// type of the values (NSString, NSNumber, NSDate) TODO: implement!
 	BOOL active;
 }
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *key;
+@property (nonatomic, copy) NSString *type;
 @property (nonatomic, assign, getter=isActive) BOOL active;
 
 

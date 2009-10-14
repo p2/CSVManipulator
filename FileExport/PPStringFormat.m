@@ -49,29 +49,23 @@
 
 
 #pragma mark Formatting
-- (NSString *) stringForRows:(NSArray *)csvRows headerRows:(NSArray *)headerRows withKeys:(NSArray *)keys;
+- (NSString *) stringForRows:(NSArray *)csvRows includeHeaderRows:(BOOL)includeHeaderRows withColumnKeys:(NSArray *)keys;
 {
 	NSMutableString *string = nil;
 	
-	if (nil != csvRows || nil != headerRows) {
+	if (nil != csvRows) {
 		string = (nil == prefix) ? [NSMutableString string] : [NSMutableString stringWithString:prefix];
 		
-		// add header rows if we have any
-		if ([headerRows count] > 0) {
-			for (CSVRow *row in headerRows) {
-				[string appendString:[headerFormat rowForKeys:keys values:[row valuesForColumnKeys:keys]]];
-			}
-		}
-		
-		// add rows if there are any
+		// add rows (if there are any)
 		if ([csvRows count] > 0) {
 			NSAutoreleasePool *myPool = [[NSAutoreleasePool alloc] init];
 			
 			NSUInteger i = 0;
 			for (CSVRow *row in csvRows) {
-				[string appendString:[valueFormat rowForKeys:keys values:[row valuesForColumnKeys:keys]]];
-				
-				i++;
+				if (includeHeaderRows || !row.isHeaderRow) {
+					[string appendString:[valueFormat rowForColumnKeys:keys values:[row valuesForColumnKeys:keys]]];
+					i++;
+				}
 				
 				// let's clean the pool from time to time
 				if (0 == i % 50) {
@@ -90,14 +84,14 @@
 	return string;
 }
 
-- (NSString *) headerForKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) headerForColumnKeys:(NSArray *)keys values:(NSArray *)values;
 {
-	return [headerFormat rowForKeys:keys values:values];
+	return [headerFormat rowForColumnKeys:keys values:values];
 }
 
-- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values;
 {
-	return [valueFormat rowForKeys:keys values:values];
+	return [valueFormat rowForColumnKeys:keys values:values];
 }
 #pragma mark -
 

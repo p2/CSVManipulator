@@ -47,7 +47,7 @@
 
 
 #pragma mark Formatting
-- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values
+- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values
 {
 	NSMutableString *string = nil;
 	if ((nil != keys) && (nil != format)) {

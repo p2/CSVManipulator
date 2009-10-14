@@ -14,9 +14,12 @@
 
 @implementation CSVRow
 
+static NSUInteger highestHeaderRowPos = 0;
+
 @synthesize document;
 @synthesize rowValues;
-@synthesize isHeaderRow;
+@dynamic headerRow;
+@synthesize headerRowPosition;
 
 
 + (id) rowForDocument:(CSVDocument *)forDocument
@@ -43,6 +46,7 @@
 	self = [super init];
 	if (self) {
 		rowValues = [[NSMutableDictionary alloc] init];			// done manually to prevent copying the new object (self.rowValues is a COPY property)
+		headerRowPosition = UINT_MAX;
 	}
 	
 	return self;
@@ -63,6 +67,38 @@
 	self.rowValues = nil;
 	
 	[super dealloc];
+}
+#pragma mark -
+
+
+
+#pragma mark KVC
+- (BOOL) isHeaderRow
+{
+	return headerRow;
+}
+- (void) setHeaderRow:(BOOL)isHeader
+{
+	if (isHeader != headerRow) {
+		[self changeHeaderRow:isHeader];
+		[document row:self didBecomeHeaderRow:headerRow];
+	}
+}
+
+- (void) changeHeaderRow:(BOOL)isHeader
+{
+	// this _silently_ changes the headerRow flag, only use from ourself or self.document!
+	[self willChangeValueForKey:@"headerRow"];
+	headerRow = isHeader;
+	[self didChangeValueForKey:@"headerRow"];
+	
+	if (headerRow) {
+		highestHeaderRowPos += 1;
+		self.headerRowPosition = highestHeaderRowPos;
+	}
+	else {
+		self.headerRowPosition = UINT_MAX;
+	}
 }
 #pragma mark -
 

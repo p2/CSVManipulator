@@ -123,7 +123,8 @@
 - (void) didRestoreOriginalOrder
 {
 	[mainTable setSortDescriptors:nil];
-	[mainTable reallySetSortDescriptorsWithColumn:nil];		// necessary since we have overridden setSortDescriptors:
+	[mainTable setSortDescriptorsWithColumn:nil];		// necessary since we have overridden setSortDescriptors:
+	[[mainTable headerView] setNeedsDisplay:YES];
 }
 #pragma mark -
 
@@ -136,6 +137,7 @@
 	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
 		[[oldColumn headerCell] unbind:@"stringValue"];
 		[[oldColumn headerCell] unbind:@"checked"];
+		[[oldColumn dataCell] unbind:@"titleCell"];
 		[oldColumn unbind:@"value"];
 		[mainTable removeTableColumn:oldColumn];
 	}
@@ -151,7 +153,7 @@
 	[firstTableColumn setIdentifier:@"_isHeaderRowColumn"];
 	[firstTableColumn setDataCell:firstDataCell];
 	[firstTableColumn setWidth:firstColumnWidth];
-	[firstTableColumn setResizable:NO];
+	firstTableColumn.resizingMask = NSTableColumnNoResizing;
 	[[firstTableColumn headerCell] setTitle:@"H"];
 	[[firstTableColumn headerCell] setShowsCheckbox:NO];
 	
@@ -183,11 +185,11 @@
 		for (DataTableColumn *tableColumn in [mainTable tableColumns]) {
 			NSString *key = [tableColumn identifier];
 			
-			// first column
+			// first column with checkboxes
 			if ([@"_isHeaderRowColumn" isEqualToString:key]) {
 				[tableColumn bind:@"value"
 						 toObject:document.csvDocument.rowController
-					  withKeyPath:@"arrangedObjects.isHeaderRow"
+					  withKeyPath:@"arrangedObjects.headerRow"
 						  options:nil];
 			}
 			
@@ -201,7 +203,7 @@
 				// also bind column header
 				[[tableColumn headerCell] bind:@"stringValue"
 									  toObject:document.csvDocument.columnDict
-								   withKeyPath:[NSString stringWithFormat:@"%@.name", key]
+								   withKeyPath:[NSString stringWithFormat:@"%@.type", key]
 									   options:nil];
 				[[tableColumn headerCell] bind:@"checked"
 									  toObject:document.csvDocument.columnDict
@@ -231,6 +233,7 @@
 	}
 }
 
+/*
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
 	if (mainTable == tableView) {
@@ -254,12 +257,12 @@
 		// hit the column header title
 		else {
 			// TODO: Improve
-			[(DataTableView *)tableView reallySetSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
+			[(DataTableView *)tableView setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
 			[document setDataIsAtOriginalOrder:NO];
 		}
 	}
 }
-
+//	*/
 - (void) tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
 {
 	if(mainTable == tableView) {

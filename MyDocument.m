@@ -45,6 +45,7 @@
 	if (nil != self) {
 		exportHeaders = YES;
 		documentLoaded = YES;				// will be set to know when we got instantiated by reading from URL
+		dataIsAtOriginalOrder = YES;
 		
 		self.csvDocument = [CSVDocument csvDocument];
 		csvDocument.delegate = self;
@@ -149,8 +150,12 @@
 	
 	[detachPool release];
 }
+#pragma mark -
 
-- (void) csvDocumentDidParseNumRows:(NSUInteger)num_parsed
+
+
+#pragma mark CSVDocument Delegate
+- (void) csvDocument:(CSVDocument *)document didParseNumRows:(NSUInteger)num_parsed
 {
 	CGFloat expecting = (numRowsToExpect > 0) ? (CGFloat)numRowsToExpect : 1.0;
 	CGFloat percentage = (CGFloat)num_parsed / expecting;
@@ -159,16 +164,23 @@
 	[mainWindowController updateProgressSheetProgress:percentage];
 }
 
-- (void) csvDocumentDidParseString:(CSVDocument *)doc
+- (void) csvDocumentDidParseString:(CSVDocument *)document
 {
-	NSLog(@"parsed %@ rows, successful? %i", doc.numRows, doc.parseSuccessful);
 	self.documentLoaded = YES;
 	
 	[mainWindowController redefineTable];
 	[mainWindowController hideProgressSheet];
 	
 	// did we abort?
-	[mainWindowController didAbortImport:csvDocument.didAbortImport];
+	[mainWindowController didAbortImport:document.didAbortImport];
+}
+
+- (void) csvDocument:(CSVDocument *)document didChangeRowOrderToOriginalOrder:(BOOL)isOriginalOrder
+{
+	self.dataIsAtOriginalOrder = isOriginalOrder;
+	if (isOriginalOrder) {
+		[mainWindowController didRestoreOriginalOrder];
+	}
 }
 #pragma mark -
 
@@ -249,7 +261,7 @@
 - (void) restoreOriginalOrder
 {
 	[csvDocument.rowController setSortDescriptors:nil];
-	[csvDocument.rowController rearrangeObjects];
+	[csvDocument changeNumHeaderRows:0];
 	[mainWindowController didRestoreOriginalOrder];
 	
 	self.dataIsAtOriginalOrder = YES;
@@ -312,12 +324,12 @@
 	while (NO == [scanner isAtEnd]) {
 		NSMutableString *operationString = [NSMutableString string];
 		NSString *tempString;
-		if([scanner scanUpToString:@"$" intoString:&tempString]) {
+		if ([scanner scanUpToString:@"$" intoString:&tempString]) {
 			[operationString appendString:tempString];
 		}
 		
 		// found a Dollar sign "$"
-		if([scanner scanString:@"$" intoString:nil]) {
+		if ([scanner scanString:@"$" intoString:nil]) {
 			[operationString appendString:@"XX"];
 			[scanner scanInt:&i];
 			
@@ -380,7 +392,7 @@
 		//NSLog(@"evaluation evaluates to: %@ which results in %@", evaluation, result);
 		
 		// show progress
-		if(0 == currentIndex % 20) {
+		if (0 == currentIndex % 20) {
 			NSNumber *alreadyDone = [NSNumber numberWithDouble:(double)((float)(currentIndex + 1) / (float)numRows) * 100];		// progress bar goes from 0 to 100
 			[mainWindowController performSelectorOnMainThread:@selector(updateCalculationStatus:)
 												   withObject:alreadyDone				// alreadyDone is automatically retained until selector has finished
@@ -448,11 +460,11 @@
     }
 	
 	// copy
-    if([typesToDeclare count] > 0) {
+    if ([typesToDeclare count] > 0) {
         [pboard declareTypes:typesToDeclare owner:self];
         walker = [typesToDeclare objectEnumerator];
         while(type = [walker nextObject]) {
-            if([self copySelectionToPasteboard:pboard type:type]) {
+            if ([self copySelectionToPasteboard:pboard type:type]) {
 				result = YES;
 			}
         }
@@ -466,43 +478,43 @@
 	BOOL result = NO;
 	
 	// we want a file - provide the file extension
-	if([type isEqualToString:NSFilesPromisePboardType]) {
+	if ([type isEqualToString:NSFilesPromisePboardType]) {
 		result = [pboard setPropertyList:[self fileSuffixesForFormat:self.documentFormat] forType:NSFilesPromisePboardType];
 	}
 	
 	// we want a filename - only write to file when actually requested (pasteboard:provideDataForType:)
-	//	else if([type isEqualToString:NSFilenamesPboardType]) {
+	//	else if ([type isEqualToString:NSFilenamesPboardType]) {
 	//		result = YES;
 	//	}
 	
 	// ---
-	else if([type isEqualToString:@"SFVNativePBClassesListPBType08"]) {
+	else if ([type isEqualToString:@"SFVNativePBClassesListPBType08"]) {
 		NSString *string = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<array>\n	<string>SFTTableInfo</string>\n	<string>SFWPStorage</string>\n	<string>SFTTableInfo</string>\n</array>\n</plist>\n";
 		result = [pboard setString:string forType:@"SFVNativePBClassesListPBType08"];
 	}
-	else if([type isEqualToString:@"SFVNativePBMetaDataPBType08"]) {
+	else if ([type isEqualToString:@"SFVNativePBMetaDataPBType08"]) {
 		NSString *string = @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n<plist version=\"1.0\">\n<dict>\n	<key>SFVHasPrintableText</key>\n	<true/>\n	<key>SFVHasTable</key>\n	<true/>\n	<key>SFVHasText</key>\n	<true/>\n</dict>\n</plist>\n";
 		result = [pboard setString:string forType:@"SFVNativePBMetaDataPBType08"];
 	}
 	
-	else if([type isEqualToString:@"SFVNativePBObject08"]) {
+	else if ([type isEqualToString:@"SFVNativePBObject08"]) {
 		NSString *string = @"<?xml version=\"1.0\"?>\n		<ls:copied-data xmlns:sfa=\"http://developer.apple.com/namespaces/sfa\" xmlns:sf=\"http://developer.apple.com/namespaces/sf\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:ls=\"http://developer.apple.com/namespaces/ls\" ls:version=\"72007061400\" sfa:ID=\"SFVPasteboardObject-0\" sf:application-name=\"Numbers 1.0.2\">\n		<sf:text sfa:ID=\"SFWPStorage-0\" sf:kind=\"cell\" sf:excl=\"Y\" sf:class=\"text-storage\">\n		<sf:text-body>\n		<sf:layout sf:style=\"tabular-Basic-body-cell-layout-style-id\">\n		<sf:p sf:style=\"tabular-Basic-body-cell-paragraph-style-id\">aaa<sf:tab/>bbb<sf:tab/>ccc<sf:br/>\n		</sf:p>\n		<sf:p sf:style=\"tabular-Basic-body-cell-paragraph-style-id\">111<sf:tab/>222<sf:tab/>333</sf:p>\n		</sf:layout>\n		</sf:text-body>\n		</sf:text>\n		</ls:copied-data>";
 		result = [pboard setString:string forType:@"SFVNativePBObject08"];
 	}
 	// ---
 	
 	// RTF
-	else if([type isEqualToString:NSRTFPboardType]) {
+	else if ([type isEqualToString:NSRTFPboardType]) {
 		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPStringFormat tabFormat] allRows:NO allColumns:NO]] autorelease];
-		if(attributedString && [attributedString length] > 0) {
+		if (attributedString && [attributedString length] > 0) {
 			result = [pboard setData:[attributedString RTFFromRange:NSMakeRange(0, [attributedString length]) documentAttributes:nil] forType:NSRTFPboardType];
 		}
 	}
 	
 	// Plain Text
-	else if([type isEqualToString:NSStringPboardType]) {
+	else if ([type isEqualToString:NSStringPboardType]) {
 		NSString *string = [self stringInFormat:self.documentFormat allRows:NO allColumns:NO];
-		if(string && [string length] > 0) {
+		if (string && [string length] > 0) {
 			result = [pboard setString:string forType:NSStringPboardType];
 		}
 	}
@@ -514,10 +526,10 @@
 {
 	// We expect that -tableView:namesOfPromisedFilesDroppedAtDestination:forDraggedRowsWithIndexes: will usually be called instead,
 	// but we implement this method to create a file if NSFilenamesPboardType is ever requested directly
-	if([type isEqualToString:NSFilenamesPboardType]) {
+	if ([type isEqualToString:NSFilenamesPboardType]) {
 		NSURL *myFileURL = [NSURL URLWithString:[@"~/Desktop" stringByExpandingTildeInPath]];
 		NSError *error;
-		if([self writeToURL:myFileURL ofType:nil error:&error]) {
+		if ([self writeToURL:myFileURL ofType:nil error:&error]) {
 			[pboard setPropertyList:[NSArray arrayWithObject:[myFileURL path]] forType:NSFilenamesPboardType];
 		}
 	}

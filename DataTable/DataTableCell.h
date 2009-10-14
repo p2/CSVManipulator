@@ -10,9 +10,10 @@
 
 
 @interface DataTableCell : NSTextFieldCell {
-	
+	BOOL isTitleCell;
 }
 
+@property (nonatomic, assign) BOOL isTitleCell;
 
 + (DataTableCell *) cell;
 

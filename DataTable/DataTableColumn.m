@@ -41,4 +41,12 @@
 #pragma mark -
 
 
+
+#pragma mark Events
+- (BOOL) handlesClickAtPoint:(NSPoint)point
+{
+	return NO;
+}
+
+
 @end

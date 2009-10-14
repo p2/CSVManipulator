@@ -15,8 +15,7 @@
 	NSArray *sortDescriptorsArray;
 }
 
-- (void) setSortDescriptors:(NSArray *) array;
-- (void) reallySetSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
+- (void) setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
 
 
 @end

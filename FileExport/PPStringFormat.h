@@ -33,10 +33,10 @@
 + (PPStringFormat *) tabFormat;
 + (PPStringFormat *) flatXMLFormat;
 
-- (NSString *) stringForRows:(NSArray *)csvRows headerRows:(NSArray *)headerRows withKeys:(NSArray *)keys;
+- (NSString *) stringForRows:(NSArray *)csvRows includeHeaderRows:(BOOL)includeHeaderRows withColumnKeys:(NSArray *)keys;
 
-- (NSString *) headerForKeys:(NSArray *)keys values:(NSArray *)values;
-- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) headerForColumnKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values;
 
 
 @end

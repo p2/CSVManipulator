@@ -14,9 +14,11 @@
 
 @interface CSVRowController : NSArrayController {
 	CSVDocument *document;
+	NSSortDescriptor *headerSortDescriptor;
 }
 
 @property (nonatomic, assign) CSVDocument *document;
+@property (nonatomic, retain) NSSortDescriptor *headerSortDescriptor;
 
 
 @end

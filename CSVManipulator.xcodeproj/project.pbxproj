@@ -38,6 +38,7 @@
 		EEC9006A0DD04898006716F9 /* CSVManipulatorIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */; };
 		EEE8F3B50F13AA720081E83D /* CSVWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */; };
 		EEE8FA460F1523B70081E83D /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE8FA450F1523B70081E83D /* AppController.m */; };
+		EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF072EF1086302700C05DE9 /* DataTableHeaderView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,6 +102,8 @@
 		EEE8F3B40F13AA720081E83D /* CSVWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVWindowController.m; sourceTree = "<group>"; };
 		EEE8FA440F1523B70081E83D /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		EEE8FA450F1523B70081E83D /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		EEF072EE1086302700C05DE9 /* DataTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableHeaderView.h; sourceTree = "<group>"; };
+		EEF072EF1086302700C05DE9 /* DataTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableHeaderView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +224,8 @@
 				EE0D3A290D6F02350009A7B2 /* DataTableView.m */,
 				EE15121C0D7F048D0092C02F /* DataTableColumn.h */,
 				EE15121D0D7F048D0092C02F /* DataTableColumn.m */,
+				EEF072EE1086302700C05DE9 /* DataTableHeaderView.h */,
+				EEF072EF1086302700C05DE9 /* DataTableHeaderView.m */,
 				EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */,
 				EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */,
 				EE219ED3107F849100E28D4D /* DataTableCell.h */,
@@ -353,6 +358,7 @@
 				EE64B6F9104A9648000DF5D2 /* PPStringFormatEntity.m in Sources */,
 				EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */,
 				EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */,
+				EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
