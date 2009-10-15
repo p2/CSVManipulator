@@ -24,6 +24,7 @@
 	if (nil != self) {
 		showsCheckbox = YES;
 		sortPriority = 1;
+		headerCheckboxRect = NSZeroRect;
 		
 		self.headerCheckbox = [[[NSButtonCell alloc] init] autorelease];
 		[headerCheckbox setButtonType:NSSwitchButton];
@@ -84,24 +85,29 @@
 #pragma mark Mouse and state tracking
 - (NSUInteger) hitTestForEvent:(NSEvent *)event inRect:(NSRect)cellFrame ofView:(NSView *)controlView
 {
-	// TODO: Return if we're interested
+	// check if we hit the checkbox
+	if (!NSEqualRects(headerCheckboxRect, NSZeroRect)) {
+		NSPoint hit = [controlView convertPoint:[event locationInWindow] fromView:nil];
+		if (hit.x > headerCheckboxRect.origin.x && hit.x < (headerCheckboxRect.origin.x + headerCheckboxRect.size.width)) {		// y will be hit anyway
+			return NSCellHitTrackableArea;
+		}
+	}
+	
+	// no; return default
 	return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];
 }
-/*
-- (void) stopTracking:(NSPoint)lastPoint at:(NSPoint)stopPoint inView:(NSView *)controlView mouseIsUp:(BOOL)flag
-{
-	NSLog(@"1");
-	// if the mouse didn't move and we've got a mouseIsUp, do this
-	if(CGPointEqualToPoint(NSPointToCGPoint(lastPoint), NSPointToCGPoint(stopPoint)) && flag) {
-		NSLog(@"view: %@", controlView);
-	}
-	else {
-		[super stopTracking:lastPoint at:stopPoint inView:controlView mouseIsUp:flag];
-	}
-}
-//	*/
 
--(void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority
+- (BOOL) trackMouse:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView untilMouseUp:(BOOL)untilMouseUp
+{
+	// tell the checkbox to track, if we're currently inside her
+	if (headerCheckbox && (NSCellHitTrackableArea & [headerCheckbox hitTestForEvent:theEvent inRect:cellFrame ofView:controlView])) {
+		return [headerCheckbox trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
+	}
+	return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
+}
+
+
+- (void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority
 {
 	sortAscending = ascending;
 	sortPriority = priority;
@@ -167,6 +173,7 @@
 		NSRect buttonFrame = cellFrame;
 		buttonFrame.size.width = 20.0;
 		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
+		headerCheckboxRect = buttonFrame;
 		
 		textFrame.origin.x += 20;
 		textFrame.size.width -= 20 + sortIndicator.size.width;

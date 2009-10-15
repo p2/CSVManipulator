@@ -25,11 +25,10 @@
 	
 	if ([allColumns count] > colIndex) {
 		DataTableColumn *column = [allColumns objectAtIndex:colIndex];
-		NSRect columnRect = [myTable rectOfColumn:colIndex];
-		// TODO: Working here
-		NSLog(@"--> %i at %@", [[column headerCell] hitTestForEvent:theEvent inRect:columnRect ofView:self], NSStringFromRect(columnRect));
-		if ([column handlesClickAtPoint:localPoint]) {
-			
+		NSRect columnRect = [self headerRectOfColumn:colIndex];
+		
+		if (NSCellHitTrackableArea & [[column headerCell] hitTestForEvent:theEvent inRect:columnRect ofView:self]) {
+			[[column headerCell] trackMouse:theEvent inRect:columnRect ofView:self untilMouseUp:NO];
 			return;
 		}
 	}

@@ -14,6 +14,7 @@
 	BOOL checked;
 	NSButtonCell *headerCheckbox;
 	NSTextFieldCell *headerTextfield;
+	NSRect headerCheckboxRect;
 	
 	NSUInteger sortPriority;			// needed to keep track of the sort state
 	BOOL sortAscending;					// needed to keep track of the sort state
