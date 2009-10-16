@@ -16,6 +16,6 @@
 }
 
 - (void) setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
-
+- (void) columnDidChangeCheckedStatus:(DataTableColumn *)tableColumn;
 
 @end

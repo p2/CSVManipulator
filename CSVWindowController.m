@@ -136,8 +136,7 @@
 	// remove OLD columns
 	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
 		[[oldColumn headerCell] unbind:@"stringValue"];
-		[[oldColumn headerCell] unbind:@"checked"];
-		[[oldColumn dataCell] unbind:@"titleCell"];
+		//[oldColumn unbind:@"active"];
 		[oldColumn unbind:@"value"];
 		[mainTable removeTableColumn:oldColumn];
 	}
@@ -150,7 +149,7 @@
 	[firstDataCell setTitle:@""];
 	
 	DataTableColumn *firstTableColumn = [DataTableColumn column];
-	[firstTableColumn setIdentifier:@"_isHeaderRowColumn"];
+	[firstTableColumn setIdentifier:@"_theHeaderRowColumn"];
 	[firstTableColumn setDataCell:firstDataCell];
 	[firstTableColumn setWidth:firstColumnWidth];
 	firstTableColumn.resizingMask = NSTableColumnNoResizing;
@@ -186,7 +185,7 @@
 			NSString *key = [tableColumn identifier];
 			
 			// first column with checkboxes
-			if ([@"_isHeaderRowColumn" isEqualToString:key]) {
+			if ([@"_theHeaderRowColumn" isEqualToString:key]) {
 				[tableColumn bind:@"value"
 						 toObject:document.csvDocument.rowController
 					  withKeyPath:@"arrangedObjects.headerRow"
@@ -199,15 +198,15 @@
 						 toObject:document.csvDocument.rowController
 					  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", key]
 						  options:nil];
+			//	[tableColumn bind:@"active"
+			//			 toObject:document.csvDocument.columnDict
+			//		  withKeyPath:[NSString stringWithFormat:@"%@.active", key]
+			//			  options:nil];					// does somehow not work. Using the delegate method for now
 				
 				// also bind column header
 				[[tableColumn headerCell] bind:@"stringValue"
 									  toObject:document.csvDocument.columnDict
 								   withKeyPath:[NSString stringWithFormat:@"%@.type", key]
-									   options:nil];
-				[[tableColumn headerCell] bind:@"checked"
-									  toObject:document.csvDocument.columnDict
-								   withKeyPath:[NSString stringWithFormat:@"%@.active", key]
 									   options:nil];
 			}
 		}
@@ -216,10 +215,6 @@
 	[mainTable setNeedsDisplay:YES];			// !! does not remove redundant column (graphical glitch)
 }
 
-- (void) tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
-{
-	
-}
 
 - (void) tableViewSelectionDidChange:(NSNotification *)notification
 {
@@ -233,48 +228,37 @@
 	}
 }
 
-/*
+
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
+	// set sort descriptors
 	if (mainTable == tableView) {
-		NSEvent *current = [[NSApplication sharedApplication] currentEvent];
-		NSPoint windowLocation = [current locationInWindow];
-		NSPoint viewLocation = [tableView convertPoint:windowLocation fromView:nil];
-		
-		NSArray *columns = [tableView tableColumns];
-		NSUInteger index = [columns indexOfObject:tableColumn];
-		NSRect columnRect = [tableView rectOfColumn:index];
-		
-		// hit the checkbox
-		if ((viewLocation.x - columnRect.origin.x) < 20.0) {
-			DataTableHeaderCell *cell = (DataTableHeaderCell *)[tableColumn headerCell];
-			
-			cell.checked = !cell.isChecked;
-			[document.csvDocument setHeaderActive:[cell isChecked] forColumnKey:[tableColumn identifier]];
-			[tableView setNeedsDisplay:YES];
-		}
-		
-		// hit the column header title
-		else {
-			// TODO: Improve
-			[(DataTableView *)tableView setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
-			[document setDataIsAtOriginalOrder:NO];
-		}
+		[(DataTableView *)tableView setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
+		[document setDataIsAtOriginalOrder:NO];
 	}
 }
-//	*/
+
+
+- (void) tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn
+{
+	[document.csvDocument setHeaderActive:tableColumn.active forColumnKey:[tableColumn identifier]];
+}
+
+
 - (void) tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
 {
-	if(mainTable == tableView) {
-		NSEnumerator *walker = [[tableView tableColumns] objectEnumerator];
+	if (mainTable == tableView) {
 		NSMutableArray *arr = [NSMutableArray array];
-		id col;
 		
-		while(col = [walker nextObject]) {
-			[arr addObject:[col identifier]];
+		// propagate changes to CSVDocument
+		for (DataTableColumn *col in [tableView tableColumns]) {
+			CSVColumn *csvCol = [document.csvDocument.columnDict objectForKey:[col identifier]];
+			if (nil != csvCol) {
+				[arr addObject:csvCol];
+			}
 		}
+		document.csvDocument.columns = [arr copy];
 		
-		//[document setColumnOrder:arr];
 		document.documentEdited = YES;
 	}
 }

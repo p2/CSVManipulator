@@ -8,20 +8,31 @@
 
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
+#import "DataTableView.h"
 #import "CSVColumn.h"
 
 
 @implementation DataTableColumn
 
-@synthesize headerCell;
+@dynamic active;
+@synthesize sortPriority;
+@synthesize sortAscending;
 
+
++ (void) initialize
+{
+	[self exposeBinding:@"active"];
+}
 
 - (id) init
 {
 	self = [super init];
 	if (nil != self) {
-		self.headerCell = [[[DataTableHeaderCell alloc] init] autorelease];
-		headerCell.checked = YES;
+		sortPriority = 1;
+		DataTableHeaderCell *headerCell = [[[DataTableHeaderCell alloc] init] autorelease];
+		headerCell.myColumn = self;
+		[self setHeaderCell:headerCell];
+		self.active = YES;
 	}
 	
 	return self;
@@ -31,21 +42,43 @@
 {
 	return [[[DataTableColumn alloc] init] autorelease];
 }
+#pragma mark -
 
-- (void) dealloc
+
+
+#pragma mark KVC
+- (BOOL) active
 {
-	self.headerCell = nil;
-	
-	[super dealloc];
+	return active;
+}
+- (void) setActive:(BOOL)newActive
+{
+	if (newActive != active) {
+		active = newActive;
+		((DataTableHeaderCell *)[self headerCell]).checked = active;
+		[(DataTableView *)[self tableView] columnDidChangeCheckedStatus:self];
+	}
 }
 #pragma mark -
 
 
 
-#pragma mark Events
-- (BOOL) handlesClickAtPoint:(NSPoint)point
+#pragma mark Sorting
+- (void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority
 {
-	return NO;
+	sortAscending = ascending;
+	sortPriority = priority;
+	
+	[(NSControl *)[[self headerCell] controlView] updateCell:[self headerCell]];
+}
+#pragma mark -
+
+
+
+#pragma mark Utilities
+- (NSString *) description
+{
+	return [NSString stringWithFormat:@"%@ <0x%x>, active: %i", NSStringFromClass([self class]), self, active];
 }
 
 

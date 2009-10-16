@@ -63,5 +63,7 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SVNRevision</key>
+	<string>15</string>
 </dict>
 </plist>

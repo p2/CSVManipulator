@@ -72,7 +72,7 @@
 - (BOOL) parseCSVString:(NSString *)string error:(NSError **)error;
 - (BOOL) parseCSVString:(NSString *)string maxRows:(NSUInteger)maxRows error:(NSError **)error;
 #ifdef CSV_STRING_EXPORTING
-- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag;
+- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes includeHeaders:(BOOL)headerFlag;
 #endif
 
 // column handling

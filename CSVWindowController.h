@@ -7,13 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "DataTableViewDelegate.h"
 @class MyDocument;
 @class PPStringFormat;
 @class DataTableView;
 @class PPToolbarView;
 
 
-@interface CSVWindowController : NSWindowController
+@interface CSVWindowController : NSWindowController <DataTableViewDelegate>
 {
 	MyDocument *document;
 	
@@ -57,7 +58,6 @@
 
 // TableView delegate
 - (void) redefineTable;
-- (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn;
 - (void) refreshData;
 
 // Progress Sheet Actions

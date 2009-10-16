@@ -197,7 +197,6 @@
 {
 	// use "lastChoiceExportFormat" after window closed!
 	NSString *csvString = [self stringInFormat:self.documentFormat allRows:YES allColumns:YES];
-	NSLog(@"-----\n%@-----", csvString);
 	
 	// save file
 	BOOL success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
@@ -230,7 +229,7 @@
 		columns = [foo copy];
 	}
 	
-	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes writeHeader:exportHeaders];
+	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes includeHeaders:exportHeaders];
 }
 #pragma mark -
 
@@ -463,7 +462,7 @@
     if ([typesToDeclare count] > 0) {
         [pboard declareTypes:typesToDeclare owner:self];
         walker = [typesToDeclare objectEnumerator];
-        while(type = [walker nextObject]) {
+        while (type = [walker nextObject]) {
             if ([self copySelectionToPasteboard:pboard type:type]) {
 				result = YES;
 			}
@@ -518,7 +517,7 @@
 			result = [pboard setString:string forType:NSStringPboardType];
 		}
 	}
-	NSLog(@"Type was %@", type);
+	
 	return result;
 }
 

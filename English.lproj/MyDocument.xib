@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="100021"/>
+			<integer value="100296"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1299,20 +1299,6 @@
 						<reference key="parent" ref="779565336"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">100299</int>
-						<reference key="object" ref="95163717"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="185441199"/>
-						</object>
-						<reference key="parent" ref="173972894"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">100300</int>
-						<reference key="object" ref="185441199"/>
-						<reference key="parent" ref="95163717"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">100312</int>
 						<reference key="object" ref="418934109"/>
 						<object class="NSMutableArray" key="children">
@@ -1503,6 +1489,20 @@
 						<reference key="object" ref="990262597"/>
 						<reference key="parent" ref="89752285"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100299</int>
+						<reference key="object" ref="95163717"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="185441199"/>
+						</object>
+						<reference key="parent" ref="173972894"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100300</int>
+						<reference key="object" ref="185441199"/>
+						<reference key="parent" ref="95163717"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1582,6 +1582,7 @@
 					<string>100338.IBPluginDependency</string>
 					<string>100339.IBPluginDependency</string>
 					<string>100340.IBPluginDependency</string>
+					<string>100343.IBPluginDependency</string>
 					<string>5.IBEditorWindowLastContentRect</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBWindowTemplateEditedContentRect</string>
@@ -1667,6 +1668,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{389, 387}, {600, 500}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{389, 387}, {600, 500}}</string>
@@ -1694,7 +1696,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100343</int>
+			<int key="maxID">100359</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

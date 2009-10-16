@@ -7,15 +7,24 @@
 //
 
 #import "DataTableHeaderCell.h"
+#import "DataTableColumn.h"
+
+
+@interface DataTableHeaderCell ()
+
+- (void) checkboxAction:(NSView *)controlView;
+
+@end
+
 
 
 @implementation DataTableHeaderCell
 
+@synthesize myColumn;
 @synthesize showsCheckbox;
 @synthesize checked;
 @synthesize headerCheckbox;
 @synthesize headerTextfield;
-@synthesize sortAscending;
 
 
 - (id) init
@@ -23,12 +32,14 @@
 	self = [super init];
 	if (nil != self) {
 		showsCheckbox = YES;
-		sortPriority = 1;
 		headerCheckboxRect = NSZeroRect;
 		
 		self.headerCheckbox = [[[NSButtonCell alloc] init] autorelease];
 		[headerCheckbox setButtonType:NSSwitchButton];
 		[headerCheckbox setControlSize:NSSmallControlSize];
+		[headerCheckbox setTarget:self];
+		[headerCheckbox setAction:@selector(checkboxAction:)];
+		[headerCheckbox sendActionOn:NSLeftMouseUpMask];
 		
 		self.headerTextfield = [[[NSTextFieldCell alloc] init] autorelease];
 		[headerTextfield setTextColor:[NSColor blackColor]];
@@ -39,6 +50,7 @@
 
 - (void) dealloc
 {
+	self.myColumn = nil;
 	self.headerCheckbox = nil;
 	self.headerTextfield = nil;
 	
@@ -49,8 +61,12 @@
 {
 	DataTableHeaderCell *cell = (DataTableHeaderCell *)[super copyWithZone:zone];
 	
+	cell.myColumn = nil;								// to avoid associating with the same column
+	cell->showsCheckbox = showsCheckbox;
 	cell->headerCheckbox = nil;
 	cell.headerCheckbox = [headerCheckbox copyWithZone:zone];
+	cell->headerCheckboxRect = headerCheckboxRect;
+	cell.checked = NO;									// does not work...
 	cell->headerTextfield = nil;
 	cell.headerTextfield = [headerTextfield copyWithZone:zone];
 	
@@ -72,11 +88,25 @@
 
 - (BOOL) isChecked
 {
-	return (NSOnState == [headerCheckbox state]);
+	return checked;
 }
 - (void) setChecked:(BOOL)flag
 {
-	[headerCheckbox setState:(flag ? NSOnState : NSOffState)];
+	checked = flag;
+	
+	// adjust our checkbox
+	if (headerCheckbox) {
+		NSCellStateValue curState = headerCheckbox.state;
+		NSCellStateValue newState = (flag ? NSOnState : NSOffState);
+		if (curState != newState) {
+			[headerCheckbox setState:newState];
+		}
+	}
+	
+	// tell our column
+	if (myColumn) {
+		myColumn.active = checked;
+	}
 }
 #pragma mark -
 
@@ -106,13 +136,9 @@
 	return [super trackMouse:theEvent inRect:cellFrame ofView:controlView untilMouseUp:untilMouseUp];
 }
 
-
-- (void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority
+- (void) checkboxAction:(NSView *)controlView
 {
-	sortAscending = ascending;
-	sortPriority = priority;
-	
-	[(NSControl *)[self controlView] updateCell:self];
+	self.checked = (NSOnState == headerCheckbox.state);
 }
 #pragma mark -
 
@@ -129,7 +155,7 @@
 		topColor = [NSColor colorWithDeviceWhite:0.74 alpha:1.0];
 		bottomColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
 	}
-	else if (0 == sortPriority) {											// active sorting column
+	else if (nil != myColumn && 0 == myColumn.sortPriority) {											// active sorting column
 		NSColor *selectedColor = [NSColor selectedTextBackgroundColor];
 		topColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor whiteColor]];
 		bottomColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor blackColor]];
@@ -179,7 +205,9 @@
 		textFrame.size.width -= 20 + sortIndicator.size.width;
 	}
 	[headerTextfield drawWithFrame:textFrame inView:controlView];
-	[self drawSortIndicatorWithFrame:cellFrame inView:controlView ascending:sortAscending priority:sortPriority];
+	
+	NSUInteger priority = (nil != myColumn) ? myColumn.sortPriority : 1;
+	[self drawSortIndicatorWithFrame:cellFrame inView:controlView ascending:myColumn.sortAscending priority:priority];
 }
 
 

@@ -344,7 +344,7 @@
 
 #pragma mark Returning as String
 #ifdef CSV_STRING_EXPORTING
-- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes writeHeader:(BOOL)headerFlag
+- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes includeHeaders:(BOOL)headerFlag
 {
 	if ([columnArray count] < 1) {
 		return @"";
@@ -361,6 +361,7 @@
 	}
 	
 	// get desired row indexes if not given
+	// TODO: Also return header rows if we want the headers!
 	if (nil == rowIndexes) {
 		if (NSNotFound == [rowController selectionIndex]) {
 			NSRange fullRange = NSMakeRange(0, [rows count]);
@@ -373,7 +374,9 @@
 	NSArray *exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
 	
 	// get the string from the formatter
-	return [format stringForRows:exportRows includeHeaderRows:headerFlag withColumnKeys:columnKeys];
+	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumnKeys:columnKeys];
+	NSLog(@"-->  %@ returning formatted string:\n%@", self, string);
+	return string;
 }
 #endif
 #pragma mark -

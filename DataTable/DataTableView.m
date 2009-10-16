@@ -7,6 +7,7 @@
 //
 
 #import "DataTableView.h"
+#import "DataTableViewDelegate.h"
 #import "MyDocument.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderView.h"
@@ -26,7 +27,7 @@
 
 
 
-#pragma mark Tasks
+#pragma mark Awakening
 - (void) awakeFromNib
 {
 	// exchange the header view
@@ -36,6 +37,11 @@
 		[self setHeaderView:newHeader];
 	}
 }
+# pragma mark -
+
+
+
+#pragma mark Column Delegate
 
 
 // this controls sorting - overridden since we don't want the table to re-sort when we click the checkbox in the header, we...
@@ -55,12 +61,21 @@
 	// make the header cell indicate sort status
 	BOOL ascending = NO;
 	for (DataTableColumn *column in [self tableColumns]) {
-		ascending = column.headerCell.sortAscending;
+		ascending = column.sortAscending;
 		if (column == tableColumn) {
-			[column.headerCell setSortAscending:!ascending priority:0];
+			[column setSortAscending:!ascending priority:0];
 		}
 		else {
-			[column.headerCell setSortAscending:ascending priority:1];
+			[column setSortAscending:ascending priority:1];
+		}
+	}
+}
+
+- (void) columnDidChangeCheckedStatus:(DataTableColumn *)tableColumn
+{
+	if (nil != tableColumn) {
+		if (self.delegate && [self.delegate respondsToSelector:@selector(tableView:didChangeTableColumnState:)]) {
+			[self.delegate tableView:self didChangeTableColumnState:tableColumn];
 		}
 	}
 }

@@ -7,17 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class DataTableHeaderCell;
 
 
 @interface DataTableColumn : NSTableColumn {
-	DataTableHeaderCell *headerCell;
+	BOOL active;
+	NSUInteger sortPriority;			// needed to keep track of the sort state
+	BOOL sortAscending;					// needed to keep track of the sort state
 }
 
-@property (nonatomic, retain) DataTableHeaderCell *headerCell;
+@property (nonatomic, assign) BOOL active;
+@property (nonatomic, readonly) NSUInteger sortPriority;
+@property (nonatomic, readonly) BOOL sortAscending;
 
 + (DataTableColumn *) column;
-- (BOOL) handlesClickAtPoint:(NSPoint)point;
+
+-(void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority;			// needed to show sort state of the column
 
 
 @end

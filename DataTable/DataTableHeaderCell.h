@@ -7,26 +7,24 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class DataTableColumn;
 
 
 @interface DataTableHeaderCell : NSTableHeaderCell {
+	DataTableColumn *myColumn;
+	
 	BOOL showsCheckbox;
 	BOOL checked;
 	NSButtonCell *headerCheckbox;
 	NSTextFieldCell *headerTextfield;
 	NSRect headerCheckboxRect;
-	
-	NSUInteger sortPriority;			// needed to keep track of the sort state
-	BOOL sortAscending;					// needed to keep track of the sort state
 }
 
+@property (nonatomic, assign) DataTableColumn *myColumn;
 @property (nonatomic, assign) BOOL showsCheckbox;
 @property (nonatomic, assign, getter=isChecked) BOOL checked;
 @property (nonatomic, retain) NSButtonCell *headerCheckbox;
 @property (nonatomic, retain) NSTextFieldCell *headerTextfield;
-@property (nonatomic, readonly) BOOL sortAscending;
-
--(void) setSortAscending:(BOOL)ascending priority:(NSUInteger)priority;			// needed to show sort state of the column
 
 
 @end

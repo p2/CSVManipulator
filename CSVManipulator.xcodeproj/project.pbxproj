@@ -6,6 +6,20 @@
 	objectVersion = 44;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		EE1377031088767D00D31816 /* Save IB Files */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = EE13770E108876B900D31816 /* Build configuration list for PBXAggregateTarget "Save IB Files" */;
+			buildPhases = (
+				EE1377021088767D00D31816 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = "Save IB Files";
+			productName = "Save IB Files";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -41,6 +55,16 @@
 		EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF072EF1086302700C05DE9 /* DataTableHeaderView.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		EE1377061088769500D31816 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE1377031088767D00D31816 /* Save IB Files */;
+			remoteInfo = "Save IB Files";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -56,6 +80,7 @@
 		8D15AC370486D014006FF6A4 /* CSVManipulator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSVManipulator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE0D3A280D6F02350009A7B2 /* DataTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableView.h; sourceTree = "<group>"; };
 		EE0D3A290D6F02350009A7B2 /* DataTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableView.m; sourceTree = "<group>"; };
+		EE1377641088A54D00D31816 /* DataTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableViewDelegate.h; sourceTree = "<group>"; };
 		EE15121C0D7F048D0092C02F /* DataTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableColumn.h; sourceTree = "<group>"; };
 		EE15121D0D7F048D0092C02F /* DataTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableColumn.m; sourceTree = "<group>"; };
 		EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableHeaderCell.h; sourceTree = "<group>"; };
@@ -89,7 +114,7 @@
 		EE9E110F1042BC8A00554687 /* CSVColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVColumn.h; sourceTree = "<group>"; };
 		EE9E11101042BC8A00554687 /* CSVColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVColumn.m; sourceTree = "<group>"; };
 		EE9E19531045380800554687 /* CSVDocumentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDocumentDelegate.h; sourceTree = "<group>"; };
-		EE9E1DEB1046BDC100554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
+		EE9E1DEB1046BDC100554687 /* English */ = {isa = PBXFileReference; explicitFileType = file.xib; name = English; path = English.lproj/MyDocument.xib; sourceTree = "<group>"; };
 		EE9E1DF11046BE1F00554687 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		EE9E21211047CF8700554687 /* PPToolbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPToolbarView.h; sourceTree = "<group>"; };
 		EE9E21221047CF8700554687 /* PPToolbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPToolbarView.m; sourceTree = "<group>"; };
@@ -220,6 +245,7 @@
 		EE1512230D7F04910092C02F /* DataTable */ = {
 			isa = PBXGroup;
 			children = (
+				EE1377641088A54D00D31816 /* DataTableViewDelegate.h */,
 				EE0D3A280D6F02350009A7B2 /* DataTableView.h */,
 				EE0D3A290D6F02350009A7B2 /* DataTableView.m */,
 				EE15121C0D7F048D0092C02F /* DataTableColumn.h */,
@@ -283,6 +309,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "CSVManipulator" */;
 			buildPhases = (
+				EE13771B10887D9800D31816 /* ShellScript */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -290,6 +317,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				EE1377071088769500D31816 /* PBXTargetDependency */,
 			);
 			name = CSVManipulator;
 			productInstallPath = "$(HOME)/Applications";
@@ -310,6 +338,7 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* CSVManipulator */,
+				EE1377031088767D00D31816 /* Save IB Files */,
 			);
 		};
 /* End PBXProject section */
@@ -329,6 +358,37 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EE1377021088767D00D31816 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ -f \"/Users/pp/Programming/SaveIBFiles.scpt\" ]; then\n\tosascript \"/Users/pp/Programming/SaveIBFiles.scpt\"\nfi";
+			showEnvVarsInLog = 0;
+		};
+		EE13771B10887D9800D31816 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "Automatically inserts current revision number";
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "REV=`svnversion -n | sed -e 's/[0-9]+://;s/[^0-9]*//g'`\n/usr/libexec/PlistBuddy -c \"Set :SVNRevision $REV\" ${PROJECT_DIR}/Info.plist";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D15AC300486D014006FF6A4 /* Sources */ = {
@@ -363,6 +423,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EE1377071088769500D31816 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE1377031088767D00D31816 /* Save IB Files */;
+			targetProxy = EE1377061088769500D31816 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
@@ -469,6 +537,27 @@
 			};
 			name = Release;
 		};
+		EE1377041088767D00D31816 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Save IB Files";
+			};
+			name = Debug;
+		};
+		EE1377051088767D00D31816 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Save IB Files";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -486,6 +575,15 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE13770E108876B900D31816 /* Build configuration list for PBXAggregateTarget "Save IB Files" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE1377041088767D00D31816 /* Debug */,
+				EE1377051088767D00D31816 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
