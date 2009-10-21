@@ -148,21 +148,28 @@
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
 	// get appropriate gradient colors
-	//[super drawWithFrame:cellFrame inView:controlView];
 	// TODO: Put this outside of drawWithFrame:
 	NSColor *topColor, *bottomColor;
-	if (NSOnState == [self state]) {										// being clicked on
-		topColor = [NSColor colorWithDeviceWhite:0.74 alpha:1.0];
-		bottomColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
+	BOOL weAreKey = [[controlView window] isKeyWindow];
+	
+	if (NSOnState == [self state]) {											// being clicked on
+		topColor = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
+		bottomColor = [NSColor colorWithDeviceWhite:0.60 alpha:1.0];
 	}
-	else if (nil != myColumn && 0 == myColumn.sortPriority) {											// active sorting column
-		NSColor *selectedColor = [NSColor selectedTextBackgroundColor];
-		topColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor whiteColor]];
-		bottomColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor blackColor]];
+	else if (weAreKey) {
+		if (nil != myColumn && 0 == myColumn.sortPriority) {					// active sorting column
+			NSColor *selectedColor = [NSColor selectedTextBackgroundColor];
+			topColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor whiteColor]];
+			bottomColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor blackColor]];
+		}
+		else {																	// idle
+			topColor = [NSColor colorWithDeviceWhite:0.8 alpha:1.0];
+			bottomColor = [NSColor colorWithDeviceWhite:0.67 alpha:1.0];
+		}
 	}
-	else {																	// idle
-		topColor = [NSColor colorWithDeviceWhite:0.86 alpha:1.0];
-		bottomColor = [NSColor colorWithDeviceWhite:0.74 alpha:1.0];
+	else {																		// window in background
+		topColor = [NSColor colorWithDeviceWhite:0.9 alpha:1.0];
+		bottomColor = [NSColor colorWithDeviceWhite:0.82 alpha:1.0];
 	}
 	
 	// create and draw the gradient
@@ -198,7 +205,7 @@
 	if (showsCheckbox) {
 		NSRect buttonFrame = cellFrame;
 		buttonFrame.size.width = 20.0;
-		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
+		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];		// TODO: Check whether our window isKeyWindow
 		headerCheckboxRect = buttonFrame;
 		
 		textFrame.origin.x += 20;

@@ -43,13 +43,6 @@
 
 - (void) awakeFromNib
 {
-	//--
-	//NSTableHeaderView *tableHeader = [mainTable headerView];
-	//NSRect frame = [tableHeader frame];
-	//frame.size.height = 30.0;
-	//[tableHeader setFrame:frame];
-	//--
-	
 	NSNumber *top_border_width = [NSNumber numberWithInt:1];
 	mainToolbar.borderWidths = [NSArray arrayWithObjects:top_border_width, [NSNull null], [NSNull null], [NSNull null], nil];
 	
@@ -66,11 +59,10 @@
 	
 	
 }
-
+/*
 - (void) windowWillClose:(NSNotification *)notification
 {
-	//[document setLastChoiceFormat:[self outputFormat]];
-}
+}	//*/
 #pragma mark -
 
 
@@ -90,16 +82,6 @@
 	if (result == NSFileHandlingPanelOKButton) {
 		
 	}
-}
-
-// TODO: needed?
-- (NSInteger) outputFormat
-{
-	NSMenuItem *selectedItem = [copyAsKindPopup selectedItem];
-	if(selectedItem) {
-		return [selectedItem tag];
-	}
-	return 0;
 }
 #pragma mark -
 
@@ -135,8 +117,7 @@
 {
 	// remove OLD columns
 	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
-		[[oldColumn headerCell] unbind:@"stringValue"];
-		//[oldColumn unbind:@"active"];
+		[oldColumn unbind:@"headerTitle"];
 		[oldColumn unbind:@"value"];
 		[mainTable removeTableColumn:oldColumn];
 	}
@@ -153,7 +134,8 @@
 	[firstTableColumn setDataCell:firstDataCell];
 	[firstTableColumn setWidth:firstColumnWidth];
 	firstTableColumn.resizingMask = NSTableColumnNoResizing;
-	[[firstTableColumn headerCell] setTitle:@"H"];
+	[[firstTableColumn headerCell] setTitle:@"⚑"];
+	[[firstTableColumn headerCell] setAlignment:NSCenterTextAlignment];
 	[[firstTableColumn headerCell] setShowsCheckbox:NO];
 	
 	[mainTable addTableColumn:firstTableColumn];
@@ -161,13 +143,13 @@
 	// new headers, new bindings
 	NSInteger numHeaders = [document numColumns];
 	if (numHeaders > 0) {
+		DataTableCell *dataCell = [DataTableCell cell];
 		NSRect mainTableBounds = [mainTable frame];
 		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numHeaders);
 		columnWidth = (columnWidth < COLUMN_MIN_WIDTH) ? COLUMN_MIN_WIDTH : columnWidth;
 		
-		// loop columns to add them
+		// loop columns to add the columns
 		for (CSVColumn *column in [document columns]) {
-			DataTableCell *dataCell = [DataTableCell cell];
 			
 			// compose the column and add it to the table
 			DataTableColumn *tableColumn = [DataTableColumn column];
@@ -204,12 +186,14 @@
 			//			  options:nil];					// does somehow not work. Using the delegate method for now
 				
 				// also bind column header
-				[[tableColumn headerCell] bind:@"stringValue"
-									  toObject:document.csvDocument.columnDict
-								   withKeyPath:[NSString stringWithFormat:@"%@.type", key]
-									   options:nil];
+				[tableColumn bind:@"headerTitle"
+						 toObject:document.csvDocument.columnDict
+					  withKeyPath:[NSString stringWithFormat:@"%@.type", key]
+						  options:nil];
 			}
 		}
+		
+		[mainTable sizeLastColumnToFit];
 	}
 	
 	[mainTable setNeedsDisplay:YES];			// !! does not remove redundant column (graphical glitch)
@@ -223,7 +207,7 @@
 		
 		// if an empty row was selected, jump into edit mode of the first field
 		if (![document hasAnyDataAtRow:selected_row]) {
-			[mainTable editColumn:0 row:selected_row withEvent:nil select:YES];
+			[mainTable editColumn:1 row:selected_row withEvent:nil select:YES];
 		}
 	}
 }

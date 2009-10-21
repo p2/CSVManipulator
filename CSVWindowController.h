@@ -46,7 +46,6 @@
 
 // Export Sheet
 - (IBAction) exportDocument:(id)sender;
-- (NSInteger) outputFormat;
 
 // Data control
 - (void) addToCSVRow:(id)sender;

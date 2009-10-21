@@ -13,7 +13,17 @@
 #import "DataTableHeaderView.h"
 #import "DataTableHeaderCell.h"
 
+@interface DataTableView (Private)
+
+- (void) ourWindowDidChangeKeyNotification:(NSNotification *)notification;
+
+@end
+
+
+
 @implementation DataTableView
+
+@synthesize titleRowColumnIndex;
 
 
 #pragma mark Generic
@@ -27,7 +37,7 @@
 
 
 
-#pragma mark Awakening
+#pragma mark Awakening and Key Notifications
 - (void) awakeFromNib
 {
 	// exchange the header view
@@ -37,12 +47,25 @@
 		[self setHeaderView:newHeader];
 	}
 }
+
+- (void) viewWillMoveToWindow:(NSWindow *)newWindow;
+{
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+	[center removeObserver:self name:NSWindowDidResignKeyNotification object:nil];
+	[center addObserver:self selector:@selector(ourWindowDidChangeKeyNotification:) name:NSWindowDidResignKeyNotification object:newWindow];
+	[center removeObserver:self name:NSWindowDidBecomeKeyNotification object:nil];
+	[center addObserver:self selector:@selector(ourWindowDidChangeKeyNotification:) name:NSWindowDidBecomeKeyNotification object:newWindow];
+}
+
+- (void) ourWindowDidChangeKeyNotification:(NSNotification *)notification
+{
+	[self setNeedsDisplay:YES];		// TODO: Maybe use setNeedsDisplayInRect: with the rects of the header rows?
+}
 # pragma mark -
 
 
 
 #pragma mark Column Delegate
-
 
 // this controls sorting - overridden since we don't want the table to re-sort when we click the checkbox in the header, we...
 - (void) setSortDescriptors:(NSArray *) array
@@ -80,6 +103,33 @@
 	}
 }
 #pragma mark -
+
+
+
+#pragma mark Drawing
+- (void) drawRow:(NSInteger)rowIndex clipRect:(NSRect)clipRect
+{
+	// draw background if we are a title row
+	if (titleRowColumnIndex >= 0) {
+		NSCell *titleRowCell = [self preparedCellAtColumn:titleRowColumnIndex row:rowIndex];
+		if (1 == [titleRowCell intValue]) {
+			[[self titleColorForRow:rowIndex] setFill];
+			NSRectFill([self rectOfRow:rowIndex]);
+		}
+	}
+	
+	[super drawRow:rowIndex clipRect:clipRect];
+}
+
+
+- (NSColor *) titleColorForRow:(NSInteger)rowIndex
+{
+	CGFloat blendFraction = [[self window] isKeyWindow] ? 0.25 : 0.15;
+	NSArray *colors = [NSColor controlAlternatingRowBackgroundColors];
+	NSColor *myColor = [[colors objectAtIndex:rowIndex % [colors count]] blendedColorWithFraction:blendFraction ofColor:[NSColor blackColor]];
+	
+	return myColor;
+}
 
 
 @end

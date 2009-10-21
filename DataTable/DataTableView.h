@@ -13,9 +13,13 @@
 
 @interface DataTableView : NSTableView {
 	NSArray *sortDescriptorsArray;
+	NSInteger titleRowColumnIndex;			// we ask this column's value wether we are a title row which has a different background
 }
+
+@property (nonatomic, assign) NSInteger titleRowColumnIndex;
 
 - (void) setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn;
 - (void) columnDidChangeCheckedStatus:(DataTableColumn *)tableColumn;
+- (NSColor *) titleColorForRow:(NSInteger)rowIndex;
 
 @end

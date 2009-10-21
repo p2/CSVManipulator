@@ -11,8 +11,6 @@
 
 @implementation DataTableCell
 
-@synthesize isTitleCell;
-
 
 - (id) init
 {
@@ -32,18 +30,6 @@
 
 
 #pragma mark Drawing
-- (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
-{
-	// highlight background if it's a header row
-	if (isTitleCell) {
-		NSColor *bgColor = [NSColor redColor];
-		[bgColor setFill];
-		NSRectFill(cellFrame);
-	}
-	
-	[super drawWithFrame:cellFrame inView:controlView];
-}
-
 - (void) drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
 	// no value - draw a placeholder
