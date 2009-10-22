@@ -41,7 +41,7 @@
 @property (nonatomic, retain) CSVDocument *csvDocument;
 
 @property (nonatomic, assign) BOOL documentLoaded;
-@property (nonatomic, assign, getter=isDocumentEdited) BOOL documentEdited;
+@property (assign, getter=isDocumentEdited) BOOL documentEdited;
 @property (nonatomic, assign) BOOL dataIsAtOriginalOrder;
 @property (nonatomic, retain) PPStringFormat *documentFormat;
 
@@ -56,8 +56,8 @@
 - (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex;
 - (BOOL) hasDataAtRow:(NSUInteger)rowIndex forColumnKey:(NSString *)columnKey;
 
-- (void) addToCSVRow:(id)sender;
-- (void) removeFromCSVRow:(id)sender;
+- (void) addCSVRow:(id)sender;
+- (void) removeCSVRow:(id)sender;
 - (void) restoreOriginalOrder;
 - (void) abortImport;
 

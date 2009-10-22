@@ -150,13 +150,12 @@
 	// get appropriate gradient colors
 	// TODO: Put this outside of drawWithFrame:
 	NSColor *topColor, *bottomColor;
-	BOOL weAreKey = [[controlView window] isKeyWindow];
 	
 	if (NSOnState == [self state]) {											// being clicked on
 		topColor = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
 		bottomColor = [NSColor colorWithDeviceWhite:0.60 alpha:1.0];
 	}
-	else if (weAreKey) {
+	else if ([[controlView window] isMainWindow]) {
 		if (nil != myColumn && 0 == myColumn.sortPriority) {					// active sorting column
 			NSColor *selectedColor = [NSColor selectedTextBackgroundColor];
 			topColor = [selectedColor blendedColorWithFraction:0.1 ofColor:[NSColor whiteColor]];
@@ -203,9 +202,11 @@
 	
 	// draw
 	if (showsCheckbox) {
+		[headerCheckbox setControlTint:([[controlView window] isMainWindow] ? NSDefaultControlTint : NSClearControlTint)];
+		
 		NSRect buttonFrame = cellFrame;
 		buttonFrame.size.width = 20.0;
-		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];		// TODO: Check whether our window isKeyWindow
+		[headerCheckbox drawWithFrame:buttonFrame inView:controlView];
 		headerCheckboxRect = buttonFrame;
 		
 		textFrame.origin.x += 20;

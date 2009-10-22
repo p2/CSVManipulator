@@ -21,6 +21,7 @@
 }
 
 + (CSVInspector *) sharedInspector;
++ (void) show:(id)sender;
 
 - (IBAction) performCalculation:(id)sender;
 - (void) updateCalculationStatus:(NSNumber *)alreadyDone;

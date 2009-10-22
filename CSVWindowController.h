@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AppKit/AppKit.h>
 #import "DataTableViewDelegate.h"
 @class MyDocument;
 @class PPStringFormat;
@@ -27,13 +28,13 @@
 	
 	IBOutlet NSPopUpButton *copyAsKindPopup;
 	
-	// Export sheet
-	IBOutlet NSView *exportAccessoryView;
-	
 	// Progress window
 	IBOutlet NSPanel *progressSheet;
 	IBOutlet NSProgressIndicator *progressIndicator;
 	IBOutlet NSTextField *progressPercentage;
+	
+	// Export sheet
+	IBOutlet NSPanel *exportSheet;
 }
 
 @property (nonatomic, assign) MyDocument *document;
@@ -41,15 +42,13 @@
 @property (nonatomic, retain) IBOutlet DataTableView *mainTable;
 @property (nonatomic, retain) IBOutlet PPToolbarView *mainToolbar;
 
-@property (nonatomic, retain) IBOutlet NSView *exportAccessoryView;
+@property (nonatomic, retain) IBOutlet NSPanel *progressSheet;
+@property (nonatomic, retain) IBOutlet NSPanel *exportSheet;
 
-
-// Export Sheet
-- (IBAction) exportDocument:(id)sender;
 
 // Data control
-- (void) addToCSVRow:(id)sender;
-- (void) removeFromCSVRow:(id)sender;
+- (IBAction) addCSVRow:(id)sender;
+- (IBAction) removeCSVRow:(id)sender;
 
 // Display options
 - (IBAction) restoreOriginalOrder:(id)sender;
@@ -59,12 +58,20 @@
 - (void) redefineTable;
 - (void) refreshData;
 
+// Inspector
+- (IBAction) showInspector:(id)sender;
+
 // Progress Sheet Actions
 - (void) showProgressSheet;
 - (void) updateProgressSheetProgress:(CGFloat)percentage;
 - (void) hideProgressSheet;
 - (IBAction) abortImport:(id)sender;
 - (void) didAbortImport:(BOOL)flag;
+
+// Export Sheet
+- (IBAction) showExportSheet:(id)sender;
+- (IBAction) exportDocument:(id)sender;
+- (IBAction) hideExportSheet:(id)sender;
 
 
 

@@ -11,6 +11,7 @@
 #import "PPStringFormat.h"
 #import "CSVDocument.h"
 #import "CSVColumn.h"
+#import "CSVInspector.h"
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
@@ -26,7 +27,8 @@
 @synthesize mainTable;
 @synthesize mainToolbar;
 
-@synthesize exportAccessoryView;
+@synthesize progressSheet;
+@synthesize exportSheet;
 
 
 - (void) dealloc
@@ -36,7 +38,8 @@
 	self.mainTable = nil;
 	self.mainToolbar = nil;
 	
-	self.exportAccessoryView = nil;
+	self.progressSheet = nil;
+	self.exportSheet = nil;
 	
 	[super dealloc];
 }
@@ -56,8 +59,6 @@
 	else {
 		[self redefineTable];
 	}
-	
-	
 }
 /*
 - (void) windowWillClose:(NSNotification *)notification
@@ -67,34 +68,14 @@
 
 
 
-#pragma mark Export
-- (IBAction) exportDocument:(id)sender
-{
-	NSSavePanel *exportPanel = [NSSavePanel savePanel];
-	
-	// configure the panel
-	[exportPanel setDelegate:self];
-	[exportPanel setAccessoryView:exportAccessoryView];
-	
-	NSInteger result = [exportPanel runModal];
-	
-	// got the OK, handle export
-	if (result == NSFileHandlingPanelOKButton) {
-		
-	}
-}
-#pragma mark -
-
-
-
 #pragma mark Data Control
-- (void) addToCSVRow:(id)sender
+- (void) addCSVRow:(id)sender
 {
-	[document addToCSVRow:sender];
+	[document addCSVRow:sender];
 }
-- (void) removeFromCSVRow:(id)sender
+- (void) removeCSVRow:(id)sender
 {
-	[document removeFromCSVRow:sender];
+	[document removeCSVRow:sender];
 }
 
 - (IBAction) restoreOriginalOrder:(id)sender;
@@ -226,6 +207,7 @@
 - (void) tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn
 {
 	[document.csvDocument setHeaderActive:tableColumn.active forColumnKey:[tableColumn identifier]];
+	document.documentEdited = YES;
 }
 
 
@@ -242,14 +224,42 @@
 			}
 		}
 		document.csvDocument.columns = [arr copy];
-		
 		document.documentEdited = YES;
 	}
+}
+#pragma mark -
+
+
+
+#pragma mark TableView DataSource
+- (NSInteger) numberOfRowsInTableView:(NSTableView*)aTableView
+{
+	return 0;			// will not be used since we use bindings, but must be implemented to avoid warnings
+}
+
+- (id) tableView:(NSTableView*)aTableView objectValueForTableColumn:(NSTableColumn*)aTableColumn row:(int)rowIndex
+{
+	return nil;			// will not be used since we use bindings, but must be implemented to avoid warnings
+}
+
+- (void) tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+	NSArray *currentDescriptors = [aTableView sortDescriptors];
+	document.dataIsAtOriginalOrder = (nil == currentDescriptors || 0 == [currentDescriptors count]);
 }
 
 - (void) refreshData
 {
 	[mainTable reloadData];
+}
+#pragma mark -
+
+
+
+#pragma mark Inspector
+- (IBAction) showInspector:(id)sender
+{
+	[CSVInspector show:sender];
 }
 #pragma mark -
 
@@ -289,6 +299,43 @@
 - (void) didAbortImport:(BOOL)flag
 {
 	[importAbortedField setHidden:!flag];
+}
+#pragma mark -
+
+
+
+#pragma mark Export
+- (IBAction) showExportSheet:(id)sender
+{
+	[NSApp beginSheet:exportSheet modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+}
+
+- (IBAction) exportDocument:(id)sender
+{
+	// end the sheet
+	[self hideExportSheet:nil];
+	
+	// configure the panel
+	NSSavePanel *exportPanel = [NSSavePanel savePanel];
+	[exportPanel setDelegate:self];
+	//[exportPanel setAccessoryView:exportAccessoryView];
+	
+	NSInteger result = [exportPanel runModal];
+	
+	// got the OK, handle export
+	if (result == NSFileHandlingPanelOKButton) {
+		
+	}
+}
+
+- (IBAction) hideExportSheet:(id)sender
+{
+	if ([exportSheet isVisible]) {
+		
+		// dismiss
+		[exportSheet orderOut:nil];
+		[NSApp endSheet:exportSheet];
+	}
 }
 
 

@@ -88,11 +88,27 @@ static CSVInspector *inspectorInstance = nil;
 
 
 #pragma mark GUI
++ (void) show:(id)sender
+{
+	CSVInspector *i = [CSVInspector sharedInspector];
+	
+	while (nil == [i window]) {
+		usleep(50);
+	}
+	
+	[[i window] makeKeyAndOrderFront:sender];
+}
+
 - (void) awakeFromNib
 {
 	// DEBUGGING
 	[calculationSourceRegExp setStringValue:@"(\\d+)\\.(\\d+)"];
 	[calculationTargetExpr setStringValue:@"$1 * $2"];
+}
+
+- (NSString *) windowFrameAutosaveName
+{
+	return @"CSVInspectorMainWindow";
 }
 #pragma mark -
 
@@ -141,7 +157,6 @@ static CSVInspector *inspectorInstance = nil;
 		calculationIsRunning = NO;
 	}
 }
-#pragma mark -
 
 
 @end

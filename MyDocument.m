@@ -34,7 +34,13 @@
 
 @implementation MyDocument
 
-@synthesize fileEncoding, csvDocument, documentLoaded, documentEdited, dataIsAtOriginalOrder, exportHeaders, calculationShouldTerminate;
+@synthesize fileEncoding;
+@synthesize csvDocument;
+@synthesize documentLoaded;
+@dynamic documentEdited;
+@dynamic dataIsAtOriginalOrder;
+@synthesize exportHeaders;
+@synthesize calculationShouldTerminate;
 @dynamic documentFormat;
 
 
@@ -66,6 +72,34 @@
 
 
 #pragma mark KVC
+- (BOOL) isDocumentEdited
+{
+	return documentEdited || !dataIsAtOriginalOrder;
+}
+- (void) setDocumentEdited:(BOOL)flag
+{
+	if (flag != documentEdited) {
+		[self willChangeValueForKey:@"documentEdited"];
+		documentEdited = flag;
+		[self didChangeValueForKey:@"documentEdited"];
+	}
+}
+
+- (BOOL) dataIsAtOriginalOrder
+{
+	return dataIsAtOriginalOrder;
+}
+- (void) setDataIsAtOriginalOrder:(BOOL)flag
+{
+	if (flag != dataIsAtOriginalOrder) {
+		[self willChangeValueForKey:@"dataIsAtOriginalOrder"];
+		[self willChangeValueForKey:@"documentEdited"];
+		dataIsAtOriginalOrder = flag;
+		[self didChangeValueForKey:@"dataIsAtOriginalOrder"];
+		[self didChangeValueForKey:@"documentEdited"];
+	}
+}
+
 - (PPStringFormat *) documentFormat
 {
 	if (nil == documentFormat) {
@@ -195,7 +229,7 @@
 
 - (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	// use "lastChoiceExportFormat" after window closed!
+	// TODO: Use CSV format for SAVE operations, selected format for EXPORT oporations
 	NSString *csvString = [self stringInFormat:self.documentFormat allRows:YES allColumns:YES];
 	
 	// save file
@@ -229,6 +263,7 @@
 		columns = [foo copy];
 	}
 	
+	// TODO: Export headers, other mechanism desired
 	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes includeHeaders:exportHeaders];
 }
 #pragma mark -
@@ -246,12 +281,12 @@
 	return csvDocument.columns;
 }
 
-- (void) addToCSVRow:(id)sender
+- (void) addCSVRow:(id)sender
 {
 	[csvDocument.rowController add:sender];
 	self.documentEdited = YES;
 }
-- (void) removeFromCSVRow:(id)sender
+- (void) removeCSVRow:(id)sender
 {
 	[csvDocument.rowController remove:sender];
 	self.documentEdited = YES;
@@ -296,6 +331,7 @@
 - (void) setColumnOrder:(NSArray *)newOrder
 {
 	[csvDocument setColumnOrderByKeys:newOrder];
+	self.documentEdited = YES;
 }
 #pragma mark -
 
@@ -405,7 +441,7 @@
 	[mainWindowController performSelectorOnMainThread:@selector(updateCalculationStatus:)
 										   withObject:[NSNumber numberWithDouble:100.00]
 										waitUntilDone:NO];
-	
+	self.documentEdited = YES;
 	[myAutoreleasePool release];
 }
 #pragma mark -

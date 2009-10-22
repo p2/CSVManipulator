@@ -11,12 +11,10 @@
 
 @interface MyDocumentController : NSDocumentController {
 	IBOutlet NSView *openPanelAccessoryView;
-	
 	IBOutlet NSTextField *openPanelFilename;
 }
 
 @property (nonatomic, retain) IBOutlet NSView *openPanelAccessoryView;
-
 @property (nonatomic, retain) IBOutlet NSTextField *openPanelFilename;
 
 

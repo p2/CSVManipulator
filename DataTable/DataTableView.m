@@ -29,6 +29,7 @@
 #pragma mark Generic
 - (void) dealloc
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[sortDescriptorsArray release];
 	
 	[super dealloc];

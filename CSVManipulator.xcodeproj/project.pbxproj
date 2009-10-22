@@ -27,6 +27,11 @@
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		EE0D3A2A0D6F02350009A7B2 /* DataTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0D3A290D6F02350009A7B2 /* DataTableView.m */; };
+		EE137ABC1090568600D31816 /* TB_add_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB71090568600D31816 /* TB_add_column.tiff */; };
+		EE137ABD1090568600D31816 /* TB_inspector.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB81090568600D31816 /* TB_inspector.tiff */; };
+		EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB91090568600D31816 /* TB_remove_column.tiff */; };
+		EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABA1090568600D31816 /* TB_remove_row.tiff */; };
+		EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABB1090568600D31816 /* TB_add_row.tiff */; };
 		EE1512200D7F048D0092C02F /* DataTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121D0D7F048D0092C02F /* DataTableColumn.m */; };
 		EE1512210D7F048D0092C02F /* DataTableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */; };
 		EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE219ED4107F849100E28D4D /* DataTableCell.m */; };
@@ -81,6 +86,11 @@
 		EE0D3A280D6F02350009A7B2 /* DataTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableView.h; sourceTree = "<group>"; };
 		EE0D3A290D6F02350009A7B2 /* DataTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableView.m; sourceTree = "<group>"; };
 		EE1377641088A54D00D31816 /* DataTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableViewDelegate.h; sourceTree = "<group>"; };
+		EE137AB71090568600D31816 /* TB_add_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_column.tiff; sourceTree = "<group>"; };
+		EE137AB81090568600D31816 /* TB_inspector.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_inspector.tiff; sourceTree = "<group>"; };
+		EE137AB91090568600D31816 /* TB_remove_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_column.tiff; sourceTree = "<group>"; };
+		EE137ABA1090568600D31816 /* TB_remove_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_row.tiff; sourceTree = "<group>"; };
+		EE137ABB1090568600D31816 /* TB_add_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_row.tiff; sourceTree = "<group>"; };
 		EE15121C0D7F048D0092C02F /* DataTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableColumn.h; sourceTree = "<group>"; };
 		EE15121D0D7F048D0092C02F /* DataTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableColumn.m; sourceTree = "<group>"; };
 		EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableHeaderCell.h; sourceTree = "<group>"; };
@@ -174,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				EE137AB21090565D00D31816 /* Images */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
@@ -240,6 +251,27 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EE137AB21090565D00D31816 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				EE137AB31090566500D31816 /* Toolbar */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		EE137AB31090566500D31816 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				EE137AB71090568600D31816 /* TB_add_column.tiff */,
+				EE137AB81090568600D31816 /* TB_inspector.tiff */,
+				EE137AB91090568600D31816 /* TB_remove_column.tiff */,
+				EE137ABA1090568600D31816 /* TB_remove_row.tiff */,
+				EE137ABB1090568600D31816 /* TB_add_row.tiff */,
+			);
+			name = Toolbar;
+			path = Images/Toolbar;
 			sourceTree = "<group>";
 		};
 		EE1512230D7F04910092C02F /* DataTable */ = {
@@ -354,6 +386,11 @@
 				EE9E1DEE1046BDC400554687 /* MyDocument.xib in Resources */,
 				EE9E1DF41046BE3900554687 /* MainMenu.xib in Resources */,
 				EE64B6AE104A8598000DF5D2 /* CSVInspector.xib in Resources */,
+				EE137ABC1090568600D31816 /* TB_add_column.tiff in Resources */,
+				EE137ABD1090568600D31816 /* TB_inspector.tiff in Resources */,
+				EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */,
+				EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */,
+				EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
