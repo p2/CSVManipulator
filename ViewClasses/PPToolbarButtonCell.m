@@ -14,7 +14,7 @@
 
 @synthesize button;
 
-@synthesize borderWidths;
+@synthesize borderWidth;
 @synthesize borderColor;
 @synthesize borderHighlightColor;
 @synthesize borderActiveColor;
@@ -33,7 +33,6 @@
 
 - (void) dealloc
 {
-	self.borderWidths = nil;
 	self.borderColor = nil;
 	self.borderHighlightColor = nil;
 	self.borderActiveColor = nil;
@@ -209,28 +208,17 @@
 	NSColor *border_color = enabled ? (high ? borderHighlightColor : (active ? borderActiveColor : borderColor)) : borderDisabledColor;
 	[border_color setFill];
 	
-	// Create the border color
-	NSNumber *top_border = [borderWidths objectAtIndex:2];
-	NSNumber *right_border = [borderWidths objectAtIndex:3];
-	NSNumber *bottom_border = [borderWidths objectAtIndex:0];
-	NSNumber *left_border = [borderWidths objectAtIndex:1];
-	
-	CGFloat top_border_width = top_border && ((id)top_border != [NSNull null]) ? [top_border floatValue] : 0.0;
-	CGFloat right_border_width = right_border && ((id)right_border != [NSNull null]) ? [right_border floatValue] : 0.0;
-	CGFloat bottom_border_width = bottom_border && ((id)bottom_border != [NSNull null]) ? [bottom_border floatValue] : 0.0;
-	CGFloat left_border_width = left_border && ((id)left_border != [NSNull null]) ? [left_border floatValue] : 0.0;
-	
 	// Draw the borders	
-	NSRect top_border_rect = NSMakeRect(0.0, frame.size.height - top_border_width, frame.size.width, top_border_width);
+	NSRect top_border_rect = NSMakeRect(0.0, frame.size.height - borderWidth.top, frame.size.width, borderWidth.top);
 	NSRectFill(top_border_rect);
 	
-	NSRect right_border_rect = NSMakeRect(frame.size.width - right_border_width, 0.0, right_border_width, frame.size.height);
+	NSRect right_border_rect = NSMakeRect(frame.size.width - borderWidth.right, 0.0, borderWidth.right, frame.size.height);
 	NSRectFill(right_border_rect);
 	
-	NSRect bottom_border_rect = NSMakeRect(0.0, 0.0, frame.size.width, bottom_border_width);
+	NSRect bottom_border_rect = NSMakeRect(0.0, 0.0, frame.size.width, borderWidth.bottom);
 	NSRectFill(bottom_border_rect);
 	
-	NSRect left_border_rect = NSMakeRect(0.0, 0.0, left_border_width, frame.size.height);
+	NSRect left_border_rect = NSMakeRect(0.0, 0.0, borderWidth.left, frame.size.height);
 	NSRectFill(left_border_rect);
 }
 

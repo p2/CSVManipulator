@@ -7,13 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class PPToolbarButton;
+#import "PPToolbarButton.h"
 
 
 @interface PPToolbarButtonCell : NSButtonCell {
 	PPToolbarButton *button;
 	
-	NSArray *borderWidths;				// like in CSS: top right bottom left
+	PPBorderWidth borderWidth;
 	
 	NSColor *borderColor;
 	NSColor *borderHighlightColor;
@@ -35,7 +35,7 @@
 
 @property (nonatomic, assign) PPToolbarButton *button;
 
-@property (nonatomic, retain) NSArray *borderWidths;
+@property (nonatomic, assign) PPBorderWidth borderWidth;
 
 @property (nonatomic, retain) NSColor *borderColor;
 @property (nonatomic, retain) NSColor *borderHighlightColor;

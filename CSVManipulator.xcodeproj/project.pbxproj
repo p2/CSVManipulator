@@ -32,6 +32,8 @@
 		EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB91090568600D31816 /* TB_remove_column.tiff */; };
 		EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABA1090568600D31816 /* TB_remove_row.tiff */; };
 		EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABB1090568600D31816 /* TB_add_row.tiff */; };
+		EE137C2B1095E68F00D31816 /* PPStringFormatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */; };
+		EE137C331095E80700D31816 /* PPStringFormatManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE137C321095E80700D31816 /* PPStringFormatManager.xib */; };
 		EE1512200D7F048D0092C02F /* DataTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121D0D7F048D0092C02F /* DataTableColumn.m */; };
 		EE1512210D7F048D0092C02F /* DataTableHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121F0D7F048D0092C02F /* DataTableHeaderCell.m */; };
 		EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE219ED4107F849100E28D4D /* DataTableCell.m */; };
@@ -91,6 +93,9 @@
 		EE137AB91090568600D31816 /* TB_remove_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_column.tiff; sourceTree = "<group>"; };
 		EE137ABA1090568600D31816 /* TB_remove_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_row.tiff; sourceTree = "<group>"; };
 		EE137ABB1090568600D31816 /* TB_add_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_row.tiff; sourceTree = "<group>"; };
+		EE137C291095E68F00D31816 /* PPStringFormatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatManager.h; sourceTree = "<group>"; };
+		EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatManager.m; sourceTree = "<group>"; };
+		EE137C321095E80700D31816 /* PPStringFormatManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PPStringFormatManager.xib; sourceTree = "<group>"; };
 		EE15121C0D7F048D0092C02F /* DataTableColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableColumn.h; sourceTree = "<group>"; };
 		EE15121D0D7F048D0092C02F /* DataTableColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableColumn.m; sourceTree = "<group>"; };
 		EE15121E0D7F048D0092C02F /* DataTableHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableHeaderCell.h; sourceTree = "<group>"; };
@@ -235,8 +240,9 @@
 				EEC900690DD04898006716F9 /* CSVManipulatorIcon.icns */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
 				EE9E1DF31046BE3900554687 /* MainMenu.xib */,
-				EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */,
 				EE9E1DED1046BDC400554687 /* MyDocument.xib */,
+				EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */,
+				EE137C321095E80700D31816 /* PPStringFormatManager.xib */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 			);
@@ -301,6 +307,8 @@
 				EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */,
 				EE64B6F7104A9648000DF5D2 /* PPStringFormatEntity.h */,
 				EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */,
+				EE137C291095E68F00D31816 /* PPStringFormatManager.h */,
+				EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */,
 			);
 			path = FileExport;
 			sourceTree = "<group>";
@@ -391,6 +399,7 @@
 				EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */,
 				EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */,
 				EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */,
+				EE137C331095E80700D31816 /* PPStringFormatManager.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,6 +465,7 @@
 				EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */,
 				EE219ED5107F849100E28D4D /* DataTableCell.m in Sources */,
 				EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */,
+				EE137C2B1095E68F00D31816 /* PPStringFormatManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

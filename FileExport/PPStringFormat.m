@@ -101,6 +101,7 @@
 + (PPStringFormat *) csvFormat
 {
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"CSV"];
+	myself.name = @"CSV";
 	
 	// Setup CSV properties
 	NSArray *escapeFrom = [NSArray arrayWithObject:@"\""];
@@ -130,6 +131,7 @@
 + (PPStringFormat *) tabFormat
 {
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"Tab"];
+	myself.name = @"Tab";
 	
 	// Setup Tab separated properties
 	NSArray *escapeFrom = [NSArray arrayWithObject:@"\""];
@@ -159,6 +161,7 @@
 + (PPStringFormat *) flatXMLFormat
 {
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"flatXML"];
+	myself.name = @"XML";
 	
 	// Setup CSV properties
 	NSArray *replaceFrom = [NSArray arrayWithObjects:@"&", @"<", @">", @"\"", nil];

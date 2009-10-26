@@ -9,8 +9,15 @@
 #import <Cocoa/Cocoa.h>
 
 
+typedef struct {
+	CGFloat top, right, bottom, left;
+} PPBorderWidth;
+
+PPBorderWidth PPBorderWidthMake(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left);
+BOOL PPBorderWidthEqualToBorderWidth(PPBorderWidth first, PPBorderWidth second);
+
 @interface PPToolbarView : NSView {
-	NSArray *borderWidths;				// like in CSS: top right bottom left
+	PPBorderWidth borderWidth;			// like in CSS: top right bottom left
 	NSColor *borderColor;
 	NSColor *baseColor;					// gradient will be calculated from this one
 	
@@ -18,7 +25,7 @@
 	NSArray *baseColorsArray;
 }
 
-@property (nonatomic, retain) NSArray *borderWidths;
+@property (nonatomic, assign) PPBorderWidth borderWidth;
 @property (nonatomic, retain) NSColor *borderColor;
 @property (nonatomic, retain) NSColor *baseColor;
 

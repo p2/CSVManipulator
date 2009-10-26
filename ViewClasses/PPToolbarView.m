@@ -11,7 +11,7 @@
 
 @implementation PPToolbarView
 
-@synthesize borderWidths;
+@synthesize borderWidth;
 @synthesize borderColor;
 
 @dynamic baseColor;
@@ -22,8 +22,7 @@
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		NSNumber *default_border_width = [NSNumber numberWithInt:1.0];
-		self.borderWidths = [NSArray arrayWithObjects:default_border_width, default_border_width, default_border_width, default_border_width, nil];
+		self.borderWidth = PPBorderWidthMake(1.0, 1.0, 1.0, 1.0);
 		self.borderColor = [NSColor grayColor];
 		self.baseColor = [NSColor whiteColor];
 	}
@@ -32,7 +31,6 @@
 
 - (void) dealloc
 {
-	self.borderWidths = nil;
 	self.borderColor = nil;
 	
 	self.baseColor = nil;
@@ -85,23 +83,11 @@
 		NSRect my_bounds = [self bounds];
 		NSUInteger i;
 		
-		// Create the gradient
+		// Create the gradient and set the border color
 		NSArray *color_array = self.baseColorsArray;
 		const CGFloat locations[5] = { 0.0, 0.5, 0.5, 0.825, 1.0 };
-		
 		NSGradient *gradient = [[NSGradient alloc] initWithColors:color_array atLocations:locations colorSpace:[baseColor colorSpace]];
-		
-		// Create the border color
 		[borderColor setFill];
-		NSNumber *top_border = [borderWidths objectAtIndex:0];
-		NSNumber *right_border = [borderWidths objectAtIndex:1];
-		NSNumber *bottom_border = [borderWidths objectAtIndex:2];
-		NSNumber *left_border = [borderWidths objectAtIndex:3];
-		
-		CGFloat top_border_width = top_border && ((id)top_border != [NSNull null]) ? [top_border floatValue] : 0.0;
-		CGFloat right_border_width = right_border && ((id)right_border != [NSNull null]) ? [right_border floatValue] : 0.0;
-		CGFloat bottom_border_width = bottom_border && ((id)bottom_border != [NSNull null]) ? [bottom_border floatValue] : 0.0;
-		CGFloat left_border_width = left_border && ((id)left_border != [NSNull null]) ? [left_border floatValue] : 0.0;
 		
 		// Loop the rects where we need to draw
 		for (i = 0; i < num_draw_rects; i++) {
@@ -113,24 +99,54 @@
 			[gradient drawInRect:my_rect angle:-90.0];
 			
 			// draw the borders if necessary
-			if ((top_border_width > 0.0) && ((my_rect.origin.y + my_rect.size.height) > (my_bounds.size.height - top_border_width))) {			// top border
-				NSRect this_border_rect = NSMakeRect(0.0, my_bounds.size.height - top_border_width, my_bounds.size.width, top_border_width);
+			if ((borderWidth.top > 0.0) && ((my_rect.origin.y + my_rect.size.height) > (my_bounds.size.height - borderWidth.top))) {			// top border
+				NSRect this_border_rect = NSMakeRect(0.0, my_bounds.size.height - borderWidth.top, my_bounds.size.width, borderWidth.top);
 				NSRectFill(NSIntersectionRect(my_bounds, this_border_rect));
 			}
-			if ((right_border_width > 0.0) && ((my_rect.origin.x + my_rect.size.width) > (my_bounds.size.width - right_border_width))) {		// right border
-				NSRect this_border_rect = NSMakeRect(my_bounds.size.width - right_border_width, 0.0, right_border_width, my_bounds.size.height);
+			if ((borderWidth.right > 0.0) && ((my_rect.origin.x + my_rect.size.width) > (my_bounds.size.width - borderWidth.right))) {		// right border
+				NSRect this_border_rect = NSMakeRect(my_bounds.size.width - borderWidth.right, 0.0, borderWidth.right, my_bounds.size.height);
 				NSRectFill(NSIntersectionRect(my_bounds, this_border_rect));
 			}
-			if ((bottom_border_width > 0.0) && (my_rect.origin.y < bottom_border_width)) {														// bottom border
-				NSRect this_border_rect = NSMakeRect(0.0, 0.0, my_bounds.size.width, bottom_border_width);
+			if ((borderWidth.bottom > 0.0) && (my_rect.origin.y < borderWidth.bottom)) {														// bottom border
+				NSRect this_border_rect = NSMakeRect(0.0, 0.0, my_bounds.size.width, borderWidth.bottom);
 				NSRectFill(NSIntersectionRect(my_bounds, this_border_rect));
 			}
-			if ((left_border_width > 0.0) && (my_rect.origin.x < left_border_width)) {															// left border
-				NSRect this_border_rect = NSMakeRect(0.0, 0.0, left_border_width, my_bounds.size.height);
+			if ((borderWidth.left > 0.0) && (my_rect.origin.x < borderWidth.left)) {															// left border
+				NSRect this_border_rect = NSMakeRect(0.0, 0.0, borderWidth.left, my_bounds.size.height);
 				NSRectFill(NSIntersectionRect(my_bounds, this_border_rect));
 			}
 		}
 	}
 }
+#pragma mark -
+
+
+
+#pragma mark Helper Functions
+PPBorderWidth PPBorderWidthMake(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left)
+{
+	PPBorderWidth width;
+	width.top = top;
+	width.right = right;
+	width.bottom = bottom;
+	width.left = left;
+	
+	return width;
+}
+
+BOOL PPBorderWidthEqualToBorderWidth(PPBorderWidth first, PPBorderWidth second)
+{
+	if (first.top == second.top) {
+		if (first.right == second.right) {
+			if (first.bottom == second.bottom) {
+				if (first.left == second.left) {
+					return YES;
+				}
+			}
+		}
+	}
+	return NO;
+}
+
 
 @end

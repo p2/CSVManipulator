@@ -9,6 +9,7 @@
 #import "CSVWindowController.h"
 #import "MyDocument.h"
 #import "PPStringFormat.h"
+#import "PPStringFormatManager.h"
 #import "CSVDocument.h"
 #import "CSVColumn.h"
 #import "CSVInspector.h"
@@ -44,8 +45,7 @@
 
 - (void) awakeFromNib
 {
-	NSNumber *top_border_width = [NSNumber numberWithInt:1];
-	mainToolbar.borderWidths = [NSArray arrayWithObjects:top_border_width, [NSNull null], [NSNull null], [NSNull null], nil];
+	mainToolbar.borderWidth = PPBorderWidthMake(1.0, 0.0, 0.0, 0.0);
 	
 	// document is still loading
 	if (!document.documentLoaded) {
@@ -305,7 +305,7 @@
 #pragma mark Export
 - (IBAction) showExportFormats:(id)sender
 {
-	// TODO: This should show the format window
+	[PPStringFormatManager show:sender];
 }
 
 
