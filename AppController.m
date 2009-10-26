@@ -15,6 +15,22 @@
 
 @implementation AppController
 
+@synthesize exportAccessoryView;
+@synthesize exportHeadersCheckbox;
+@synthesize exportFormatSelector;
+
+
+- (void) dealloc
+{
+	self.exportAccessoryView = nil;
+	self.exportHeadersCheckbox = nil;
+	self.exportFormatSelector = nil;
+	
+	[super dealloc];
+}
+#pragma mark -
+
+
 
 # pragma mark Clipboard
 - (IBAction) newDocumentFromClipboard:(id)sender
@@ -44,6 +60,30 @@
 	}
 }
 #pragma mark -
+
+
+
+#pragma mark Saving
+- (IBAction) exportDocument:(id)sender
+{
+	// get active document
+//	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
+//	MyDocument *myDocument = [docController currentDocument];
+	
+	// configure the panel
+	NSSavePanel *exportPanel = [NSSavePanel savePanel];
+	[exportPanel setDelegate:self];
+	[exportPanel setAccessoryView:exportAccessoryView];
+	
+	// TODO: Adjust the selected format
+	
+	NSInteger result = [exportPanel runModal];
+	
+	// got the OK -> handle export
+	if (result == NSFileHandlingPanelOKButton) {
+		
+	}
+}
 
 
 @end

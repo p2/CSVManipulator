@@ -10,11 +10,11 @@
 
 
 @interface PPStringFormatEntity : NSObject {
-	NSString *separator;
-	NSString *stringformat;
+	NSString *separator;				// will be put between each key/value pair
+	NSString *stringformat;				// e.g. <$key>$value</$key>
 	NSString *numberformat;
-	NSArray *stringEscapeFrom;
-	NSArray *stringEscapeTo;
+	NSArray *stringEscapeFrom;			// v should be the same length
+	NSArray *stringEscapeTo;			// ^ should be the same length
 }
 
 @property (copy) NSString *separator;

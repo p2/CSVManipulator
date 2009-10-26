@@ -53,14 +53,14 @@
 			// NSString
 			if ([value isKindOfClass:[NSString class]] && (nil != stringformat)) {
 				formatted = [stringformat mutableCopy];		// e.g. "<$key>$value</$key>"
-				NSString *newValue = value;
+				NSString *newValue = value;					// this will be 'value' with escaped strings
 				
 				// escape characters in value
 				if ([stringEscapeFrom count] > 0) {
 					newValue = [NSMutableString stringWithString:value];
 					NSUInteger i = 0;
 					for (NSString *replaceFrom in stringEscapeFrom) {
-						NSString *replaceTo = [stringEscapeTo objectAtIndex:i];
+						NSString *replaceTo = ([stringEscapeTo count] > i) ? [stringEscapeTo objectAtIndex:i] : nil;
 						
 						[(NSMutableString *)newValue replaceOccurrencesOfString:replaceFrom
 																	 withString:replaceTo
@@ -85,7 +85,6 @@
 			
 			// add to the parts (no check necessary, formatted points at least to an empty string)
 			[parts addObject:formatted];
-			
 			i++;
 		}
 		

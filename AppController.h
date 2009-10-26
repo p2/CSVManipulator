@@ -10,11 +10,20 @@
 
 
 @interface AppController : NSObject {
-
+	IBOutlet NSView *exportAccessoryView;
+	IBOutlet NSButton *exportHeadersCheckbox;
+	IBOutlet NSPopUpButton *exportFormatSelector;
 }
+
+@property (nonatomic, retain) IBOutlet NSView *exportAccessoryView;
+@property (nonatomic, retain) IBOutlet NSButton *exportHeadersCheckbox;
+@property (nonatomic, retain) IBOutlet NSPopUpButton *exportFormatSelector;
 
 // clipboard
 - (IBAction) newDocumentFromClipboard:(id)sender;
+
+// saving
+- (IBAction) exportDocument:(id)sender;
 
 
 @end

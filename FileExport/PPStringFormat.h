@@ -13,8 +13,8 @@
 @interface PPStringFormat : NSObject {
 	NSString *name;
 	
-	NSString *prefix;
-	NSString *suffix;
+	NSString *prefix;						// what to put before the content, e.g. <root>
+	NSString *suffix;						// obviously what to put after, e.g. </root>
 	
 	PPStringFormatRow *headerFormat;
 	PPStringFormatRow *valueFormat;

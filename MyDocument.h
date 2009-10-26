@@ -28,7 +28,7 @@
 	BOOL documentEdited;
 	BOOL dataIsAtOriginalOrder;
 	NSUInteger numRowsToExpect;
-	PPStringFormat *documentFormat;
+	PPStringFormat *exportFormat;
 	
 	BOOL exportHeaders;								// bound to a checkbox, tells us whether to export the header on save or not
 	NSInteger lastChoiceExportFormat;
@@ -36,6 +36,7 @@
 	BOOL calculationShouldTerminate;
 }
 
+@property (nonatomic, readonly, retain) CSVWindowController *mainWindowController;
 
 @property (nonatomic, assign) NSStringEncoding fileEncoding;
 @property (nonatomic, retain) CSVDocument *csvDocument;
@@ -43,7 +44,7 @@
 @property (nonatomic, assign) BOOL documentLoaded;
 @property (assign, getter=isDocumentEdited) BOOL documentEdited;
 @property (nonatomic, assign) BOOL dataIsAtOriginalOrder;
-@property (nonatomic, retain) PPStringFormat *documentFormat;
+@property (nonatomic, retain) PPStringFormat *exportFormat;
 
 @property (nonatomic, assign) BOOL exportHeaders;
 @property (nonatomic, assign) BOOL calculationShouldTerminate;

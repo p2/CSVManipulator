@@ -26,14 +26,18 @@
 
 
 
-@interface MyDocument (Private)
+@interface MyDocument ()
+
+@property (nonatomic, readwrite, retain) CSVWindowController *mainWindowController;
 - (void) detachStringParsing:(NSString *)string;
+
 @end
 
 
 
 @implementation MyDocument
 
+@synthesize mainWindowController;
 @synthesize fileEncoding;
 @synthesize csvDocument;
 @synthesize documentLoaded;
@@ -41,7 +45,7 @@
 @dynamic dataIsAtOriginalOrder;
 @synthesize exportHeaders;
 @synthesize calculationShouldTerminate;
-@dynamic documentFormat;
+@dynamic exportFormat;
 
 
 #pragma mark Generic
@@ -62,8 +66,9 @@
 
 - (void) dealloc
 {
+	self.mainWindowController = nil;
 	self.csvDocument = nil;
-	self.documentFormat = nil;
+	self.exportFormat = nil;
  	
 	[super dealloc];
 }
@@ -100,19 +105,19 @@
 	}
 }
 
-- (PPStringFormat *) documentFormat
+- (PPStringFormat *) exportFormat
 {
-	if (nil == documentFormat) {
-		self.documentFormat = [PPStringFormat csvFormat];
+	if (nil == exportFormat) {
+		self.exportFormat = [PPStringFormat csvFormat];
 	}
 	
-	return documentFormat;
+	return exportFormat;
 }
-- (void) setDocumentFormat:(PPStringFormat *)newFormat
+- (void) setExportFormat:(PPStringFormat *)newFormat
 {
-	if (newFormat != documentFormat) {
-		[documentFormat release];
-		documentFormat = [newFormat retain];
+	if (newFormat != exportFormat) {
+		[exportFormat release];
+		exportFormat = [newFormat retain];
 	}
 }
 #pragma mark -
@@ -176,7 +181,7 @@
 	NSError *error;
 	
 	if ([csvDocument parseCSVString:string maxRows:0 error:&error]) {
-		self.documentFormat = [PPStringFormat csvFormat];
+		self.exportFormat = [PPStringFormat csvFormat];
 	}
 	else {
 		[self presentError:error];
@@ -230,7 +235,7 @@
 - (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	// TODO: Use CSV format for SAVE operations, selected format for EXPORT oporations
-	NSString *csvString = [self stringInFormat:self.documentFormat allRows:YES allColumns:YES];
+	NSString *csvString = [self stringInFormat:self.exportFormat allRows:YES allColumns:YES];
 	
 	// save file
 	BOOL success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
@@ -263,7 +268,7 @@
 		columns = [foo copy];
 	}
 	
-	// TODO: Export headers, other mechanism desired
+	// TODO: Export headers, other way of setting exportHeaders desired
 	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes includeHeaders:exportHeaders];
 }
 #pragma mark -
@@ -514,7 +519,7 @@
 	
 	// we want a file - provide the file extension
 	if ([type isEqualToString:NSFilesPromisePboardType]) {
-		result = [pboard setPropertyList:[self fileSuffixesForFormat:self.documentFormat] forType:NSFilesPromisePboardType];
+		result = [pboard setPropertyList:[self fileSuffixesForFormat:self.exportFormat] forType:NSFilesPromisePboardType];
 	}
 	
 	// we want a filename - only write to file when actually requested (pasteboard:provideDataForType:)
@@ -548,7 +553,7 @@
 	
 	// Plain Text
 	else if ([type isEqualToString:NSStringPboardType]) {
-		NSString *string = [self stringInFormat:self.documentFormat allRows:NO allColumns:NO];
+		NSString *string = [self stringInFormat:self.exportFormat allRows:NO allColumns:NO];
 		if (string && [string length] > 0) {
 			result = [pboard setString:string forType:NSStringPboardType];
 		}
@@ -586,7 +591,7 @@
 
 - (void) makeWindowControllers
 {
-	mainWindowController = [[[CSVWindowController alloc] initWithWindowNibName:[self windowNibName]] autorelease];
+	self.mainWindowController = [[[CSVWindowController alloc] initWithWindowNibName:[self windowNibName]] autorelease];
 	[self addWindowController:mainWindowController];
 }
 

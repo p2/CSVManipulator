@@ -45,7 +45,7 @@ static NSUInteger highestHeaderRowPos = 0;
 {
 	self = [super init];
 	if (self) {
-		rowValues = [[NSMutableDictionary alloc] init];			// done manually to prevent copying the new object (self.rowValues is a COPY property)
+		rowValues = [[NSMutableDictionary alloc] init];			// done manually to prevent copying the new object (self.rowValues is a copy property)
 		headerRowPosition = UINT_MAX;
 	}
 	

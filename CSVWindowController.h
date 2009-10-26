@@ -32,9 +32,6 @@
 	IBOutlet NSPanel *progressSheet;
 	IBOutlet NSProgressIndicator *progressIndicator;
 	IBOutlet NSTextField *progressPercentage;
-	
-	// Export sheet
-	IBOutlet NSPanel *exportSheet;
 }
 
 @property (nonatomic, assign) MyDocument *document;
@@ -43,7 +40,6 @@
 @property (nonatomic, retain) IBOutlet PPToolbarView *mainToolbar;
 
 @property (nonatomic, retain) IBOutlet NSPanel *progressSheet;
-@property (nonatomic, retain) IBOutlet NSPanel *exportSheet;
 
 
 // Data control
@@ -69,9 +65,7 @@
 - (void) didAbortImport:(BOOL)flag;
 
 // Export Sheet
-- (IBAction) showExportSheet:(id)sender;
-- (IBAction) exportDocument:(id)sender;
-- (IBAction) hideExportSheet:(id)sender;
+- (IBAction) showExportFormats:(id)sender;
 
 
 

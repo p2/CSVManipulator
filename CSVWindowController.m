@@ -28,7 +28,6 @@
 @synthesize mainToolbar;
 
 @synthesize progressSheet;
-@synthesize exportSheet;
 
 
 - (void) dealloc
@@ -39,7 +38,6 @@
 	self.mainToolbar = nil;
 	
 	self.progressSheet = nil;
-	self.exportSheet = nil;
 	
 	[super dealloc];
 }
@@ -305,37 +303,9 @@
 
 
 #pragma mark Export
-- (IBAction) showExportSheet:(id)sender
+- (IBAction) showExportFormats:(id)sender
 {
-	[NSApp beginSheet:exportSheet modalForWindow:[self window] modalDelegate:nil didEndSelector:NULL contextInfo:nil];
-}
-
-- (IBAction) exportDocument:(id)sender
-{
-	// end the sheet
-	[self hideExportSheet:nil];
-	
-	// configure the panel
-	NSSavePanel *exportPanel = [NSSavePanel savePanel];
-	[exportPanel setDelegate:self];
-	//[exportPanel setAccessoryView:exportAccessoryView];
-	
-	NSInteger result = [exportPanel runModal];
-	
-	// got the OK, handle export
-	if (result == NSFileHandlingPanelOKButton) {
-		
-	}
-}
-
-- (IBAction) hideExportSheet:(id)sender
-{
-	if ([exportSheet isVisible]) {
-		
-		// dismiss
-		[exportSheet orderOut:nil];
-		[NSApp endSheet:exportSheet];
-	}
+	// TODO: This should show the format window
 }
 
 

@@ -362,20 +362,22 @@
 	
 	// get desired row indexes if not given
 	// TODO: Also return header rows if we want the headers!
+	NSArray *exportRows = nil;
 	if (nil == rowIndexes) {
 		if (NSNotFound == [rowController selectionIndex]) {
-			NSRange fullRange = NSMakeRange(0, [rows count]);
-			rowIndexes = [NSIndexSet indexSetWithIndexesInRange:fullRange];
+			exportRows = [rowController arrangedObjects];
 		}
 		else {
 			rowIndexes = [rowController selectionIndexes];
 		}
 	}
-	NSArray *exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
+	if (nil != rowIndexes) {
+		exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
+	}
 	
 	// get the string from the formatter
 	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumnKeys:columnKeys];
-	NSLog(@"-->  %@ returning formatted string:\n%@", self, string);
+	NSLog(@"-->  %@ stringInFormat: is returning string:\n%@", self, string);
 	return string;
 }
 #endif

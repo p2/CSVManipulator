@@ -11,8 +11,8 @@
 
 
 @interface PPStringFormatRow : NSObject {
-	NSString *format;
-	BOOL newline;
+	NSString *format;							// e.g. <row>\n\t@values\n</row>
+	BOOL newline;								// if YES adds a newline after the row
 	
 	PPStringFormatEntity *keyFormat;			// the format to apply to @keys
 	PPStringFormatEntity *valueFormat;			// the format to apply to @values
