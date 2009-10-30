@@ -13,7 +13,7 @@
 @interface PPToolbarButton : NSButton {
 	NSButtonType buttonType;
 	
-	NSArray *borderWidths;				// like in CSS: top right bottom left
+	PPBorderWidth borderWidth;
 	
 	NSColor *borderColor;
 	NSColor *borderHighlightColor;
@@ -28,7 +28,7 @@
 
 @property (nonatomic, assign) NSButtonType buttonType;
 
-@property (nonatomic, assign) NSArray *borderWidths;
+@property (nonatomic, assign) PPBorderWidth borderWidth;
 
 @property (nonatomic, assign) NSColor *borderColor;
 @property (nonatomic, assign) NSColor *borderHighlightColor;

@@ -19,6 +19,7 @@
 @property (nonatomic, readwrite, retain) NSDictionary *columnDict;
 
 - (void) setColumnDict:(NSDictionary *)newColumnDict;
+- (void) updateColumnNames;
 - (void) notifyDelegateOfParsedRow:(CSVRow *)newRow;
 
 @end
@@ -32,6 +33,7 @@
 @synthesize rows;
 @synthesize numRows;
 @synthesize columnDict;
+@dynamic activeColumns;
 #ifndef IPHONE
 @synthesize rowController;
 #endif
@@ -208,12 +210,9 @@
 					else {					// This is a column separating separator
 						NSString *newCellString = [[currentCellString copy] autorelease];
 						if (isNewColumn) {
-							if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
+							if (![newCellString isEqualToString:@""]) {
 								column.name = newCellString;
 								columnHasName = YES;
-								if (nil == [self columnWithKey:newCellString]) {
-									column.key = newCellString;
-								}
 							}
 							[self addColumn:column];
 							isNewColumn = NO;
@@ -233,20 +232,17 @@
 					}
 				}
 				
-				// found a newline
-				else if ([scanner scanCharactersFromSet:newlineCharacterSet intoString:&tempString]) {
-					if (insideQuotes) {		// We're inside quotes - add line break to column text
-						[currentCellString appendString:tempString];
+				// found a newline or the end of the document
+				else if ([scanner scanCharactersFromSet:newlineCharacterSet intoString:&tempString] || [scanner isAtEnd]) {
+					if (insideQuotes && ![scanner isAtEnd]) {				// newline inside double quotes
+						[currentCellString appendString:separator];
 					}
-					else {					// End of row
+					else {													// a real newline or the end
 						NSString *newCellString = [[currentCellString copy] autorelease];
 						if (isNewColumn) {
-							if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
+							if (![newCellString isEqualToString:@""]) {
 								column.name = newCellString;
 								columnHasName = YES;
-								if (nil == [self columnWithKey:newCellString]) {
-									column.key = newCellString;
-								}
 							}
 							[self addColumn:column];
 							isNewColumn = NO;
@@ -258,29 +254,6 @@
 						[newRow setValue:newCellString forColumn:column];
 						finishedRow = YES;
 					}
-				}
-				
-				
-				// found the end of the document
-				else if ([scanner isAtEnd]) {
-					NSString *newCellString = [[currentCellString copy] autorelease];
-					if (isNewColumn) {
-						if (nil != newCellString && ![@"" isEqualToString:newCellString]) {
-							column.name = newCellString;
-							columnHasName = YES;
-							if (nil == [self columnWithKey:newCellString]) {
-								column.key = newCellString;
-							}
-						}
-						[self addColumn:column];
-						isNewColumn = NO;
-					}
-					if (!columnHasName) {
-						column.name = newCellString;
-					}
-					
-					[newRow setValue:newCellString forColumn:column];
-					finishedRow = YES;
 				}
 			}
 			
@@ -346,18 +319,12 @@
 #ifdef CSV_STRING_EXPORTING
 - (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes includeHeaders:(BOOL)headerFlag
 {
-	if ([columnArray count] < 1) {
+	if ([rows count] < 1 || [columnArray count] < 1) {
 		return @"";
 	}
 	
 	if (nil == format) {
 		format = [PPStringFormat csvFormat];
-	}
-	
-	// extract keys from column objects
-	NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columnArray count]];
-	for (CSVColumn *column in columnArray) {
-		[columnKeys addObject:column.key];
 	}
 	
 	// get desired row indexes if not given
@@ -372,12 +339,20 @@
 		}
 	}
 	if (nil != rowIndexes) {
+		NSUInteger num = [rows count];
+		
+		// verify indexes
+		if ([rowIndexes lastIndex] >= num) {
+			NSUInteger start = [rowIndexes firstIndex] >= num ? num - 1 : [rowIndexes firstIndex];
+			NSUInteger length = (num - start) > 0 ? num - start : 1;
+			rowIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(start, length)];
+		}
 		exportRows = [[rowController arrangedObjects] objectsAtIndexes:rowIndexes];
 	}
 	
 	// get the string from the formatter
-	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumnKeys:columnKeys];
-	NSLog(@"-->  %@ stringInFormat: is returning string:\n%@", self, string);
+	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumns:columnArray];
+	//NSLog(@"-->  %@ stringInFormat: is returning string:\n%@", self, string);
 	return string;
 }
 #endif
@@ -408,20 +383,23 @@
 	}
 }
 
-- (BOOL) isFirstColumnKey:(NSString *)columnKey
+- (CSVColumn *) columnWithKey:(NSString *)columnKey
 {
-	if ((nil != columns) && ([columns count] > 0)) {
-		CSVColumn *firstColumn = [columns objectAtIndex:0];
-		return [columnKey isEqualToString:firstColumn.name];
-	}
-	
-	return NO;
+	return [columnDict objectForKey:columnKey];
 }
 
-
-- (BOOL) hasColumnKey:(NSString *)columnKey
+- (NSArray *) activeColumns
 {
-	return (nil != [columnDict objectForKey:columnKey]);
+	NSMutableArray *arr = [NSMutableArray array];
+	if ([columns count] > 0) {
+		for (CSVColumn *column in columns) {
+			if (column.active) {
+				[arr addObject:column];
+			}
+		}
+	}
+	
+	return arr;
 }
 
 - (void) setColumnOrderByKeys:(NSArray *)newOrderKeys
@@ -435,36 +413,29 @@
 	}
 	
 	self.columns = arr;
-	NSLog(@"columns: %@", columns);
 }
 
-
-- (CSVColumn *) columnWithKey:(NSString *)columnKey
-{
-	return [columnDict objectForKey:columnKey];
-}
-
-- (NSString *) nameForColumnKey:(NSString *)columnKey
-{	
-	return [self nameForColumnKey:columnKey quoted:NO];
-}
-
-- (NSString *) nameForColumnKey:(NSString *)columnKey quoted:(BOOL)quoted
-{
-	NSString *name = ((CSVColumn *)[columnDict objectForKey:columnKey]).name;
-	return quoted ? [NSString stringWithFormat:@"\"%@\"", name] : name;
-}
-
-- (void) setHeaderName:(NSString *)newName forColumnKey:(NSString *)columnKey
-{
-	CSVColumn *column = [columnDict objectForKey:columnKey];
-	column.name = newName;
-}
-
-- (void) setHeaderActive:(BOOL)active forColumnKey:(NSString *)columnKey
+- (void) setColumnActive:(BOOL)active forColumnKey:(NSString *)columnKey
 {
 	CSVColumn *column = [columnDict objectForKey:columnKey];
 	column.active = active;
+}
+
+- (void) updateColumnNames
+{
+	if (numHeaderRows < 1) {
+		for (CSVColumn *column in columns) {
+			column.name = nil;
+		}
+	}
+	else {
+		CSVRow *firstRow = [self rowAtIndex:0];
+		for (CSVColumn *column in columns) {
+			if (![column hasName]) {
+				column.name = [firstRow valueForColumn:column];
+			}
+		}
+	}
 }
 #pragma mark -
 
@@ -483,10 +454,10 @@
 - (void) changeNumHeaderRows:(NSUInteger)newNum
 {
 	NSUInteger i;
-	NSUInteger max = (newNum > numHeaderRows) ? newNum : numHeaderRows;
+	NSUInteger num = (newNum > numHeaderRows) ? newNum : numHeaderRows;
 	NSUInteger num_rows = [rows count];
 	
-	for (i = 0; i < max; i++) {
+	for (i = 0; i < num; i++) {
 		if (num_rows > i) {
 			CSVRow *row = [self rowAtIndex:i];
 			[row changeHeaderRow:(i < newNum)];
@@ -495,6 +466,7 @@
 	
 	[self rearrangeRows];
 	self.numHeaderRows = newNum;
+	[self updateColumnNames];
 }
 
 - (void) rearrangeRows
@@ -515,17 +487,24 @@
 
 - (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid
 {
-	if (itDid) {
-		numHeaderRows += 1;
+	// keep the number of header rows up to date (maybe strip this counting entirely?)
+	if (nil != thisRow) {
+		if (itDid) {
+			numHeaderRows += 1;
+		}
+		else {
+			numHeaderRows -= 1;
+		}
 	}
-	else {
-		numHeaderRows -= 1;
-	}
-
+	
+	// rearrange
 	[self rearrangeRows];
 	if ([delegate respondsToSelector:@selector(csvDocument:didChangeRowOrderToOriginalOrder:)]) {
 		[delegate csvDocument:self didChangeRowOrderToOriginalOrder:NO];
 	}
+	
+	// update column names
+	[self updateColumnNames];
 }
 #pragma mark -
 

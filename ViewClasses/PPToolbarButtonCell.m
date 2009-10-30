@@ -167,7 +167,7 @@
 {
 	BOOL enabled = [self isEnabled];
 	BOOL high = [self isHighlighted];
-	BOOL active = (NSOnState == [self state]);
+	BOOL active = (button.buttonType & (NSPushOnPushOffButton | NSToggleButton | NSSwitchButton | NSOnOffButton) && NSOnState == [self state]);
 	
 	// Get desired colors
 	NSArray *color_array;

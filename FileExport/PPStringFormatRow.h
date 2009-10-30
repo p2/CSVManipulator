@@ -10,7 +10,7 @@
 @class PPStringFormatEntity;
 
 
-@interface PPStringFormatRow : NSObject {
+@interface PPStringFormatRow : NSObject <NSCopying> {
 	NSString *format;							// e.g. <row>\n\t@values\n</row>
 	BOOL newline;								// if YES adds a newline after the row
 	
@@ -24,9 +24,9 @@
 @property (retain) PPStringFormatEntity *keyFormat;
 @property (retain) PPStringFormatEntity *valueFormat;
 
-+ (PPStringFormatRow *) row;
++ (PPStringFormatRow *) formatRow;
 
-- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values;
+- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values;
 
 
 @end

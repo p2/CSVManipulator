@@ -12,22 +12,35 @@
 @implementation PPStringFormatEntity
 
 @synthesize separator;
-@synthesize stringformat;
-@synthesize numberformat;
+@synthesize stringFormat;
+@synthesize numberFormat;
 @synthesize stringEscapeFrom;
 @synthesize stringEscapeTo;
 
 
-+ (PPStringFormatEntity *) entity
++ (PPStringFormatEntity *) formatEntity
 {
 	return [[[PPStringFormatEntity alloc] init] autorelease];
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+	PPStringFormatEntity *copy = [[[self class] allocWithZone:zone] init];
+	copy.separator = self.separator;
+	copy.stringFormat = self.stringFormat;
+	copy.numberFormat = self.numberFormat;
+	
+	copy.stringEscapeFrom = [self.stringEscapeFrom copyWithZone:zone];
+	copy.stringEscapeTo = [self.stringEscapeTo copyWithZone:zone];
+	
+	return copy;
 }
 
 - (void) dealloc
 {
 	self.separator = nil;
-	self.stringformat = nil;
-	self.numberformat = nil;
+	self.stringFormat = nil;
+	self.numberFormat = nil;
 	self.stringEscapeFrom = nil;
 	self.stringEscapeTo = nil;
 	
@@ -51,16 +64,18 @@
 			NSMutableString *formatted = [NSMutableString string];
 			
 			// NSString
-			if ([value isKindOfClass:[NSString class]] && (nil != stringformat)) {
-				formatted = [stringformat mutableCopy];		// e.g. "<$key>$value</$key>"
+			if ([value isKindOfClass:[NSString class]] && (nil != stringFormat)) {
+				formatted = [stringFormat mutableCopy];		// e.g. "<$key>$value</$key>"
 				NSString *newValue = value;					// this will be 'value' with escaped strings
 				
 				// escape characters in value
 				if ([stringEscapeFrom count] > 0) {
 					newValue = [NSMutableString stringWithString:value];
 					NSUInteger i = 0;
+					NSUInteger num_to = [stringEscapeTo count];
+					NSLog(@"escaping %@ %@", newValue, stringEscapeFrom);
 					for (NSString *replaceFrom in stringEscapeFrom) {
-						NSString *replaceTo = ([stringEscapeTo count] > i) ? [stringEscapeTo objectAtIndex:i] : nil;
+						NSString *replaceTo = [stringEscapeTo objectAtIndex:(i % num_to)];
 						
 						[(NSMutableString *)newValue replaceOccurrencesOfString:replaceFrom
 																	 withString:replaceTo
@@ -75,8 +90,8 @@
 			}
 			
 			// NS(Decimal)Number
-			else if ([value isKindOfClass:[NSNumber class]] && (nil != numberformat)) {
-				formatted = [numberformat mutableCopy];		// e.g. '$value'
+			else if ([value isKindOfClass:[NSNumber class]] && (nil != numberFormat)) {
+				formatted = [numberFormat mutableCopy];		// e.g. '$value'
 				NSString *newValue = [value stringValue];
 				
 				[formatted replaceOccurrencesOfString:@"$key" withString:key options:0 range:NSMakeRange(0, [formatted length])];

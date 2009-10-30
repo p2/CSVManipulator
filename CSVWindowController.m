@@ -204,7 +204,7 @@
 
 - (void) tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn
 {
-	[document.csvDocument setHeaderActive:tableColumn.active forColumnKey:[tableColumn identifier]];
+	[document.csvDocument setColumnActive:tableColumn.active forColumnKey:[tableColumn identifier]];
 	document.documentEdited = YES;
 }
 

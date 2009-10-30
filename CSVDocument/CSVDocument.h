@@ -34,6 +34,7 @@
 	
 	NSArray *columns;					// needs to be an array to preserve column order
 	NSDictionary *columnDict;			// readonly to allow fast access to columns by key
+	NSArray *activeColumns;				// readonly to allow fast access to active columns
 	
 	BOOL parseSuccessful;
 	BOOL autoDetectSeparator;			// if YES will check for other separators (";" and TAB) than the comma
@@ -55,6 +56,7 @@
 
 @property (nonatomic, retain) NSArray *columns;
 @property (nonatomic, readonly, retain) NSDictionary *columnDict;
+@property (nonatomic, readonly) NSArray *activeColumns;
 
 @property (nonatomic, assign) BOOL parseSuccessful;
 @property (nonatomic, assign) BOOL autoDetectSeparator;
@@ -77,15 +79,9 @@
 
 // column handling
 - (void) addColumn:(CSVColumn *) newColumn;
-- (BOOL) isFirstColumnKey:(NSString *)columnKey;
-- (BOOL) hasColumnKey:(NSString *)columnKey;
-- (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
-
 - (CSVColumn *) columnWithKey:(NSString *)columnKey;
-- (NSString *) nameForColumnKey:(NSString *)columnKey;
-- (NSString *) nameForColumnKey:(NSString *)columnKey quoted:(BOOL)quoted;
-- (void) setHeaderName:(NSString *)newName forColumnKey:(NSString *)columnKey;
-- (void) setHeaderActive:(BOOL)active forColumnKey:(NSString *)columnKey;
+- (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
+- (void) setColumnActive:(BOOL)active forColumnKey:(NSString *)columnKey;
 
 // row handling
 - (CSVRow *) rowAtIndex:(NSUInteger)rowIndex;

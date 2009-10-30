@@ -7,25 +7,51 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class PPStringFormatsController;
+@class PPStringFormat;
 @class PPToolbarView;
 
 
 @interface PPStringFormatManager : NSWindowController {
+	NSMutableArray *formats;
 	NSArray *systemFormats;
-	NSArray *userFormats;
-	NSArrayController *formats;
+	IBOutlet PPStringFormatsController *formatController;
+	PPStringFormat *selectedFormat;
 	
+	// main views
+	IBOutlet NSView *detailContainer;
+	IBOutlet NSView *systemFormatDetails;
+	IBOutlet NSView *userFormatDetails;
+	
+	// outlets
+	IBOutlet NSTableView *formatTable;
 	IBOutlet PPToolbarView *formatToolbar;
+	
+	// preview
+	IBOutlet NSPanel *previewPanel;
+	IBOutlet NSTextView *previewField;
+	NSDictionary *previewAttributes;
 }
 
+@property (nonatomic, readonly, retain) NSMutableArray *formats;
 @property (nonatomic, readonly, retain) NSArray *systemFormats;
-@property (nonatomic, readwrite, retain) NSArray *userFormats;
-@property (nonatomic, readonly, retain) NSArrayController *formats;
+@property (nonatomic, readonly, retain) IBOutlet PPStringFormatsController *formatController;
+@property (nonatomic, readonly) PPStringFormat *selectedFormat;
 
+@property (nonatomic, retain) IBOutlet NSView *systemFormatDetails;
+@property (nonatomic, retain) IBOutlet NSView *userFormatDetails;
+@property (nonatomic, retain) IBOutlet NSTableView *formatTable;
 @property (nonatomic, retain) IBOutlet PPToolbarView *formatToolbar;
+
+@property (nonatomic, retain) IBOutlet NSPanel *previewPanel;
+@property (nonatomic, retain) IBOutlet NSTextView *previewField;
 
 + (PPStringFormatManager *) sharedManager;
 + (void) show:(id)sender;
+
+- (IBAction) showPreview:(id)sender;
+- (IBAction) updatePreview:(id)sender;
+- (IBAction) copySelectedFormat:(id)sender;
 
 
 @end

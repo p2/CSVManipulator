@@ -19,7 +19,7 @@
 @synthesize valueFormat;
 
 
-+ (PPStringFormatRow *) row
++ (PPStringFormatRow *) formatRow
 {
 	return [[[PPStringFormatRow alloc] init] autorelease];
 }
@@ -31,6 +31,18 @@
 		self.newline = YES;
 	}
 	return self;
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+	PPStringFormatRow *copy = [[[self class] allocWithZone:zone] init];
+	copy.format = self.format;
+	copy.newline = self.newline;
+	
+	copy.keyFormat = [self.keyFormat copyWithZone:zone];
+	copy.valueFormat = [self.valueFormat copyWithZone:zone];
+	
+	return copy;
 }
 
 - (void) dealloc
@@ -47,7 +59,7 @@
 
 
 #pragma mark Formatting
-- (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values
+- (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values
 {
 	NSMutableString *string = nil;
 	if ((nil != keys) && (nil != format)) {

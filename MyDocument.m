@@ -332,12 +332,6 @@
 		csvDocument.mustAbortImport = YES;
 	}
 }
-
-- (void) setColumnOrder:(NSArray *)newOrder
-{
-	[csvDocument setColumnOrderByKeys:newOrder];
-	self.documentEdited = YES;
-}
 #pragma mark -
 
 

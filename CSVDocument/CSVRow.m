@@ -179,8 +179,15 @@ static NSUInteger highestHeaderRowPos = 0;
 - (void) setValue:(id)value forColumnKey:(NSString *)key
 {
 	if (nil != key) {
+		value = (nil != value) ? value : [NSNull null];
 		[rowValues setObject:value forKey:key];
 	}
+}
+
+- (void) setValue:(id)value forKeyPath:(NSString *)keyPath
+{
+	NSLog(@"%@ -> %@", keyPath, value);
+	[super setValue:value forKeyPath:keyPath];
 }
 #pragma mark -
 

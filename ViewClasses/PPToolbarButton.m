@@ -13,7 +13,7 @@
 @implementation PPToolbarButton
 
 @dynamic buttonType;
-@dynamic borderWidths;
+@dynamic borderWidth;
 @dynamic borderColor, borderHighlightColor, borderActiveColor, borderDisabledColor;
 @dynamic baseColor, highlightColor, activeColor, disabledColor;
 
@@ -36,6 +36,7 @@
 {
 	self = [super initWithCoder:coder];
 	if (self) {
+		buttonType = [self buttonType];
 		NSButtonCell *oldCell = [self cell];
 		
 		// we need to throw away the NSButtonCell that IB created and replace it with the right one
@@ -61,9 +62,7 @@
 
 - (void) setDefaults
 {
-	NSNumber *default_border_width = [NSNumber numberWithInt:1.0];
-	self.borderWidths = [NSArray arrayWithObjects:default_border_width, default_border_width, [NSNull null], default_border_width, nil];
-	
+	self.borderWidth = PPBorderWidthMake(1.0, 1.0, 0.0, 1.0);
 	self.borderColor = self.borderHighlightColor = self.borderActiveColor = self.borderDisabledColor = [NSColor grayColor];
 	
 	self.baseColor = [NSColor whiteColor];
@@ -87,21 +86,21 @@
 }
 - (void) setButtonType:(NSButtonType)newType
 {
-	//NSLog(@"set to: %i", buttonType);
+	//NSLog(@"set button type to: %i", buttonType);
 	if (newType != buttonType) {
 		[super setButtonType:newType];
 		buttonType = newType;
 	}
 }
 
-// Border width array
-- (NSArray *) borderWidths
+// Border width
+- (PPBorderWidth) borderWidth
 {
-	return [[self cell] borderWidths];
+	return [(PPToolbarButtonCell *)[self cell] borderWidth];
 }
-- (void) setBorderWidths:(NSArray *)newWidths
+- (void) setBorderWidth:(PPBorderWidth)newWidths
 {
-	[[self cell] setBorderWidths:newWidths];
+	[(PPToolbarButtonCell *)[self cell] setBorderWidth:newWidths];
 }
 
 // Border colors
