@@ -11,6 +11,15 @@
 #import "MyDocument.h"
 #import "CSVDocument.h"
 #import "CSVRowController.h"
+#import "PPStringFormatManager.h"
+#import "PPStringFormat.h"
+
+
+@interface AppController ()
+
+- (void) updateExportFormatSelector;
+
+@end
 
 
 @implementation AppController
@@ -67,22 +76,61 @@
 - (IBAction) exportDocument:(id)sender
 {
 	// get active document
-//	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
-//	MyDocument *myDocument = [docController currentDocument];
-	
-	// configure the panel
-	NSSavePanel *exportPanel = [NSSavePanel savePanel];
-	[exportPanel setDelegate:self];
-	[exportPanel setAccessoryView:exportAccessoryView];
-	
-	// TODO: Adjust the selected format
-	
-	NSInteger result = [exportPanel runModal];
-	
-	// got the OK -> handle export
-	if (result == NSFileHandlingPanelOKButton) {
+	NSDocumentController *docController = [NSDocumentController sharedDocumentController];
+	MyDocument *frontDoc = [docController currentDocument];
+	CSVDocument *csvDoc = frontDoc.csvDocument;
+	if (nil != csvDoc) {
 		
+		// configure the panel
+		NSSavePanel *exportPanel = [NSSavePanel savePanel];
+		[exportPanel setDelegate:self];
+		[exportPanel setAccessoryView:exportAccessoryView];
+		
+		[self updateExportFormatSelector];
+		// TODO: Preselect the export checkbox (or not)
+		
+		NSInteger result = [exportPanel runModal];
+		
+		// got the OK -> handle export
+		if (result == NSFileHandlingPanelOKButton) {
+			NSError *error = nil;
+			NSUInteger formatIndex = [exportFormatSelector indexOfSelectedItem];
+			if (formatIndex < [[PPStringFormatManager sharedManager].formats count]) {
+				
+				// set format and export header option
+				frontDoc.exportFormat = [[PPStringFormatManager sharedManager].formats objectAtIndex:formatIndex];
+				frontDoc.exportHeaders = (NSOnState == [exportHeadersCheckbox state]);
+				
+				// WRITE!
+				[frontDoc writeToURL:[exportPanel URL] ofType:frontDoc.exportFormat.type error:&error];
+			}
+			
+			// format selection error
+			else {
+				NSString *errorString = @"";
+				NSDictionary *errorDict = [NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey];
+				error = [NSError errorWithDomain:NSCocoaErrorDomain code:667 userInfo:errorDict];
+			}
+			
+			// Handle errors
+			if (nil != error) {
+				NSLog(@"Export error: %@", [error localizedDescription]);
+				NSAlert *errorAlert = [NSAlert alertWithError:error];
+				[errorAlert runModal];
+			}
+		}
 	}
+}
+
+
+- (void) updateExportFormatSelector
+{
+	[exportFormatSelector removeAllItems];
+	for (PPStringFormat *format in [PPStringFormatManager sharedManager].formats) {
+		[exportFormatSelector addItemWithTitle:format.name];
+	}
+	[exportFormatSelector selectItemWithTitle:[PPStringFormatManager sharedManager].selectedFormat.name];
+	[exportFormatSelector synchronizeTitleAndSelectedItem];
 }
 
 

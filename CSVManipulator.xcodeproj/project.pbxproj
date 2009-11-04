@@ -28,6 +28,8 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		EE0D3A2A0D6F02350009A7B2 /* DataTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0D3A290D6F02350009A7B2 /* DataTableView.m */; };
 		EE1189361099E7450072804F /* PPStringFormatsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1189351099E7450072804F /* PPStringFormatsController.m */; };
+		EE118BCE109B46770072804F /* PPStringFormatTransformPair.m in Sources */ = {isa = PBXBuildFile; fileRef = EE118BCD109B46770072804F /* PPStringFormatTransformPair.m */; };
+		EE118C5710A1B7AB0072804F /* PPStringFormatPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */; };
 		EE137ABC1090568600D31816 /* TB_add_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB71090568600D31816 /* TB_add_column.tiff */; };
 		EE137ABD1090568600D31816 /* TB_inspector.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB81090568600D31816 /* TB_inspector.tiff */; };
 		EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB91090568600D31816 /* TB_remove_column.tiff */; };
@@ -90,6 +92,10 @@
 		EE0D3A290D6F02350009A7B2 /* DataTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTableView.m; sourceTree = "<group>"; };
 		EE1189341099E7450072804F /* PPStringFormatsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatsController.h; sourceTree = "<group>"; };
 		EE1189351099E7450072804F /* PPStringFormatsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatsController.m; sourceTree = "<group>"; };
+		EE118BCC109B46770072804F /* PPStringFormatTransformPair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatTransformPair.h; sourceTree = "<group>"; };
+		EE118BCD109B46770072804F /* PPStringFormatTransformPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatTransformPair.m; sourceTree = "<group>"; };
+		EE118C5510A1B7AB0072804F /* PPStringFormatPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatPreviewController.h; sourceTree = "<group>"; };
+		EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatPreviewController.m; sourceTree = "<group>"; };
 		EE1377641088A54D00D31816 /* DataTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableViewDelegate.h; sourceTree = "<group>"; };
 		EE137AB71090568600D31816 /* TB_add_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_column.tiff; sourceTree = "<group>"; };
 		EE137AB81090568600D31816 /* TB_inspector.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_inspector.tiff; sourceTree = "<group>"; };
@@ -314,6 +320,10 @@
 				EE137C291095E68F00D31816 /* PPStringFormatManager.h */,
 				EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */,
 				EE137C321095E80700D31816 /* PPStringFormatManager.xib */,
+				EE118C5510A1B7AB0072804F /* PPStringFormatPreviewController.h */,
+				EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */,
+				EE118BCC109B46770072804F /* PPStringFormatTransformPair.h */,
+				EE118BCD109B46770072804F /* PPStringFormatTransformPair.m */,
 			);
 			path = FileExport;
 			sourceTree = "<group>";
@@ -472,6 +482,8 @@
 				EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */,
 				EE137C2B1095E68F00D31816 /* PPStringFormatManager.m in Sources */,
 				EE1189361099E7450072804F /* PPStringFormatsController.m in Sources */,
+				EE118BCE109B46770072804F /* PPStringFormatTransformPair.m in Sources */,
+				EE118C5710A1B7AB0072804F /* PPStringFormatPreviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

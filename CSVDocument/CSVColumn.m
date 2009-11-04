@@ -22,6 +22,7 @@
 	self = [super init];
 	if (self) {
 		self.type = @"NSString";
+		self.active = YES;
 	}
 	return self;
 }

@@ -9,6 +9,7 @@
 #import "PPStringFormat.h"
 #import "PPStringFormatRow.h"
 #import "PPStringFormatEntity.h"
+#import "PPStringFormatTransformPair.h"
 #import "CSVColumn.h"
 #import "CSVRow.h"
 
@@ -17,11 +18,13 @@
 
 @synthesize systemFormat;
 @synthesize name;
+@synthesize type;
 @synthesize formatDescription;
 
 @synthesize prefix;
 @synthesize suffix;
 
+@synthesize useHeaderNamesAsKey;
 @synthesize headerFormat;
 @synthesize valueFormat;
 
@@ -52,6 +55,7 @@
 - (void) dealloc
 {
 	self.name = nil;
+	self.type = nil;
 	self.formatDescription = nil;
 	
 	self.prefix = nil;
@@ -60,6 +64,7 @@
 	self.headerFormat = nil;
 	self.valueFormat = nil;
 	
+
 	[super dealloc];
 }
 #pragma mark -
@@ -78,12 +83,12 @@
 		
 		// add rows (if there are any)
 		if ([csvRows count] > 0) {
+			NSMutableArray *keys = [NSMutableArray arrayWithCapacity:[columns count]];
 			NSAutoreleasePool *myPool = [[NSAutoreleasePool alloc] init];
 			
 			// extract the keys (actually: names) from the columns
-			NSMutableArray *keys = [NSMutableArray arrayWithCapacity:[columns count]];
 			for (CSVColumn *column in columns) {
-				NSString *newKey = [column hasName] ? column.name : column.key;
+				NSString *newKey = (useHeaderNamesAsKey && [column hasName]) ? column.name : column.key;
 				[keys addObject:newKey];
 			}
 			
@@ -95,7 +100,7 @@
 					i++;
 				}
 				else if (includeHeaderRows) {
-					[string appendString:[headerFormat rowForKeys:keys values:[row valuesForColumns:columns]]];	// header row
+					[string appendString:[headerFormat rowForKeys:keys values:[row valuesForColumns:columns]]];		// header row
 					i++;
 				}
 				
@@ -136,26 +141,26 @@
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"CSV"];
 	myself.systemFormat = YES;
 	myself.name = @"CSV";
+	myself.type = @"csv";
 	myself.formatDescription = @"Regular CSV format";
 	
 	// Setup CSV properties
-	NSArray *escapeFrom = [NSArray arrayWithObject:@"\""];
-	NSArray *escapeTo = [NSArray arrayWithObject:@"\"\""];
+	NSArray *transformPairs = [PPStringFormatTransformPair transformPairsFromTo:@"\"", @"\"\"", nil];
 	
-	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
-	valueEntity.separator = @",";
-	valueEntity.stringFormat = @"\"$value\"";
-	valueEntity.numberFormat = @"$value";
-	valueEntity.stringEscapeFrom = escapeFrom;
-	valueEntity.stringEscapeTo = escapeTo;
+	PPStringFormatEntity *entity = [PPStringFormatEntity formatEntity];
+	entity.separator = @",";
+	entity.stringFormat = @"\"$value\"";
+	entity.numberFormat = @"$value";
+	entity.keyTransforms = transformPairs;
+	entity.valueTransforms = transformPairs;
 	
 	PPStringFormatRow *header = [PPStringFormatRow formatRow];
 	header.format = @"@values";
-	header.valueFormat = valueEntity;
+	header.valueFormat = entity;
 	
 	PPStringFormatRow *row = [PPStringFormatRow formatRow];
 	row.format = @"@values";
-	row.valueFormat = valueEntity;
+	row.valueFormat = entity;
 	
 	myself.headerFormat = header;
 	myself.valueFormat = row;
@@ -168,28 +173,24 @@
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"Tab"];
 	myself.systemFormat = YES;
 	myself.name = @"Tab";
+	myself.type = @"txt";
 	myself.formatDescription = @"Regular tab separated values format";
 	
 	// Setup Tab separated properties
-	NSArray *escapeFrom = [NSArray arrayWithObject:@"\""];
-	NSArray *escapeTo = [NSArray arrayWithObject:@"\"\""];
+	NSArray *transformPairs = [PPStringFormatTransformPair transformPairsFromTo:@"\"", @"\"\"", nil];
 	
-	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
-	valueEntity.separator = @"\t";
-	valueEntity.stringFormat = @"\"$value\"";
-	valueEntity.numberFormat = @"$value";
-	valueEntity.stringEscapeFrom = escapeFrom;
-	valueEntity.stringEscapeTo = escapeTo;
-	
-	PPStringFormatRow *header = [PPStringFormatRow formatRow];
-	header.format = @"@values";
-	header.valueFormat = valueEntity;
+	PPStringFormatEntity *entity = [PPStringFormatEntity formatEntity];
+	entity.separator = @"\t";
+	entity.stringFormat = @"\"$value\"";
+	entity.numberFormat = @"$value";
+	entity.keyTransforms = transformPairs;
+	entity.valueTransforms = transformPairs;
 	
 	PPStringFormatRow *row = [PPStringFormatRow formatRow];
 	row.format = @"@values";
-	row.valueFormat = valueEntity;
+	row.valueFormat = entity;
 	
-	myself.headerFormat = header;
+	myself.headerFormat = row;
 	myself.valueFormat = row;
 	
 	return [myself autorelease];
@@ -200,27 +201,37 @@
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"flatXML"];
 	myself.systemFormat = YES;
 	myself.name = @"XML";
+	myself.type = @"xml";
 	myself.formatDescription = @"A format that exports your file to a flat XML structure";
 	
 	// Setup CSV properties
-	NSArray *replaceValuesFrom = [NSArray arrayWithObjects:@"&", @"<", @">", @"\"", nil];
-	NSArray *replaceValuesTo = [NSArray arrayWithObjects:@"&amp;", @"&lt;", @"&gt;", @"&quot;", nil];
-	NSArray *replaceKeysFrom = [NSArray arrayWithObjects:@"&", @"<", @">", @"\"", @" ", @"\t", @"\n", nil];
-	NSArray *replaceKeysTo = [NSArray arrayWithObjects:@"_", nil];
+	NSArray *keyPairs = [PPStringFormatTransformPair transformPairsFromTo:
+						 @"&", @"_",
+						 @"<", @"_",
+						 @">", @"_",
+						 @"\"", @"_",
+						 @" ", @"_",
+						 @"\t", @"_",
+						 @"\n", @"_", nil];
+	NSArray *valuePairs = [PPStringFormatTransformPair transformPairsFromTo:
+						   @"&", @"&amp;",
+						   @"<", @"&lt;",
+						   @">", @"&gt;",
+						   @"\"", @"&quot;", nil];
 	
 	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
 	valueEntity.separator = @"\n\t";
 	valueEntity.stringFormat = @"<$key>$value</$key>";
 	valueEntity.numberFormat = @"<$key>$value</$key>";
-	valueEntity.stringEscapeFrom = replaceValuesFrom;
-	valueEntity.stringEscapeTo = replaceValuesTo;
+	valueEntity.keyTransforms = keyPairs;
+	valueEntity.valueTransforms = valuePairs;
 	
 	PPStringFormatEntity *headerEntity = [PPStringFormatEntity formatEntity];
 	headerEntity.separator = @"\n\t";
-	headerEntity.stringFormat = @"<$key />";
-	headerEntity.numberFormat = @"<$key />";
-	headerEntity.stringEscapeFrom = replaceKeysFrom;
-	headerEntity.stringEscapeTo = replaceKeysTo;
+	headerEntity.stringFormat = @"<$key name=\"$value\" />";
+	headerEntity.numberFormat = @"<$key name=\"$value\" />";
+	headerEntity.keyTransforms = keyPairs;
+	headerEntity.valueTransforms = valuePairs;
 	
 	PPStringFormatRow *header = [PPStringFormatRow formatRow];
 	header.format = @"<header>\n\t@keys\n</header>";
@@ -238,7 +249,61 @@
 	return [myself autorelease];
 }
 
++ (PPStringFormat *) sqlFormat
+{
+	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"SQL"];
+	myself.systemFormat = YES;
+	myself.name = @"SQL";
+	myself.type = @"sql";
+	myself.formatDescription = @"A format that exports your file as basic SQL CREATE TABLE and INSERT statements";
+	
+	// Setup CSV properties
+	NSArray *keyPairs = [PPStringFormatTransformPair transformPairsFromTo:		// TODO: Invent a pair that replaces all non-alphanumeric characters
+						 @"&", @"_",
+						 @"<", @"_",
+						 @">", @"_",
+						 @"\"", @"_",
+						 @" ", @"_",
+						 @"\t", @"_",
+						 @"\n", @"_", nil];
+	NSArray *valuePairs = [PPStringFormatTransformPair transformPairsFromTo:@"\"", @"&quot;", nil];
+	
+	PPStringFormatEntity *headerEntity = [PPStringFormatEntity formatEntity];
+	headerEntity.separator = @",\n\t";
+	headerEntity.stringFormat = @"`$key` VARCHAR(32)";
+	headerEntity.keyTransforms = keyPairs;
+	
+	PPStringFormatEntity *keyEntity = [PPStringFormatEntity formatEntity];
+	keyEntity.separator = @", ";
+	keyEntity.stringFormat = @"`$key`";
+	keyEntity.keyTransforms = keyPairs;
+	
+	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
+	valueEntity.separator = @", ";
+	valueEntity.stringFormat = @"\"$value\"";
+	valueEntity.numberFormat = @"$value";
+	valueEntity.valueTransforms = valuePairs;
+	
+	PPStringFormatRow *header = [PPStringFormatRow formatRow];
+	header.format = @"CREATE TABLE IF NOT EXISTS `my_table_name` (\n\t@keys\n) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT=\"my_table_comment\";";
+	header.keyFormat = headerEntity;
+	
+	PPStringFormatRow *row = [PPStringFormatRow formatRow];
+	row.format = @"INSERT INTO `my_table_name` (@keys) VALUES (@values);";
+	row.keyFormat = keyEntity;
+	row.valueFormat = valueEntity;
+	
+	myself.prefix = @"USE `my_database`;\n";
+	myself.headerFormat = header;
+	myself.valueFormat = row;
+	
+	return [myself autorelease];
+}
+#pragma mark -
 
+
+
+#pragma mark Utilities
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"%@ <0x%x> %@ (system: %i)", NSStringFromClass([self class]), self, name, systemFormat];

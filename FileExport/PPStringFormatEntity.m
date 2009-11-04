@@ -7,6 +7,7 @@
 //
 
 #import "PPStringFormatEntity.h"
+#import "PPStringFormatTransformPair.h"
 
 
 @implementation PPStringFormatEntity
@@ -14,8 +15,8 @@
 @synthesize separator;
 @synthesize stringFormat;
 @synthesize numberFormat;
-@synthesize stringEscapeFrom;
-@synthesize stringEscapeTo;
+@synthesize keyTransforms;
+@synthesize valueTransforms;
 
 
 + (PPStringFormatEntity *) formatEntity
@@ -30,8 +31,8 @@
 	copy.stringFormat = self.stringFormat;
 	copy.numberFormat = self.numberFormat;
 	
-	copy.stringEscapeFrom = [self.stringEscapeFrom copyWithZone:zone];
-	copy.stringEscapeTo = [self.stringEscapeTo copyWithZone:zone];
+	copy.keyTransforms = [self.keyTransforms copyWithZone:zone];
+	copy.valueTransforms = [self.valueTransforms copyWithZone:zone];
 	
 	return copy;
 }
@@ -41,8 +42,8 @@
 	self.separator = nil;
 	self.stringFormat = nil;
 	self.numberFormat = nil;
-	self.stringEscapeFrom = nil;
-	self.stringEscapeTo = nil;
+	self.keyTransforms = nil;
+	self.valueTransforms = nil;
 	
 	[super dealloc];
 }
@@ -61,37 +62,38 @@
 		NSUInteger i = 0;
 		for (NSString *key in keys) {
 			id value = [values objectAtIndex:i];
-			NSMutableString *formatted = [NSMutableString string];
+			NSMutableString *formatted = nil;
 			
 			// NSString
 			if ([value isKindOfClass:[NSString class]] && (nil != stringFormat)) {
 				formatted = [stringFormat mutableCopy];		// e.g. "<$key>$value</$key>"
+				NSString *newKey = key;
 				NSString *newValue = value;					// this will be 'value' with escaped strings
 				
-				// escape characters in value
-				if ([stringEscapeFrom count] > 0) {
-					newValue = [NSMutableString stringWithString:value];
-					NSUInteger i = 0;
-					NSUInteger num_to = [stringEscapeTo count];
-					NSLog(@"escaping %@ %@", newValue, stringEscapeFrom);
-					for (NSString *replaceFrom in stringEscapeFrom) {
-						NSString *replaceTo = [stringEscapeTo objectAtIndex:(i % num_to)];
-						
-						[(NSMutableString *)newValue replaceOccurrencesOfString:replaceFrom
-																	 withString:replaceTo
-																		options:0
-																		  range:NSMakeRange(0, [newValue length])];
-						i++;
+				// escape characters
+				if ([keyTransforms count] > 0) {
+					newKey = [NSMutableString stringWithString:key];
+					
+					for (PPStringFormatTransformPair *transformPair in keyTransforms) {
+						[transformPair transform:(NSMutableString *)newKey];
 					}
 				}
 				
-				[formatted replaceOccurrencesOfString:@"$key" withString:key options:0 range:NSMakeRange(0, [formatted length])];
+				if ([valueTransforms count] > 0) {
+					newValue = [NSMutableString stringWithString:value];
+					
+					for (PPStringFormatTransformPair *transformPair in valueTransforms) {
+						[transformPair transform:(NSMutableString *)newValue];
+					}
+				}
+				
+				[formatted replaceOccurrencesOfString:@"$key" withString:newKey options:0 range:NSMakeRange(0, [formatted length])];
 				[formatted replaceOccurrencesOfString:@"$value" withString:newValue options:0 range:NSMakeRange(0, [formatted length])];
 			}
 			
 			// NS(Decimal)Number
-			else if ([value isKindOfClass:[NSNumber class]] && (nil != numberFormat)) {
-				formatted = [numberFormat mutableCopy];		// e.g. '$value'
+			else if ([value isKindOfClass:[NSNumber class]]) {
+				formatted = (nil != numberFormat) ? [numberFormat mutableCopy] : [stringFormat mutableCopy];		// e.g. '$value'
 				NSString *newValue = [value stringValue];
 				
 				[formatted replaceOccurrencesOfString:@"$key" withString:key options:0 range:NSMakeRange(0, [formatted length])];
@@ -99,7 +101,7 @@
 			}
 			
 			// add to the parts (no check necessary, formatted points at least to an empty string)
-			[parts addObject:formatted];
+			[parts addObject:((nil == formatted) ? @"" : [formatted autorelease])];
 			i++;
 		}
 		

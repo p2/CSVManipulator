@@ -12,6 +12,7 @@
 #import "CSVRow.h"
 #import "CSVColumn.h"
 #import "PPStringFormat.h"
+
 #import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
@@ -45,6 +46,7 @@
 @dynamic dataIsAtOriginalOrder;
 @synthesize exportHeaders;
 @synthesize calculationShouldTerminate;
+@synthesize importFormat;
 @dynamic exportFormat;
 
 
@@ -68,6 +70,7 @@
 {
 	self.mainWindowController = nil;
 	self.csvDocument = nil;
+	self.importFormat = nil;
 	self.exportFormat = nil;
  	
 	[super dealloc];
@@ -181,7 +184,7 @@
 	NSError *error;
 	
 	if ([csvDocument parseCSVString:string maxRows:0 error:&error]) {
-		self.exportFormat = [PPStringFormat csvFormat];
+		self.importFormat = [PPStringFormat csvFormat];
 	}
 	else {
 		[self presentError:error];
@@ -234,17 +237,31 @@
 
 - (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	// TODO: Use CSV format for SAVE operations, selected format for EXPORT oporations
-	NSString *csvString = [self stringInFormat:self.exportFormat allRows:YES allColumns:YES];
+	PPStringFormat *thisFormat = self.exportFormat;
+	if ([typeName isEqualToString:@"csv"]) {
+		thisFormat = self.importFormat;
+	}
 	
-	// save file
-	BOOL success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
+	BOOL success = NO;
+	
+	// get the string
+	NSString *csvString = [self stringInFormat:thisFormat allRows:YES allColumns:YES error:outError];
+	if (nil == *outError) {
+		
+		// check whether the path contains the extension, add if necessary TODO: Better solution to extension
+		if (![typeName isEqualToString:[[absoluteURL path] pathExtension]]) {
+			absoluteURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@", [absoluteURL path], typeName]];
+		}
+		
+		// save the file
+		success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
+	}
+	
 	self.documentEdited = !success;
-	
 	return success;
 }
 
-- (NSString *) stringInFormat:(PPStringFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;
+- (NSString *) stringInFormat:(PPStringFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns error:(NSError **)outError;
 {
 	// get the row indexes we want
 	NSIndexSet *rowIndexes = nil;
@@ -259,17 +276,16 @@
 		columns = csvDocument.columns;
 	}
 	else {
-		NSMutableArray *foo = [NSMutableArray array];
+		columns = [NSMutableArray array];
 		for (CSVColumn *column in csvDocument.columns) {
 			if (column.active) {
-				[foo addObject:column];
+				[(NSMutableArray *)columns addObject:column];
 			}
 		}
-		columns = [foo copy];
 	}
 	
-	// TODO: Export headers, other way of setting exportHeaders desired
-	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes includeHeaders:exportHeaders];
+	// TODO: Export headers -> other way of setting exportHeaders desired
+	return [csvDocument stringInFormat:format withColumns:columns forRowIndexes:rowIndexes includeHeaders:exportHeaders error:outError];
 }
 #pragma mark -
 
@@ -539,7 +555,7 @@
 	
 	// RTF
 	else if ([type isEqualToString:NSRTFPboardType]) {
-		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPStringFormat tabFormat] allRows:NO allColumns:NO]] autorelease];
+		NSAttributedString *attributedString = [[[NSAttributedString alloc] initWithString:[self stringInFormat:[PPStringFormat tabFormat] allRows:NO allColumns:NO error:nil]] autorelease];
 		if (attributedString && [attributedString length] > 0) {
 			result = [pboard setData:[attributedString RTFFromRange:NSMakeRange(0, [attributedString length]) documentAttributes:nil] forType:NSRTFPboardType];
 		}
@@ -547,7 +563,7 @@
 	
 	// Plain Text
 	else if ([type isEqualToString:NSStringPboardType]) {
-		NSString *string = [self stringInFormat:self.exportFormat allRows:NO allColumns:NO];
+		NSString *string = [self stringInFormat:self.exportFormat allRows:NO allColumns:NO error:nil];
 		if (string && [string length] > 0) {
 			result = [pboard setString:string forType:NSStringPboardType];
 		}

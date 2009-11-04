@@ -9,6 +9,7 @@
 #import "PPStringFormatManager.h"
 #import "PPStringFormat.h"
 #import "PPStringFormatsController.h"
+#import "PPStringFormatPreviewController.h"
 #import "PPToolbarView.h"
 #import "MyDocument.h"
 #import "CSVDocument.h"
@@ -19,8 +20,6 @@
 @property (nonatomic, readwrite, retain) NSMutableArray *formats;
 @property (nonatomic, readwrite, retain) NSArray *systemFormats;
 @property (nonatomic, readwrite, retain) PPStringFormatsController *formatController;
-
-@property (nonatomic, readwrite, retain) NSDictionary *previewAttributes;
 
 @end
 
@@ -37,9 +36,7 @@
 @synthesize formatTable;
 @synthesize formatToolbar;
 
-@synthesize previewPanel;
-@synthesize previewField;
-@synthesize previewAttributes;
+@synthesize previewPanelController;
 
 
 #pragma mark Singleton Overrides
@@ -116,8 +113,7 @@ static PPStringFormatManager *managerInstance = nil;
 	self.formatTable = nil;
 	self.formatToolbar = nil;
 	
-	self.previewPanel = nil;
-	self.previewField = nil;
+	self.previewPanelController = nil;
 	
 	[super dealloc];
 }
@@ -150,6 +146,7 @@ static PPStringFormatManager *managerInstance = nil;
 							  [PPStringFormat csvFormat],
 							  [PPStringFormat tabFormat],
 							  [PPStringFormat flatXMLFormat],
+							  [PPStringFormat sqlFormat],
 							  nil];
 	}
 	return systemFormats;
@@ -219,14 +216,13 @@ static PPStringFormatManager *managerInstance = nil;
 #pragma mark Actions
 - (IBAction) showPreview:(id)sender
 {
-	[previewPanel orderFront:sender];
-	[previewField setFont:[NSFont fontWithName:@"Monaco" size:12.0]];
+	[previewPanelController showWindow:sender];
 	[self updatePreview:sender];
 }
 
 - (IBAction) updatePreview:(id)sender
 {
-	if (nil != previewPanel && [previewPanel isVisible]) {
+	if ([previewPanelController.window isVisible]) {
 		NSDocumentController *docController = [NSDocumentController sharedDocumentController];
 		MyDocument *frontDoc = [docController currentDocument];
 		CSVDocument *csvDoc = frontDoc.csvDocument;
@@ -236,13 +232,17 @@ static PPStringFormatManager *managerInstance = nil;
 			PPStringFormat *frontFormat = [self selectedFormat];
 			if (nil != frontFormat) {
 				NSIndexSet *testSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 8)];
-				NSString *previewString = [csvDoc stringInFormat:frontFormat withColumns:csvDoc.activeColumns forRowIndexes:testSet includeHeaders:YES];
+				NSError *myError = nil;
+				NSString *previewString = [csvDoc stringInFormat:frontFormat withColumns:csvDoc.activeColumns forRowIndexes:testSet includeHeaders:YES  error:&myError];
 				
-				[previewField setString:previewString];
+				if (nil != myError) {
+					previewString = [myError localizedDescription];
+				}
+				[previewPanelController previewString:previewString];
 			}
 			
 			// adjust the panel title
-			[previewPanel setTitle:[NSString stringWithFormat:@"Preview • %@", frontFormat.name]];
+			previewPanelController.panelTitle = [NSString stringWithFormat:@"Preview • %@", frontFormat.name];
 		}
 	}
 }

@@ -120,11 +120,11 @@
 	[mainTable addTableColumn:firstTableColumn];
 	
 	// new headers, new bindings
-	NSInteger numHeaders = [document numColumns];
-	if (numHeaders > 0) {
+	NSInteger numColumns = [document numColumns];
+	if (numColumns > 0) {
 		DataTableCell *dataCell = [DataTableCell cell];
 		NSRect mainTableBounds = [mainTable frame];
-		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numHeaders);
+		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numColumns);
 		columnWidth = (columnWidth < COLUMN_MIN_WIDTH) ? COLUMN_MIN_WIDTH : columnWidth;
 		
 		// loop columns to add the columns
@@ -137,6 +137,7 @@
 			[tableColumn setWidth:columnWidth];
 			[tableColumn setMinWidth:COLUMN_MIN_WIDTH];
 			[[tableColumn headerCell] setEditable:YES];
+			[[tableColumn headerCell] setChecked:column.active];
 			
 			[mainTable addTableColumn:tableColumn];
 		}

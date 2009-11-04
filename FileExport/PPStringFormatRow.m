@@ -62,21 +62,23 @@
 - (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values
 {
 	NSMutableString *string = nil;
-	if ((nil != keys) && (nil != format)) {
+	if (nil != keys && [keys count] > 0 && nil != format) {
 		string = [NSMutableString stringWithString:format];
 		
 		// set keys
-		if (NSNotFound != [string rangeOfString:@"@keys"].location) {
+		if (nil != keyFormat && NSNotFound != [string rangeOfString:@"@keys"].location) {
+			NSString *keyString = [keyFormat stringForKeys:keys values:values];
 			[string replaceOccurrencesOfString:@"@keys"
-									withString:[keyFormat stringForKeys:keys values:values]
+									withString:keyString
 									   options:0
 										 range:NSMakeRange(0, [string length])];
 		}
 		
 		// set values
-		if (NSNotFound != [string rangeOfString:@"@values"].location) {
+		if (nil != valueFormat && NSNotFound != [string rangeOfString:@"@values"].location) {
+			NSString *valueString = [valueFormat stringForKeys:keys values:values];
 			[string replaceOccurrencesOfString:@"@values"
-									withString:[valueFormat stringForKeys:keys values:values]
+									withString:valueString
 									   options:0
 										 range:NSMakeRange(0, [string length])];
 		}

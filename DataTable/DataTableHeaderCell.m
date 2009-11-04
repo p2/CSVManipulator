@@ -64,11 +64,11 @@
 	cell.myColumn = nil;								// to avoid associating with the same column
 	cell->showsCheckbox = showsCheckbox;
 	cell->headerCheckbox = nil;
-	cell.headerCheckbox = [headerCheckbox copyWithZone:zone];
+	cell.headerCheckbox = [[headerCheckbox copyWithZone:zone] autorelease];
 	cell->headerCheckboxRect = headerCheckboxRect;
 	cell.checked = NO;									// does not work...
 	cell->headerTextfield = nil;
-	cell.headerTextfield = [headerTextfield copyWithZone:zone];
+	cell.headerTextfield = [[headerTextfield copyWithZone:zone] autorelease];
 	
 	return cell;
 }
@@ -174,7 +174,7 @@
 	// create and draw the gradient
 	const CGFloat locations[2] = { 0.0, 1.0 };
 	NSArray *color_array = [NSArray arrayWithObjects:topColor, bottomColor, nil];
-	NSGradient *gradient = [[NSGradient alloc] initWithColors:color_array atLocations:locations colorSpace:[(NSColor *)[color_array objectAtIndex:0] colorSpace]];
+	NSGradient *gradient = [[[NSGradient alloc] initWithColors:color_array atLocations:locations colorSpace:[(NSColor *)[color_array objectAtIndex:0] colorSpace]] autorelease];
 	[gradient drawInRect:cellFrame angle:90.0];
 	
 	// draw the divider

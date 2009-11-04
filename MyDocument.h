@@ -28,10 +28,11 @@
 	BOOL documentEdited;
 	BOOL dataIsAtOriginalOrder;
 	NSUInteger numRowsToExpect;
+	PPStringFormat *importFormat;
 	PPStringFormat *exportFormat;
 	
 	BOOL exportHeaders;								// bound to a checkbox, tells us whether to export the header on save or not
-	NSInteger lastChoiceExportFormat;
+	NSInteger lastChoiceExportFormat;			// TODO: needed?
 	
 	BOOL calculationShouldTerminate;
 }
@@ -44,6 +45,7 @@
 @property (nonatomic, assign) BOOL documentLoaded;
 @property (assign, getter=isDocumentEdited) BOOL documentEdited;
 @property (nonatomic, assign) BOOL dataIsAtOriginalOrder;
+@property (nonatomic, retain) PPStringFormat *importFormat;
 @property (nonatomic, retain) PPStringFormat *exportFormat;
 
 @property (nonatomic, assign) BOOL exportHeaders;
@@ -53,7 +55,7 @@
 // Data control
 - (NSUInteger) numColumns;
 - (NSArray *) columns;
-- (NSString *) stringInFormat:(PPStringFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns;			// 0 = csv, 1 = Tab, 2 = LaTeX
+- (NSString *) stringInFormat:(PPStringFormat *)format allRows:(BOOL)allRows allColumns:(BOOL)allColumns error:(NSError **)outError;
 - (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex;
 - (BOOL) hasDataAtRow:(NSUInteger)rowIndex forColumnKey:(NSString *)columnKey;
 

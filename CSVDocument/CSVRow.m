@@ -183,12 +183,12 @@ static NSUInteger highestHeaderRowPos = 0;
 		[rowValues setObject:value forKey:key];
 	}
 }
-
+/*
 - (void) setValue:(id)value forKeyPath:(NSString *)keyPath
 {
 	NSLog(@"%@ -> %@", keyPath, value);
 	[super setValue:value forKeyPath:keyPath];
-}
+}	//	*/
 #pragma mark -
 
 

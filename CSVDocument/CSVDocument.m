@@ -317,9 +317,16 @@
 
 #pragma mark Returning as String
 #ifdef CSV_STRING_EXPORTING
-- (NSString *) stringInFormat:(PPStringFormat *)format withColumns:(NSArray *)columnArray forRowIndexes:(NSIndexSet *)rowIndexes includeHeaders:(BOOL)headerFlag
+- (NSString *) stringInFormat:(PPStringFormat *)format
+				  withColumns:(NSArray *)columnArray
+				forRowIndexes:(NSIndexSet *)rowIndexes
+			   includeHeaders:(BOOL)headerFlag
+						error:(NSError **)outError
 {
 	if ([rows count] < 1 || [columnArray count] < 1) {
+		NSString *errorString = ([rows count] < 1) ? @"The document contains no rows" : @"The document has no active columns";
+		NSDictionary *userErrorDict = [NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey];
+		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:666 userInfo:userErrorDict];
 		return @"";
 	}
 	
@@ -328,7 +335,6 @@
 	}
 	
 	// get desired row indexes if not given
-	// TODO: Also return header rows if we want the headers!
 	NSArray *exportRows = nil;
 	if (nil == rowIndexes) {
 		if (NSNotFound == [rowController selectionIndex]) {
@@ -352,7 +358,6 @@
 	
 	// get the string from the formatter
 	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumns:columnArray];
-	//NSLog(@"-->  %@ stringInFormat: is returning string:\n%@", self, string);
 	return string;
 }
 #endif

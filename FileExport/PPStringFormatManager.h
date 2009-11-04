@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 @class PPStringFormatsController;
 @class PPStringFormat;
+@class PPStringFormatPreviewController;
 @class PPToolbarView;
 
 
@@ -28,9 +29,7 @@
 	IBOutlet PPToolbarView *formatToolbar;
 	
 	// preview
-	IBOutlet NSPanel *previewPanel;
-	IBOutlet NSTextView *previewField;
-	NSDictionary *previewAttributes;
+	IBOutlet PPStringFormatPreviewController *previewPanelController;
 }
 
 @property (nonatomic, readonly, retain) NSMutableArray *formats;
@@ -43,8 +42,8 @@
 @property (nonatomic, retain) IBOutlet NSTableView *formatTable;
 @property (nonatomic, retain) IBOutlet PPToolbarView *formatToolbar;
 
-@property (nonatomic, retain) IBOutlet NSPanel *previewPanel;
-@property (nonatomic, retain) IBOutlet NSTextView *previewField;
+@property (nonatomic, retain) IBOutlet NSWindowController *previewPanelController;
+
 
 + (PPStringFormatManager *) sharedManager;
 + (void) show:(id)sender;
