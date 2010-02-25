@@ -18,6 +18,7 @@
 	NSArray *systemFormats;
 	IBOutlet PPStringFormatsController *formatController;
 	PPStringFormat *selectedFormat;
+	PPStringFormat *formatToBeRemoved;
 	
 	// main views
 	IBOutlet NSView *detailContainer;
@@ -48,10 +49,14 @@
 + (PPStringFormatManager *) sharedManager;
 + (void) show:(id)sender;
 
+- (IBAction) askToRemoveFormat:(id)sender;
+
 - (IBAction) showPreview:(id)sender;
 - (IBAction) updatePreview:(id)sender;
 - (IBAction) exportDocument:(id)sender;
 - (IBAction) copySelectedFormat:(id)sender;
+
+- (IBAction) loadFormatPlugins:(NSError **)outError;
 
 
 @end

@@ -28,7 +28,13 @@
 @synthesize mainTable;
 @synthesize mainToolbar;
 @synthesize progressSheet;
-@dynamic canRemoveColumn;
+
+@synthesize addRowItem;
+@synthesize removeRowItem;
+@synthesize addColumnItem;
+@synthesize removeColumnItem;
+@synthesize restoreOrderItem;
+@synthesize showFormatsItem;
 
 
 - (void) dealloc
@@ -40,6 +46,15 @@
 	
 	self.progressSheet = nil;
 	
+	self.addRowItem = nil;
+
+	self.addRowItem = nil;
+	self.removeRowItem = nil;
+	self.addColumnItem = nil;
+	self.removeColumnItem = nil;
+	self.restoreOrderItem = nil;
+	self.showFormatsItem = nil;
+
 	[super dealloc];
 }
 
@@ -77,8 +92,6 @@
 
 - (IBAction) removeCSVColumn:(id)sender
 {
-	[self willChangeValueForKey:@"canRemoveColumn"];
-	
 	NSIndexSet *indexes = [mainTable selectedColumnIndexes];
 	if ([indexes count] > 0) {
 		NSArray *exColumns = [[mainTable tableColumns] objectsAtIndexes:indexes];
@@ -95,7 +108,6 @@
 		
 		[mainTable sizeLastColumnToFit];
 	}
-	[self didChangeValueForKey:@"canRemoveColumn"];
 }
 			
 - (IBAction) addCSVRow:(id)sender
@@ -108,11 +120,6 @@
 {
 	[document.csvDocument.rowController remove:sender];
 	document.documentEdited = YES;
-}
-
-- (BOOL) canRemoveColumn
-{
-	return ([mainTable numberOfSelectedColumns] > 0);
 }
 
 - (IBAction) restoreOriginalOrder:(id)sender;
@@ -185,7 +192,6 @@
 - (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView withWidth:(CGFloat)width
 {
 	if (aTableView == mainTable) {
-		[self willChangeValueForKey:@"canRemoveColumn"];
 		
 		// add the table column
 		DataTableColumn *tableColumn = [DataTableColumn column];
@@ -216,16 +222,12 @@
 				 toObject:document.csvDocument.columnDict
 			  withKeyPath:[NSString stringWithFormat:@"%@.type", newColumn.key]
 				  options:nil];
-		
-		[self didChangeValueForKey:@"canRemoveColumn"];
 	}
 }
 
 
 - (void) tableViewSelectionDidChange:(NSNotification *)notification
 {
-	[self willChangeValueForKey:@"canRemoveColumn"];
-	
 	NSInteger selected_row = [mainTable selectedRow];
 	if (selected_row >= 0) {
 		
@@ -234,20 +236,16 @@
 			[mainTable editColumn:1 row:selected_row withEvent:nil select:YES];
 		}
 	}
-	[self didChangeValueForKey:@"canRemoveColumn"];
 }
 
 
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
-	[self willChangeValueForKey:@"canRemoveColumn"];
-	
 	// set sort descriptors
 	if (mainTable == tableView) {
 		[(DataTableView *)tableView setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
 		[document setDataIsAtOriginalOrder:NO];
 	}
-	[self didChangeValueForKey:@"canRemoveColumn"];
 }
 
 
@@ -298,6 +296,33 @@
 - (void) refreshData
 {
 	[mainTable reloadData];
+}
+#pragma mark -
+
+
+
+#pragma mark Toolbar
+- (BOOL) validateToolbarItem:(NSToolbarItem *)theItem
+{
+	if (addRowItem == theItem) {
+		return [document.csvDocument.rowController canInsert];
+	}
+	if (removeRowItem == theItem) {
+		return [document.csvDocument.rowController canRemove];
+	}
+	if (addColumnItem == theItem) {
+		return YES;
+	}
+	if (removeColumnItem == theItem) {
+		return ([mainTable numberOfSelectedColumns] > 0);
+	}
+	if (showFormatsItem == theItem) {
+		return YES;
+	}
+	if (restoreOrderItem == theItem) {
+		return document.documentEdited;
+	}
+	return YES;
 }
 #pragma mark -
 

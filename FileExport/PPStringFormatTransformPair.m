@@ -69,6 +69,25 @@
 
 
 
+#pragma mark NSCoding
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [self init]) {
+		self.from = [aDecoder decodeObjectForKey:@"from"];
+		self.to = [aDecoder decodeObjectForKey:@"to"];
+	}
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+	[aCoder encodeObject:from forKey:@"from"];
+	[aCoder encodeObject:to forKey:@"to"];
+}
+#pragma mark -
+
+
+
 #pragma mark Transforming
 - (NSMutableString *) transform:(NSMutableString *)string
 {

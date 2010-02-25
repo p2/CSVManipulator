@@ -51,6 +51,32 @@
 
 
 
+#pragma mark NSCoding
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [self init]) {
+		self.separator = [aDecoder decodeObjectForKey:@"separator"];
+		self.stringFormat = [aDecoder decodeObjectForKey:@"stringFormat"];
+		self.numberFormat = [aDecoder decodeObjectForKey:@"numberFormat"];
+		
+		self.keyTransforms = [aDecoder decodeObjectForKey:@"keyTransforms"];
+		self.valueTransforms = [aDecoder decodeObjectForKey:@"valueTransforms"];
+	}
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+	[aCoder encodeObject:separator forKey:@"separator"];
+	[aCoder encodeObject:stringFormat forKey:@"stringFormat"];
+	[aCoder encodeObject:numberFormat forKey:@"numberFormat"];
+	[aCoder encodeObject:keyTransforms forKey:@"keyTransforms"];
+	[aCoder encodeObject:valueTransforms forKey:@"valueTransforms"];
+}
+#pragma mark -
+
+
+
 #pragma mark Formatting
 - (NSString *) stringForKeys:(NSArray *)keys values:(NSArray *)values
 {

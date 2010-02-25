@@ -14,12 +14,20 @@
 #import "MyDocument.h"
 #import "CSVDocument.h"
 
+#define kPluginFormatFileExtension @"stringformat"
+
 
 @interface PPStringFormatManager ()
 
 @property (nonatomic, readwrite, retain) NSMutableArray *formats;
 @property (nonatomic, readwrite, retain) NSArray *systemFormats;
 @property (nonatomic, readwrite, retain) PPStringFormatsController *formatController;
+
+- (void) didEndAlert:(NSAlert *)alert withCode:(NSInteger)retCode fromContext:(id)contextInfo;
+
+- (NSString *) formatPluginPath;
+- (NSURL *) possiblePathForName:(NSString *)name;
+- (BOOL) formatPluginDirectoryExistsOrCreate:(NSError **)outError;
 
 @end
 
@@ -171,7 +179,7 @@ static PPStringFormatManager *managerInstance = nil;
 
 
 
-#pragma mark Awakening
+#pragma mark Awakening and Closing
 - (void) awakeFromNib
 {
 	[super awakeFromNib];
@@ -182,6 +190,29 @@ static PPStringFormatManager *managerInstance = nil;
 	[self tableViewSelectionDidChange:myNote];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSTextDidEndEditingNotification object:nil];
+	
+	// load custom formats
+	NSError *error = nil;
+	[self loadFormatPlugins:&error];
+	if (nil != error) {
+		NSLog(@"Error loading plugins: %@", [error localizedDescription]);
+	}
+}
+
+- (void) windowWillClose:(NSNotification *)notification
+{
+	NSError *error = nil;
+	
+	// save custom formats on window close
+	for (PPStringFormat *format in [formatController arrangedObjects]) {
+		if (!format.isSystemFormat) {
+			if (![self formatPluginDirectoryExistsOrCreate:&error] || ![format save:&error]) {
+				
+				// we currently just log the error...
+				NSLog(@"There was an error saving %@: %@", format.name, [error localizedDescription]);
+			}
+		}
+	}
 }
 #pragma mark -
 
@@ -214,6 +245,47 @@ static PPStringFormatManager *managerInstance = nil;
 
 
 #pragma mark Actions
+- (IBAction) askToRemoveFormat:(id)sender
+{
+	formatToBeRemoved = [[formatController selectedObjects] objectAtIndex:0];		// Error checking, anyone??
+	if (nil != formatToBeRemoved) {
+		NSString *alertTitle = [NSString stringWithFormat:@"Delete %@", formatToBeRemoved.name];
+		NSAlert *askAlert = [NSAlert alertWithMessageText:alertTitle
+											defaultButton:@"Delete"
+										  alternateButton:@"Cancel"
+											  otherButton:nil
+								informativeTextWithFormat:@"This will permanently remove the format %@", formatToBeRemoved.name];
+		[askAlert beginSheetModalForWindow:self.window
+							 modalDelegate:self
+							didEndSelector:@selector(didEndAlert:withCode:fromContext:)
+							   contextInfo:@"confirmFormatDeletion"];
+	}
+}
+
+- (void) didEndAlert:(NSAlert *)alert withCode:(NSInteger)retCode fromContext:(id)contextInfo
+{
+	// want to remove a format
+	if ([contextInfo isEqual:@"confirmFormatDeletion"]) {
+		if (NSAlertDefaultReturn == retCode) {
+			if (nil != formatToBeRemoved) {
+				NSError *error = nil;
+				if ([formatToBeRemoved deleteFile:&error]) {
+					[formatController removeObject:formatToBeRemoved];
+					formatToBeRemoved = nil;
+				}
+				else if (error != nil) {
+					[[alert window] orderOut:nil];
+					NSAlert *otherAlert = [NSAlert alertWithError:error];
+					[otherAlert beginSheetModalForWindow:self.window modalDelegate:nil didEndSelector:NULL contextInfo:nil];
+				}
+			}
+			else {
+				NSLog(@"Uh-oh, formatToBeRemoved is nil!!");
+			}
+		}
+	}
+}
+
 - (IBAction) showPreview:(id)sender
 {
 	[previewPanelController showWindow:sender];
@@ -258,8 +330,31 @@ static PPStringFormatManager *managerInstance = nil;
 	if (nil != selected) {
 		PPStringFormat *copy = [selected copy];
 		copy.name = [NSString stringWithFormat:@"%@ copy", selected.name];
+		copy.fileURL = [self possiblePathForName:copy.name];
+		
 		[formatController addObject:copy];
 		[copy release];
+	}
+}
+
+- (IBAction) loadFormatPlugins:(NSError **)outError
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSString *pluginPath = [self formatPluginPath];
+	NSArray *files = [fm contentsOfDirectoryAtPath:pluginPath error:outError];
+	
+	// we got files, try to open them
+	if ([files count] > 0) {
+		for (NSString *file in files) {
+			if ([[file pathExtension] isEqualToString:kPluginFormatFileExtension]) {
+				NSURL *fileURL = [NSURL fileURLWithPath:[pluginPath stringByAppendingPathComponent:file]];
+				
+				PPStringFormat *pluginFormat = [PPStringFormat formatFromFile:fileURL error:outError];
+				if (nil != pluginFormat) {
+					[formatController addObject:pluginFormat];
+				}
+			}
+		}
 	}
 }
 #pragma mark -
@@ -281,6 +376,50 @@ static PPStringFormatManager *managerInstance = nil;
 - (NSString *) windowFrameAutosaveName
 {
 	return @"PPStringFormatManager";
+}
+#pragma mark -
+
+
+
+#pragma mark Utilities
+- (NSString *) formatPluginPath
+{
+	return [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/CSVManipulator/Formats"];
+}
+
+- (NSURL *) possiblePathForName:(NSString *)name
+{
+	NSString *appSupportPath = [self formatPluginPath];
+	NSString *fileName = name;
+	
+	NSString *proposedPath = [[appSupportPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+	
+	// check if the file exists
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSUInteger i = 1;
+	while ([fm fileExistsAtPath:proposedPath]) {
+		fileName = [NSString stringWithFormat:@"%@-%i", name, i];
+		proposedPath = [[appSupportPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+	}
+	
+	return [NSURL fileURLWithPath:proposedPath isDirectory:NO];
+}
+
+- (BOOL) formatPluginDirectoryExistsOrCreate:(NSError **)outError
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSString *path = [self formatPluginPath];
+	
+	// try to create
+	if (![fm fileExistsAtPath:path]) {
+		NSError *error = *outError;
+		if (![fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&error]) {
+			NSLog(@"Creating plugin directory failed: %@", [error localizedDescription]);
+			return NO;
+		}
+	}
+	
+	return YES;
 }
 
 

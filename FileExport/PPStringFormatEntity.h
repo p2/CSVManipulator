@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PPStringFormatEntity : NSObject <NSCopying> {
+@interface PPStringFormatEntity : NSObject <NSCopying, NSCoding> {
 	NSString *separator;				// will be put between each key/value pair
 	NSString *stringFormat;				// e.g. <$key>$value</$key>
 	NSString *numberFormat;

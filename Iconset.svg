@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.47 r22583"
    sodipodi:docname="Iconset.svg"
-   inkscape:export-filename="/Users/pp/Cocoa/CSVManipulator/Images/Toolbar/TB_reorder.png"
+   inkscape:export-filename="/Users/pp/Cocoa/CSVManipulator/Images/Toolbar/TB_export_formats.png"
    inkscape:export-xdpi="9"
    inkscape:export-ydpi="9"
    style="display:inline">
@@ -2116,6 +2116,39 @@
            in="SourceGraphic" />
       </feMerge>
     </filter>
+    <filter
+       id="filter8428"
+       inkscape:label="Drop shadow"
+       width="1.5"
+       height="1.5"
+       x="-.25"
+       y="-.25">
+      <feGaussianBlur
+         id="feGaussianBlur8430"
+         in="SourceAlpha"
+         stdDeviation="0.200000"
+         result="blur" />
+      <feColorMatrix
+         id="feColorMatrix8432"
+         result="bluralpha"
+         type="matrix"
+         values="-1 0 0 0 1 0 -1 0 0 1 0 0 -1 0 1 0 0 0 0.750000 0 " />
+      <feOffset
+         id="feOffset8434"
+         in="bluralpha"
+         dx="-0.000000"
+         dy="10.000000"
+         result="offsetBlur" />
+      <feMerge
+         id="feMerge8436">
+        <feMergeNode
+           id="feMergeNode8438"
+           in="offsetBlur" />
+        <feMergeNode
+           id="feMergeNode8440"
+           in="SourceGraphic" />
+      </feMerge>
+    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -2454,15 +2487,15 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:72.60823822000000405px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Heavy';"
-       x="68.389496"
-       y="984.8855"
+       style="font-size:100px;font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;filter:url(#filter8428);font-family:Arial Black;-inkscape-font-specification:'Arial Black, Heavy'"
+       x="34.911678"
+       y="1004.494"
        id="text7890"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan7892"
-         x="68.389496"
-         y="984.8855">XML</tspan></text>
+         x="34.911678"
+         y="1004.494">XML</tspan></text>
     <path
        style="fill:none;stroke:#000000;stroke-width:6;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 64.234,85 191.119,0"

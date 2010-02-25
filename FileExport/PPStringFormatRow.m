@@ -58,6 +58,31 @@
 
 
 
+#pragma mark NSCoding
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [self init]) {
+		self.format = [aDecoder decodeObjectForKey:@"format"];
+		newline = [aDecoder decodeBoolForKey:@"newline"];
+		
+		self.keyFormat = [aDecoder decodeObjectForKey:@"keyFormat"];
+		self.valueFormat = [aDecoder decodeObjectForKey:@"valueFormat"];
+	}
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+	[aCoder encodeObject:format forKey:@"format"];
+	[aCoder encodeBool:newline forKey:@"newline"];
+	
+	[aCoder encodeObject:keyFormat forKey:@"keyFormat"];
+	[aCoder encodeObject:valueFormat forKey:@"valueFormat"];
+}
+#pragma mark -
+
+
+
 #pragma mark Formatting
 - (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values
 {

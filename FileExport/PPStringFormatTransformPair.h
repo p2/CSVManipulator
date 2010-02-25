@@ -11,7 +11,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PPStringFormatTransformPair : NSObject {
+@interface PPStringFormatTransformPair : NSObject <NSCoding> {
 	NSString *from;
 	NSString *to;
 }

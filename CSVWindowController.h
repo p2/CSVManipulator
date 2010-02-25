@@ -29,23 +29,32 @@
 	
 	IBOutlet NSPopUpButton *copyAsKindPopup;
 	
+	// toolbar items (needed for validation)
+	IBOutlet NSToolbarItem *addRowItem;
+	IBOutlet NSToolbarItem *removeRowItem;
+	IBOutlet NSToolbarItem *addColumnItem;
+	IBOutlet NSToolbarItem *removeColumnItem;
+	IBOutlet NSToolbarItem *restoreOrderItem;
+	IBOutlet NSToolbarItem *showFormatsItem;
+	
 	// Progress window
 	IBOutlet NSPanel *progressSheet;
 	IBOutlet NSProgressIndicator *progressIndicator;
 	IBOutlet NSTextField *progressPercentage;
-	
-	// state
-	BOOL canRemoveColumn;
 }
 
 @property (nonatomic, assign) MyDocument *document;
 
 @property (nonatomic, retain) IBOutlet DataTableView *mainTable;
 @property (nonatomic, retain) IBOutlet PPToolbarView *mainToolbar;
+@property (nonatomic, retain) NSToolbarItem *addRowItem;
+@property (nonatomic, retain) NSToolbarItem *removeRowItem;
+@property (nonatomic, retain) NSToolbarItem *addColumnItem;
+@property (nonatomic, retain) NSToolbarItem *removeColumnItem;
+@property (nonatomic, retain) NSToolbarItem *restoreOrderItem;
+@property (nonatomic, retain) NSToolbarItem *showFormatsItem;
 
 @property (nonatomic, retain) IBOutlet NSPanel *progressSheet;
-
-@property (nonatomic, readonly, assign) BOOL canRemoveColumn;
 
 
 // Row/Column control

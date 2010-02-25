@@ -24,33 +24,12 @@
 @synthesize prefix;
 @synthesize suffix;
 
+@synthesize exportHeaders;
 @synthesize useHeaderNamesAsKey;
 @synthesize headerFormat;
 @synthesize valueFormat;
+@synthesize fileURL;
 
-
-- (id) initWithName:(NSString *)newName
-{
-	self = [super init];
-	if (self) {
-		self.name = newName;
-	}
-	return self;
-}
-
-- (id) copyWithZone:(NSZone *)zone
-{
-	PPStringFormat *copy = [[[self class] allocWithZone:zone] initWithName:self.name];
-	// copies are never system formats, so don't assign the bool
-	copy.formatDescription = self.formatDescription;
-	copy.prefix = self.prefix;
-	copy.suffix = self.suffix;
-	
-	copy->headerFormat = [self.headerFormat copyWithZone:zone];
-	copy->valueFormat = [self.valueFormat copyWithZone:zone];
-	
-	return copy;
-}
 
 - (void) dealloc
 {
@@ -64,15 +43,80 @@
 	self.headerFormat = nil;
 	self.valueFormat = nil;
 	
-
+	self.fileURL = nil;
+	
 	[super dealloc];
+}
+
+- (id) initWithName:(NSString *)newName
+{
+	self = [super init];
+	if (self) {
+		self.name = newName;
+		self.useHeaderNamesAsKey = YES;
+		self.exportHeaders = YES;
+	}
+	return self;
+}
+
+- (id) copyWithZone:(NSZone *)zone
+{
+	PPStringFormat *copy = [[[self class] allocWithZone:zone] initWithName:self.name];
+	// copies are never system formats, so don't assign the bool
+	copy.type = self.type;
+	copy.formatDescription = self.formatDescription;
+	copy.prefix = self.prefix;
+	copy.suffix = self.suffix;
+	
+	copy.exportHeaders = self.exportHeaders;
+	copy.useHeaderNamesAsKey = self.useHeaderNamesAsKey;
+	copy->headerFormat = [self.headerFormat copyWithZone:zone];
+	copy->valueFormat = [self.valueFormat copyWithZone:zone];
+	
+	return copy;
+}
+#pragma mark -
+
+
+
+#pragma mark NSCoding
+- (id) initWithCoder:(NSCoder *)aDecoder
+{
+	if (self = [self init]) {
+		self.name = [aDecoder decodeObjectForKey:@"name"];
+		self.type = [aDecoder decodeObjectForKey:@"type"];
+		self.formatDescription = [aDecoder decodeObjectForKey:@"formatDescription"];
+		
+		self.prefix = [aDecoder decodeObjectForKey:@"prefix"];
+		self.suffix = [aDecoder decodeObjectForKey:@"suffix"];
+		exportHeaders = [aDecoder decodeBoolForKey:@"exportHeaders"];
+		useHeaderNamesAsKey = [aDecoder decodeBoolForKey:@"useHeaderNamesAsKey"];
+		
+		self.headerFormat = [aDecoder decodeObjectForKey:@"headerFormat"];
+		self.valueFormat = [aDecoder decodeObjectForKey:@"valueFormat"];
+	}
+	return self;
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder
+{
+	[aCoder encodeObject:name forKey:@"name"];
+	[aCoder encodeObject:type forKey:@"type"];
+	[aCoder encodeObject:formatDescription forKey:@"formatDescription"];
+	[aCoder encodeObject:prefix forKey:@"prefix"];
+	[aCoder encodeObject:suffix forKey:@"suffix"];
+	[aCoder encodeBool:exportHeaders forKey:@"exportHeaders"];
+	[aCoder encodeBool:useHeaderNamesAsKey forKey:@"useHeaderNamesAsKey"];
+	
+	[aCoder encodeObject:headerFormat forKey:@"headerFormat"];
+	[aCoder encodeObject:valueFormat forKey:@"valueFormat"];
 }
 #pragma mark -
 
 
 
 #pragma mark Formatting
-- (NSString *) stringForRows:(NSArray *)csvRows includeHeaderRows:(BOOL)includeHeaderRows withColumns:(NSArray *)columns;
+- (NSString *) stringForRows:(NSArray *)csvRows andColumns:(NSArray *)columns;
 {
 	NSMutableString *string = nil;
 	
@@ -99,7 +143,7 @@
 					[string appendString:[valueFormat rowForKeys:keys values:[row valuesForColumns:columns]]];		// value row
 					i++;
 				}
-				else if (includeHeaderRows) {
+				else if (exportHeaders) {
 					[string appendString:[headerFormat rowForKeys:keys values:[row valuesForColumns:columns]]];		// header row
 					i++;
 				}
@@ -130,6 +174,79 @@
 - (NSString *) rowForColumnKeys:(NSArray *)keys values:(NSArray *)values;
 {
 	return [valueFormat rowForKeys:keys values:values];
+}
+#pragma mark -
+
+
+
+#pragma mark Loading and Saving from/to file
++ (PPStringFormat *) formatFromFile:(NSURL *)aFileURL error:(NSError **)outError
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	
+	// does the file exist and is readable?
+	if (![fm isReadableFileAtPath:[aFileURL path]]) {
+		NSString *err = [NSString stringWithFormat:@"File at %@ is not readable", [aFileURL path]];
+		if (outError) {
+			NSDictionary *errorDict = [NSDictionary dictionaryWithObject:err forKey:NSLocalizedDescriptionKey];
+			*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:11 userInfo:errorDict];
+		}
+		else {
+			NSLog(@"%@", err);
+		}
+		return NO;
+	}
+	
+	// unarchive
+	PPStringFormat *stringFormat = [NSKeyedUnarchiver unarchiveObjectWithFile:[aFileURL path]];
+	stringFormat.fileURL = aFileURL;
+	
+	return stringFormat;
+}
+
+
+- (BOOL) writeToFile:(NSURL *)aFileURL error:(NSError **)outError
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	
+	// can we write to the file if it already exists?
+	if ([fm fileExistsAtPath:[aFileURL path]] && ![fm isWritableFileAtPath:[aFileURL path]]) {
+		if (!outError) {
+			NSLog(@"File at %@ is not writable", [aFileURL path]);
+		}
+		return NO;
+	}
+	
+	return [NSKeyedArchiver archiveRootObject:self toFile:[aFileURL path]];
+}
+
+- (BOOL) save:(NSError **)outError
+{
+	if (nil == self.fileURL) {
+		if (!outError) {
+			NSLog(@"Can't save %@ without known URL", self.name);
+		}
+		return NO;
+	}
+	
+	return [self writeToFile:fileURL error:outError];
+}
+
+- (BOOL) deleteFile:(NSError **)outError
+{
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	
+	// if the file is still there (which it should), delete it!
+	if ([fm fileExistsAtPath:[fileURL path]]) {
+		if (![fm removeItemAtPath:[fileURL path] error:outError]) {
+			if (!outError) {
+				NSLog(@"File at %@ is not writable", [fileURL path]);
+			}
+			return NO;
+		}
+	}
+	
+	return YES;
 }
 #pragma mark -
 
@@ -203,6 +320,7 @@
 	myself.name = @"XML";
 	myself.type = @"xml";
 	myself.formatDescription = @"A format that exports your file to a flat XML structure";
+	myself.exportHeaders = NO;
 	
 	// Setup CSV properties
 	NSArray *keyPairs = [PPStringFormatTransformPair transformPairsFromTo:

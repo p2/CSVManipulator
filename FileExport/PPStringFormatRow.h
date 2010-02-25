@@ -10,7 +10,7 @@
 @class PPStringFormatEntity;
 
 
-@interface PPStringFormatRow : NSObject <NSCopying> {
+@interface PPStringFormatRow : NSObject <NSCopying, NSCoding> {
 	NSString *format;							// e.g. <row>\n\t@values\n</row>
 	BOOL newline;								// if YES adds a newline after the row
 	

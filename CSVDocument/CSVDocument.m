@@ -119,7 +119,7 @@
 		if (autoDetectSeparator) {
 			self.separator = @",";
 			
-			NSUInteger testStringLength = ([string length] > 200) ? 200 : [string length];
+			NSUInteger testStringLength = MIN([string length], 200);
 			NSString *testString = [string substringToIndex:testStringLength];
 			NSArray *possSeparators = [NSArray arrayWithObjects:@";", @"	", nil];
 			
@@ -365,7 +365,8 @@
 	}
 	
 	// get the string from the formatter
-	NSString *string = [format stringForRows:exportRows includeHeaderRows:headerFlag withColumns:columnArray];
+//	format.exportHeaders = headerFlag;
+	NSString *string = [format stringForRows:exportRows andColumns:columnArray];
 	return string;
 }
 #endif

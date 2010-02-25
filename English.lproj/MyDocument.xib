@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
+			<integer value="100362"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -979,35 +979,52 @@
 					<int key="connectionID">100409</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: canRemoveColumn</string>
-						<reference key="source" ref="212672555"/>
-						<reference key="destination" ref="512844837"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="212672555"/>
-							<reference key="NSDestination" ref="512844837"/>
-							<string key="NSLabel">enabled: canRemoveColumn</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">canRemoveColumn</string>
-							<object class="NSDictionary" key="NSOptions">
-								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSArray" key="dict.sortedKeys">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<string>NSNoSelectionPlaceholder</string>
-									<string>NSNotApplicablePlaceholder</string>
-									<string>NSNullPlaceholder</string>
-								</object>
-								<object class="NSMutableArray" key="dict.values">
-									<bool key="EncodedWithXMLCoder">YES</bool>
-									<integer value="0"/>
-									<integer value="0"/>
-									<integer value="0"/>
-								</object>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">addRowItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="676812408"/>
 					</object>
-					<int key="connectionID">100414</int>
+					<int key="connectionID">100416</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">removeRowItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="279959149"/>
+					</object>
+					<int key="connectionID">100417</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">addColumnItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="236734965"/>
+					</object>
+					<int key="connectionID">100418</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">removeColumnItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="212672555"/>
+					</object>
+					<int key="connectionID">100419</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">showFormatsItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="59653895"/>
+					</object>
+					<int key="connectionID">100420</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">restoreOrderItem</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="672269291"/>
+					</object>
+					<int key="connectionID">100421</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1373,7 +1390,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{391, 918}, {616, 0}}</string>
+					<string>{{391, 691}, {616, 227}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1415,7 +1432,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100414</int>
+			<int key="maxID">100421</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1452,6 +1469,8 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>addColumnItem</string>
+							<string>addRowItem</string>
 							<string>copyAsKindPopup</string>
 							<string>importAbortedField</string>
 							<string>mainTable</string>
@@ -1460,9 +1479,15 @@
 							<string>progressIndicator</string>
 							<string>progressPercentage</string>
 							<string>progressSheet</string>
+							<string>removeColumnItem</string>
+							<string>removeRowItem</string>
+							<string>restoreOrderItem</string>
+							<string>showFormatsItem</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSToolbarItem</string>
+							<string>NSToolbarItem</string>
 							<string>NSPopUpButton</string>
 							<string>NSTextField</string>
 							<string>DataTableView</string>
@@ -1471,6 +1496,10 @@
 							<string>NSProgressIndicator</string>
 							<string>NSTextField</string>
 							<string>NSPanel</string>
+							<string>NSToolbarItem</string>
+							<string>NSToolbarItem</string>
+							<string>NSToolbarItem</string>
+							<string>NSToolbarItem</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
