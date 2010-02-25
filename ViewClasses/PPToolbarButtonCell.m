@@ -187,8 +187,8 @@
 	
 	// Create the gradient and fill the background
 	NSGradient *gradient = [[NSGradient alloc] initWithColors:color_array atLocations:locations colorSpace:[(NSColor *)[color_array objectAtIndex:0] colorSpace]];
-	
 	[gradient drawInRect:cellFrame angle:90.0];
+	[gradient release];
 	
 	// Draw inner stuff
 	if ([self isBordered]) {

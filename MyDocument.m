@@ -161,7 +161,7 @@
 			
 			// Still no success, give up
 			if (nil == fileString) {
-				[self presentError:*outError];
+				[self presentError:(outError ? *outError : NULL)];
 				
 				return NO;
 			}
@@ -245,16 +245,11 @@
 	BOOL success = NO;
 	
 	// get the string
-	NSString *csvString = [self stringInFormat:thisFormat allRows:YES allColumns:YES error:outError];
-	if (nil == *outError) {
-		
-		// check whether the path contains the extension, add if necessary TODO: Better solution to extension
-		if (![typeName isEqualToString:[[absoluteURL path] pathExtension]]) {
-			absoluteURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@.%@", [absoluteURL path], typeName]];
-		}
+	NSString *finalString = [self stringInFormat:thisFormat allRows:YES allColumns:YES error:outError];
+	if (!outError || nil == *outError) {
 		
 		// save the file
-		success = [csvString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
+		success = [finalString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
 	}
 	
 	self.documentEdited = !success;
@@ -300,17 +295,6 @@
 - (NSArray *) columns
 {
 	return csvDocument.columns;
-}
-
-- (void) addCSVRow:(id)sender
-{
-	[csvDocument.rowController add:sender];
-	self.documentEdited = YES;
-}
-- (void) removeCSVRow:(id)sender
-{
-	[csvDocument.rowController remove:sender];
-	self.documentEdited = YES;
 }
 
 - (void) restoreOriginalOrder
@@ -388,7 +372,7 @@
 		}
 		
 		// add to stack
-		[operationStrings addObject:[operationString copy]];
+		[operationStrings addObject:[[operationString copy] autorelease]];
 	}
 	
 	

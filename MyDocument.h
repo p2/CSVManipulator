@@ -32,7 +32,7 @@
 	PPStringFormat *exportFormat;
 	
 	BOOL exportHeaders;								// bound to a checkbox, tells us whether to export the header on save or not
-	NSInteger lastChoiceExportFormat;			// TODO: needed?
+	NSInteger lastChoiceExportFormat;				// read from prefs
 	
 	BOOL calculationShouldTerminate;
 }
@@ -59,8 +59,6 @@
 - (BOOL) hasAnyDataAtRow:(NSUInteger)rowIndex;
 - (BOOL) hasDataAtRow:(NSUInteger)rowIndex forColumnKey:(NSString *)columnKey;
 
-- (void) addCSVRow:(id)sender;
-- (void) removeCSVRow:(id)sender;
 - (void) restoreOriginalOrder;
 - (void) abortImport;
 

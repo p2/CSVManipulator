@@ -41,13 +41,13 @@
 - (id) copyWithZone:(NSZone *)zone
 {
 	PPStringFormat *copy = [[[self class] allocWithZone:zone] initWithName:self.name];
-	// copies are newer system formats, so don't assign the bool
+	// copies are never system formats, so don't assign the bool
 	copy.formatDescription = self.formatDescription;
 	copy.prefix = self.prefix;
 	copy.suffix = self.suffix;
 	
-	copy.headerFormat = [self.headerFormat copyWithZone:zone];
-	copy.valueFormat = [self.valueFormat copyWithZone:zone];
+	copy->headerFormat = [self.headerFormat copyWithZone:zone];
+	copy->valueFormat = [self.valueFormat copyWithZone:zone];
 	
 	return copy;
 }

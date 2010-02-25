@@ -16,6 +16,9 @@
 #endif
 
 #import "CSVDocumentDelegate.h"
+
+#define kColumnKeyMask @"col_%i"			// must containt one integer placeholder (%i or %d) !
+
 @class CSVRow;
 @class CSVColumn;
 @class PPStringFormat;
@@ -32,9 +35,8 @@
 	CSVRowController *rowController;
 #endif
 	
-	NSArray *columns;					// needs to be an array to preserve column order
-	NSDictionary *columnDict;			// readonly to allow fast access to columns by key
-	NSArray *activeColumns;				// readonly to allow fast access to active columns
+	NSMutableArray *columns;			// needs to be an array to preserve column order
+	NSMutableDictionary *columnDict;	// readonly to allow fast access to columns by key
 	
 	BOOL parseSuccessful;
 	BOOL autoDetectSeparator;			// if YES will check for other separators (";" and TAB) than the comma
@@ -54,8 +56,8 @@
 @property (nonatomic, retain) CSVRowController *rowController;
 #endif
 
-@property (nonatomic, retain) NSArray *columns;
-@property (nonatomic, readonly, retain) NSDictionary *columnDict;
+@property (nonatomic, retain) NSMutableArray *columns;
+@property (nonatomic, readonly, retain) NSMutableDictionary *columnDict;
 @property (nonatomic, readonly) NSArray *activeColumns;
 
 @property (nonatomic, assign) BOOL parseSuccessful;
@@ -82,7 +84,8 @@
 #endif
 
 // column handling
-- (void) addColumn:(CSVColumn *) newColumn;
+- (BOOL) addColumn:(CSVColumn *)newColumn;
+- (BOOL) removeColumn:(CSVColumn *)oldColumn;
 - (CSVColumn *) columnWithKey:(NSString *)columnKey;
 - (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
 - (void) setColumnActive:(BOOL)active forColumnKey:(NSString *)columnKey;
@@ -92,6 +95,9 @@
 - (void) changeNumHeaderRows:(NSUInteger)newNum;
 - (void) rearrangeRows;
 - (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid;
+
+// utils
+- (NSString *) nextAvailableColumnKey;
 
 
 @end

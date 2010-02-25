@@ -17,11 +17,11 @@
 	NSArray *valueTransforms;			// dito
 }
 
-@property (copy) NSString *separator;
-@property (copy) NSString *stringFormat;
-@property (copy) NSString *numberFormat;
-@property (retain) NSArray *keyTransforms;
-@property (retain) NSArray *valueTransforms;
+@property (nonatomic, copy) NSString *separator;
+@property (nonatomic, copy) NSString *stringFormat;
+@property (nonatomic, copy) NSString *numberFormat;
+@property (nonatomic, retain) NSArray *keyTransforms;
+@property (nonatomic, retain) NSArray *valueTransforms;
 
 + (PPStringFormatEntity *) formatEntity;
 

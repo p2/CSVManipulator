@@ -31,8 +31,8 @@
 	copy.stringFormat = self.stringFormat;
 	copy.numberFormat = self.numberFormat;
 	
-	copy.keyTransforms = [self.keyTransforms copyWithZone:zone];
-	copy.valueTransforms = [self.valueTransforms copyWithZone:zone];
+	copy->keyTransforms = [self.keyTransforms copyWithZone:zone];
+	copy->valueTransforms = [self.valueTransforms copyWithZone:zone];
 	
 	return copy;
 }

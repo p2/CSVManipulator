@@ -107,7 +107,7 @@
 			
 			// format selection error
 			else {
-				NSString *errorString = @"";
+				NSString *errorString = @"Something went wrong with the export format exporter";
 				NSDictionary *errorDict = [NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey];
 				error = [NSError errorWithDomain:NSCocoaErrorDomain code:667 userInfo:errorDict];
 			}

@@ -16,9 +16,8 @@
 
 @interface CSVDocument ()
 
-@property (nonatomic, readwrite, retain) NSDictionary *columnDict;
+@property (nonatomic, readwrite, retain) NSMutableDictionary *columnDict;
 
-- (void) setColumnDict:(NSDictionary *)newColumnDict;
 - (void) updateColumnNames;
 - (void) notifyDelegateOfParsedRow:(CSVRow *)newRow;
 
@@ -51,8 +50,11 @@
 	self = [super init];
 	if (nil != self) {
 		self.separator = @",";
-		[self addColumn:[CSVColumn columnWithKey:@"col_0"]];
 		self.rows = [NSMutableArray array];
+		self.columns = [NSMutableArray array];
+		self.columnDict = [NSMutableDictionary dictionary];
+		[self addColumn:[CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, 0]]];
+		
 #ifndef IPHONE
 		self.rowController = [[[CSVRowController alloc] initWithContent:rows] autorelease];
 		rowController.document = self;
@@ -74,7 +76,7 @@
 	self.rows = nil;
 	self.numRows = nil;
 	self.columns = nil;
-	[self setColumnDict:nil];
+	self.columnDict = nil;
 #ifndef IPHONE
 	self.rowController = nil;
 #endif
@@ -108,7 +110,8 @@
 	// String is non-empty
 	if ([string length] > 0) {
 		[rows removeAllObjects];
-		self.columns = nil;
+		[self.columns removeAllObjects];
+		[self.columnDict removeAllObjects];
 		BOOL sendRowUpdateToDelegate = reportEveryRowParsed && [delegate respondsToSelector:@selector(csvDocument:didParseRow:)];
 		BOOL sendStatusUpdateToDelegate = (nil != delegate) && [delegate respondsToSelector:@selector(csvDocument:didParseNumRows:)];
 		
@@ -128,19 +131,21 @@
 		}
 		
 		// Get newline character set
+		NSCharacterSet *whiteSpaceChars = [NSCharacterSet whitespaceCharacterSet];
 		NSMutableCharacterSet *newlineCharacterSet = [NSMutableCharacterSet whitespaceAndNewlineCharacterSet];
-		[newlineCharacterSet formIntersectionWithCharacterSet:[[NSCharacterSet whitespaceCharacterSet] invertedSet]];
+		[newlineCharacterSet formIntersectionWithCharacterSet:[whiteSpaceChars invertedSet]];
 		
 		// Characters where the parser should stop
 		NSMutableCharacterSet *importantCharactersSet = [NSMutableCharacterSet characterSetWithCharactersInString:[NSString stringWithFormat:@"%@\"", separator]];
 		[importantCharactersSet formUnionWithCharacterSet:newlineCharacterSet];
 		
 		
+		
 		// Create scanner and scan the string
 		// ideas for the following block from Drew McCormack >> http://www.macresearch.org/cocoa-scientists-part-xxvi-parsing-csv-data
 		BOOL insideQuotes = NO;				// needed to determine whether we're inside doublequotes
 		BOOL finishedRow = NO;				// used for the inner while loop
-		BOOL skipWhitespace = (NSNotFound == [separator rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]].location);
+		BOOL skipWhitespace = (NSNotFound == [separator rangeOfCharacterFromSet:whiteSpaceChars].location);
 		BOOL isNewColumn = NO;				// will be YES when a new column is created
 		BOOL columnHasName = NO;			// we use a BOOL here to avoid calling [column hasName] all too often
 		NSMutableString *currentCellString = [[NSMutableString alloc] init];
@@ -165,7 +170,6 @@
 			[currentCellString setString:@""];
 			colIndex = 0;
 			isNewColumn = NO;
-			columnHasName = NO;
 			
 			CSVRow *newRow = [CSVRow rowForDocument:self];
 			
@@ -179,7 +183,7 @@
 					columnHasName = [column hasName];
 				}
 				else {
-					column = [CSVColumn columnWithKey:[NSString stringWithFormat:@"col_%i", colIndex]];
+					column = [CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, colIndex]];
 					column.active = YES;
 					isNewColumn = YES;
 					columnHasName = NO;
@@ -194,7 +198,7 @@
 				
 				// found a doublequote (")
 				if ([scanner scanString:@"\"" intoString:NULL]) {
-					if (insideQuotes && [scanner scanString:@"\"" intoString:NULL]) { // Replace double - doublequotes with a single doublequote
+					if (insideQuotes && [scanner scanString:@"\"" intoString:NULL]) {	// Replace double-doublequotes with a single doublequote
 						[currentCellString appendString:@"\""]; 
 					}
 					else {					// Start or end of a quoted string.
@@ -226,7 +230,7 @@
 						// on to the next column/cell!
 						[currentCellString setString:@""];
 						if (skipWhitespace) {
-							[scanner scanCharactersFromSet:[NSCharacterSet whitespaceCharacterSet] intoString:NULL];
+							[scanner scanCharactersFromSet:whiteSpaceChars intoString:NULL];
 						}
 						colIndex++;
 					}
@@ -292,8 +296,10 @@
 	
 	// empty string
 	else {
-		NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:NSLocalizedDescriptionKey];
-		*error = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:errorDict];
+		if (error) {
+			NSDictionary *errorDict = [NSDictionary dictionaryWithObject:@"Cannot parse a nil string" forKey:NSLocalizedDescriptionKey];
+			*error = [NSError errorWithDomain:NSCocoaErrorDomain code:1 userInfo:errorDict];
+		}
 		success = NO;
 	}
 	
@@ -324,9 +330,11 @@
 						error:(NSError **)outError
 {
 	if ([rows count] < 1 || [columnArray count] < 1) {
-		NSString *errorString = ([rows count] < 1) ? @"The document contains no rows" : @"The document has no active columns";
-		NSDictionary *userErrorDict = [NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey];
-		*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:666 userInfo:userErrorDict];
+		if (outError) {
+			NSString *errorString = ([rows count] < 1) ? @"The document contains no rows" : @"The document has no active columns";
+			NSDictionary *userErrorDict = [NSDictionary dictionaryWithObject:errorString forKey:NSLocalizedDescriptionKey];
+			*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:666 userInfo:userErrorDict];
+		}
 		return @"";
 	}
 	
@@ -366,26 +374,39 @@
 
 
 #pragma mark Column Handling
-- (void) addColumn:(CSVColumn *) newColumn
+- (BOOL) addColumn:(CSVColumn *)newColumn
 {
 	if (newColumn) {
-		NSUInteger capacity = [columns count] + 1;
-		NSMutableArray *columnArray = [NSMutableArray arrayWithCapacity:capacity];
-		NSMutableDictionary *columnHash = [NSMutableDictionary dictionaryWithCapacity:capacity];
 		
-		// add existing columns
-		for (CSVColumn *column in columns) {
-			[columnArray addObject:column];
-			[columnHash setObject:column forKey:column.key];
+		// check if the key is free
+		if (nil != [columnDict objectForKey:newColumn.key]) {
+			NSLog(@"Column with key '%@' is already present, we would replace that one!");
+			return NO;
 		}
 		
 		// add the new column
-		[columnArray addObject:newColumn];
-		[columnHash setObject:newColumn forKey:newColumn.key];
+		[columns addObject:newColumn];
+		[columnDict setObject:newColumn forKey:newColumn.key];
 		
-		self.columns = columnArray;
-		[self setColumnDict:columnHash];
+		return YES;
 	}
+	return NO;
+}
+
+- (BOOL) removeColumn:(CSVColumn *)oldColumn
+{
+	if (nil != oldColumn) {
+		NSUInteger i = 0;
+		for (CSVColumn *column in columns) {
+			if (column == oldColumn) {
+				[columns removeObjectAtIndex:i];
+				[columnDict removeObjectForKey:column.key];
+				return YES;
+			}
+			i++;
+		}
+	}
+	return NO;
 }
 
 - (CSVColumn *) columnWithKey:(NSString *)columnKey
@@ -395,6 +416,7 @@
 
 - (NSArray *) activeColumns
 {
+	// TODO: Use a filter predicate
 	NSMutableArray *arr = [NSMutableArray array];
 	if ([columns count] > 0) {
 		for (CSVColumn *column in columns) {
@@ -516,6 +538,20 @@
 
 
 #pragma mark Utilities
+- (NSString *) nextAvailableColumnKey
+{
+	NSUInteger i = 0;
+	NSArray *keyArr = [columnDict allKeys];
+	NSMutableString *nextKey = [NSMutableString stringWithFormat:kColumnKeyMask, i];
+	
+	while ([keyArr containsObject:nextKey]) {
+		i++;
+		[nextKey setString:[NSMutableString stringWithFormat:kColumnKeyMask, i]];
+	}
+	
+	return nextKey;
+}
+
 - (void) notifyDelegateOfParsedRow:(CSVRow *)newRow				// used to perform the delegate action on a different thread
 {
 	[delegate csvDocument:self didParseRow:newRow];

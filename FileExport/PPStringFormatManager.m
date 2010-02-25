@@ -247,6 +247,11 @@ static PPStringFormatManager *managerInstance = nil;
 	}
 }
 
+- (IBAction) exportDocument:(id)sender
+{
+	[[NSApp delegate] exportDocument:sender];
+}
+
 - (IBAction) copySelectedFormat:(id)sender
 {
 	PPStringFormat *selected = [self selectedFormat];

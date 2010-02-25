@@ -35,7 +35,7 @@
 	// no value - draw a placeholder
 	if (nil == [self objectValue]) {
 		NSColor *fgColor = [NSColor lightGrayColor];
-		[fgColor setStroke];
+		[fgColor setFill];
 		CGFloat circleRadius = 1.5;
 		NSRect ovalRect = NSMakeRect(
 									 (cellFrame.origin.x + (cellFrame.size.width / 2) - circleRadius),		// x

@@ -116,6 +116,8 @@
 				NSRectFill(NSIntersectionRect(my_bounds, this_border_rect));
 			}
 		}
+		
+		[gradient release];
 	}
 }
 #pragma mark -

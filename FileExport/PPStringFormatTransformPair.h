@@ -5,6 +5,8 @@
 //  Created by Pascal Pfiffner on 10/30/09.
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
+//	A class that transforms occurrences of "from" to "to" in a mutable string
+//
 
 #import <Cocoa/Cocoa.h>
 

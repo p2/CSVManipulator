@@ -18,11 +18,11 @@
 	PPStringFormatEntity *valueFormat;			// the format to apply to @values
 }
 
-@property (copy) NSString *format;
-@property (assign) BOOL newline;
+@property (nonatomic, copy) NSString *format;
+@property (nonatomic, assign) BOOL newline;
 
-@property (retain) PPStringFormatEntity *keyFormat;
-@property (retain) PPStringFormatEntity *valueFormat;
+@property (nonatomic, retain) PPStringFormatEntity *keyFormat;
+@property (nonatomic, retain) PPStringFormatEntity *valueFormat;
 
 + (PPStringFormatRow *) formatRow;
 

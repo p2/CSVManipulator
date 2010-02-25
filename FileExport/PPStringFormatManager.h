@@ -50,6 +50,7 @@
 
 - (IBAction) showPreview:(id)sender;
 - (IBAction) updatePreview:(id)sender;
+- (IBAction) exportDocument:(id)sender;
 - (IBAction) copySelectedFormat:(id)sender;
 
 

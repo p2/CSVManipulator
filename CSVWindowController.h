@@ -10,6 +10,7 @@
 #import <AppKit/AppKit.h>
 #import "DataTableViewDelegate.h"
 @class MyDocument;
+@class CSVColumn;
 @class PPStringFormat;
 @class DataTableView;
 @class PPToolbarView;
@@ -32,6 +33,9 @@
 	IBOutlet NSPanel *progressSheet;
 	IBOutlet NSProgressIndicator *progressIndicator;
 	IBOutlet NSTextField *progressPercentage;
+	
+	// state
+	BOOL canRemoveColumn;
 }
 
 @property (nonatomic, assign) MyDocument *document;
@@ -41,8 +45,12 @@
 
 @property (nonatomic, retain) IBOutlet NSPanel *progressSheet;
 
+@property (nonatomic, readonly, assign) BOOL canRemoveColumn;
 
-// Data control
+
+// Row/Column control
+- (IBAction) addCSVColumn:(id)sender;
+- (IBAction) removeCSVColumn:(id)sender;
 - (IBAction) addCSVRow:(id)sender;
 - (IBAction) removeCSVRow:(id)sender;
 
@@ -52,6 +60,7 @@
 
 // TableView delegate
 - (void) redefineTable;
+- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView withWidth:(CGFloat)width;
 - (void) refreshData;
 
 // Inspector

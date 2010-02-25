@@ -30,11 +30,11 @@
 		EE1189361099E7450072804F /* PPStringFormatsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE1189351099E7450072804F /* PPStringFormatsController.m */; };
 		EE118BCE109B46770072804F /* PPStringFormatTransformPair.m in Sources */ = {isa = PBXBuildFile; fileRef = EE118BCD109B46770072804F /* PPStringFormatTransformPair.m */; };
 		EE118C5710A1B7AB0072804F /* PPStringFormatPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */; };
-		EE137ABC1090568600D31816 /* TB_add_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB71090568600D31816 /* TB_add_column.tiff */; };
+		EE137ABC1090568600D31816 /* TB_add_column.png in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB71090568600D31816 /* TB_add_column.png */; };
 		EE137ABD1090568600D31816 /* TB_inspector.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB81090568600D31816 /* TB_inspector.tiff */; };
-		EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB91090568600D31816 /* TB_remove_column.tiff */; };
-		EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABA1090568600D31816 /* TB_remove_row.tiff */; };
-		EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABB1090568600D31816 /* TB_add_row.tiff */; };
+		EE137ABE1090568600D31816 /* TB_remove_column.png in Resources */ = {isa = PBXBuildFile; fileRef = EE137AB91090568600D31816 /* TB_remove_column.png */; };
+		EE137ABF1090568600D31816 /* TB_remove_row.png in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABA1090568600D31816 /* TB_remove_row.png */; };
+		EE137AC01090568600D31816 /* TB_add_row.png in Resources */ = {isa = PBXBuildFile; fileRef = EE137ABB1090568600D31816 /* TB_add_row.png */; };
 		EE137C2B1095E68F00D31816 /* PPStringFormatManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */; };
 		EE137C331095E80700D31816 /* PPStringFormatManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE137C321095E80700D31816 /* PPStringFormatManager.xib */; };
 		EE1512200D7F048D0092C02F /* DataTableColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE15121D0D7F048D0092C02F /* DataTableColumn.m */; };
@@ -51,6 +51,8 @@
 		EE64B6AE104A8598000DF5D2 /* CSVInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = EE64B6AD104A8598000DF5D2 /* CSVInspector.xib */; };
 		EE64B6F9104A9648000DF5D2 /* PPStringFormatEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */; };
 		EE64B6FE104A9761000DF5D2 /* PPStringFormatRow.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */; };
+		EE7146D7113687FC00418030 /* TB_reorder.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7146D6113687FC00418030 /* TB_reorder.png */; };
+		EE7146DB1136939D00418030 /* TB_export_formats.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7146DA1136939D00418030 /* TB_export_formats.png */; };
 		EE9E10F310429B7300554687 /* CSVDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E10F010429B7300554687 /* CSVDocument.m */; };
 		EE9E10F410429B7300554687 /* CSVRow.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E10F210429B7300554687 /* CSVRow.m */; };
 		EE9E11111042BC8A00554687 /* CSVColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E11101042BC8A00554687 /* CSVColumn.m */; };
@@ -97,11 +99,11 @@
 		EE118C5510A1B7AB0072804F /* PPStringFormatPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatPreviewController.h; sourceTree = "<group>"; };
 		EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatPreviewController.m; sourceTree = "<group>"; };
 		EE1377641088A54D00D31816 /* DataTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableViewDelegate.h; sourceTree = "<group>"; };
-		EE137AB71090568600D31816 /* TB_add_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_column.tiff; sourceTree = "<group>"; };
+		EE137AB71090568600D31816 /* TB_add_column.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_add_column.png; sourceTree = "<group>"; };
 		EE137AB81090568600D31816 /* TB_inspector.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_inspector.tiff; sourceTree = "<group>"; };
-		EE137AB91090568600D31816 /* TB_remove_column.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_column.tiff; sourceTree = "<group>"; };
-		EE137ABA1090568600D31816 /* TB_remove_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_remove_row.tiff; sourceTree = "<group>"; };
-		EE137ABB1090568600D31816 /* TB_add_row.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_add_row.tiff; sourceTree = "<group>"; };
+		EE137AB91090568600D31816 /* TB_remove_column.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_remove_column.png; sourceTree = "<group>"; };
+		EE137ABA1090568600D31816 /* TB_remove_row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_remove_row.png; sourceTree = "<group>"; };
+		EE137ABB1090568600D31816 /* TB_add_row.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_add_row.png; sourceTree = "<group>"; };
 		EE137C291095E68F00D31816 /* PPStringFormatManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatManager.h; sourceTree = "<group>"; };
 		EE137C2A1095E68F00D31816 /* PPStringFormatManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatManager.m; sourceTree = "<group>"; };
 		EE137C321095E80700D31816 /* PPStringFormatManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = PPStringFormatManager.xib; path = ../PPStringFormatManager.xib; sourceTree = "<group>"; };
@@ -131,6 +133,8 @@
 		EE64B6F8104A9648000DF5D2 /* PPStringFormatEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatEntity.m; sourceTree = "<group>"; };
 		EE64B6FC104A9761000DF5D2 /* PPStringFormatRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatRow.h; sourceTree = "<group>"; };
 		EE64B6FD104A9761000DF5D2 /* PPStringFormatRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatRow.m; sourceTree = "<group>"; };
+		EE7146D6113687FC00418030 /* TB_reorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_reorder.png; sourceTree = "<group>"; };
+		EE7146DA1136939D00418030 /* TB_export_formats.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_export_formats.png; sourceTree = "<group>"; };
 		EE9E10EF10429B7300554687 /* CSVDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVDocument.h; sourceTree = "<group>"; };
 		EE9E10F010429B7300554687 /* CSVDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVDocument.m; sourceTree = "<group>"; };
 		EE9E10F110429B7300554687 /* CSVRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVRow.h; sourceTree = "<group>"; };
@@ -278,11 +282,13 @@
 		EE137AB31090566500D31816 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
-				EE137AB71090568600D31816 /* TB_add_column.tiff */,
+				EE7146DA1136939D00418030 /* TB_export_formats.png */,
+				EE7146D6113687FC00418030 /* TB_reorder.png */,
+				EE137AB71090568600D31816 /* TB_add_column.png */,
 				EE137AB81090568600D31816 /* TB_inspector.tiff */,
-				EE137AB91090568600D31816 /* TB_remove_column.tiff */,
-				EE137ABA1090568600D31816 /* TB_remove_row.tiff */,
-				EE137ABB1090568600D31816 /* TB_add_row.tiff */,
+				EE137AB91090568600D31816 /* TB_remove_column.png */,
+				EE137ABA1090568600D31816 /* TB_remove_row.png */,
+				EE137ABB1090568600D31816 /* TB_add_row.png */,
 			);
 			name = Toolbar;
 			path = Images/Toolbar;
@@ -409,12 +415,14 @@
 				EE9E1DEE1046BDC400554687 /* MyDocument.xib in Resources */,
 				EE9E1DF41046BE3900554687 /* MainMenu.xib in Resources */,
 				EE64B6AE104A8598000DF5D2 /* CSVInspector.xib in Resources */,
-				EE137ABC1090568600D31816 /* TB_add_column.tiff in Resources */,
+				EE137ABC1090568600D31816 /* TB_add_column.png in Resources */,
 				EE137ABD1090568600D31816 /* TB_inspector.tiff in Resources */,
-				EE137ABE1090568600D31816 /* TB_remove_column.tiff in Resources */,
-				EE137ABF1090568600D31816 /* TB_remove_row.tiff in Resources */,
-				EE137AC01090568600D31816 /* TB_add_row.tiff in Resources */,
+				EE137ABE1090568600D31816 /* TB_remove_column.png in Resources */,
+				EE137ABF1090568600D31816 /* TB_remove_row.png in Resources */,
+				EE137AC01090568600D31816 /* TB_add_row.png in Resources */,
 				EE137C331095E80700D31816 /* PPStringFormatManager.xib in Resources */,
+				EE7146D7113687FC00418030 /* TB_reorder.png in Resources */,
+				EE7146DB1136939D00418030 /* TB_export_formats.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +631,48 @@
 			};
 			name = Release;
 		};
+		EE714642113568CA00418030 /* Debug Plus */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = "../core-plot/**";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "./**";
+				OTHER_CFLAGS = "-DCSV_STRING_EXPORTING";
+				PREBINDING = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+			};
+			name = "Debug Plus";
+		};
+		EE714643113568CA00418030 /* Debug Plus */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CSVManipulator_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				PRODUCT_NAME = CSVManipulator;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = "Debug Plus";
+		};
+		EE714644113568CA00418030 /* Debug Plus */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Save IB Files";
+			};
+			name = "Debug Plus";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -630,6 +680,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733C808A9546B00998B17 /* Debug */,
+				EE714643113568CA00418030 /* Debug Plus */,
 				C05733C908A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -639,6 +690,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
+				EE714642113568CA00418030 /* Debug Plus */,
 				C05733CD08A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -648,6 +700,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EE1377041088767D00D31816 /* Debug */,
+				EE714644113568CA00418030 /* Debug Plus */,
 				EE1377051088767D00D31816 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

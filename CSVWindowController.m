@@ -27,8 +27,8 @@
 @synthesize document;
 @synthesize mainTable;
 @synthesize mainToolbar;
-
 @synthesize progressSheet;
+@dynamic canRemoveColumn;
 
 
 - (void) dealloc
@@ -45,12 +45,11 @@
 
 - (void) awakeFromNib
 {
-	mainToolbar.borderWidth = PPBorderWidthMake(1.0, 0.0, 0.0, 0.0);
+	mainToolbar.borderWidth = PPBorderWidthMake(1.f, 0.f, 0.f, 0.f);
 	
 	// document is still loading
 	if (!document.documentLoaded) {
-		[self performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01];
-		//[self showProgressSheet];			// does somehow not work so shortly after awakeFromNib
+		[self performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01f];
 	}
 	
 	// document did already load all data
@@ -67,13 +66,53 @@
 
 
 #pragma mark Data Control
-- (void) addCSVRow:(id)sender
+- (IBAction) addCSVColumn:(id)sender
 {
-	[document addCSVRow:sender];
+	CSVColumn *newColumn = [CSVColumn columnWithKey:[document.csvDocument nextAvailableColumnKey]];
+	if ([document.csvDocument addColumn:newColumn]) {
+		[self addColumn:newColumn toTable:mainTable withWidth:0.f];
+		document.documentEdited = YES;
+	}
 }
-- (void) removeCSVRow:(id)sender
+
+- (IBAction) removeCSVColumn:(id)sender
 {
-	[document removeCSVRow:sender];
+	[self willChangeValueForKey:@"canRemoveColumn"];
+	
+	NSIndexSet *indexes = [mainTable selectedColumnIndexes];
+	if ([indexes count] > 0) {
+		NSArray *exColumns = [[mainTable tableColumns] objectsAtIndexes:indexes];
+		
+		for (NSTableColumn *tableColumn in exColumns) {
+			CSVColumn *csvColumn = [document.csvDocument columnWithKey:[tableColumn identifier]];
+			if ([document.csvDocument removeColumn:csvColumn]) {
+				[mainTable removeTableColumn:tableColumn];
+			}
+			else {
+				NSLog(@"Can't remove column %@ as it is not a valid column", csvColumn.key);
+			}
+		}
+		
+		[mainTable sizeLastColumnToFit];
+	}
+	[self didChangeValueForKey:@"canRemoveColumn"];
+}
+			
+- (IBAction) addCSVRow:(id)sender
+{
+	[document.csvDocument.rowController add:sender];
+	document.documentEdited = YES;
+}
+
+- (IBAction) removeCSVRow:(id)sender
+{
+	[document.csvDocument.rowController remove:sender];
+	document.documentEdited = YES;
+}
+
+- (BOOL) canRemoveColumn
+{
+	return ([mainTable numberOfSelectedColumns] > 0);
 }
 
 - (IBAction) restoreOriginalOrder:(id)sender;
@@ -95,11 +134,13 @@
 - (void) redefineTable
 {
 	// remove OLD columns
-	for (NSTableColumn *oldColumn in [mainTable tableColumns]) {
+	NSArray *columnsToRemove = [[mainTable tableColumns] copy];
+	for (NSTableColumn *oldColumn in columnsToRemove) {
 		[oldColumn unbind:@"headerTitle"];
 		[oldColumn unbind:@"value"];
 		[mainTable removeTableColumn:oldColumn];
 	}
+	[columnsToRemove release];
 	
 	// first column is a checkbox column to specify header cells
 	CGFloat firstColumnWidth = 30.0;
@@ -119,69 +160,72 @@
 	
 	[mainTable addTableColumn:firstTableColumn];
 	
+	// bind checkbox values
+	[firstTableColumn bind:@"value"
+				  toObject:document.csvDocument.rowController
+			   withKeyPath:@"arrangedObjects.headerRow"
+				   options:nil];
+	
 	// new headers, new bindings
 	NSInteger numColumns = [document numColumns];
 	if (numColumns > 0) {
-		DataTableCell *dataCell = [DataTableCell cell];
 		NSRect mainTableBounds = [mainTable frame];
 		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numColumns);
 		columnWidth = (columnWidth < COLUMN_MIN_WIDTH) ? COLUMN_MIN_WIDTH : columnWidth;
 		
 		// loop columns to add the columns
 		for (CSVColumn *column in [document columns]) {
-			
-			// compose the column and add it to the table
-			DataTableColumn *tableColumn = [DataTableColumn column];
-			[tableColumn setIdentifier:column.key];
-			[tableColumn setDataCell:dataCell];
-			[tableColumn setWidth:columnWidth];
-			[tableColumn setMinWidth:COLUMN_MIN_WIDTH];
-			[[tableColumn headerCell] setEditable:YES];
-			[[tableColumn headerCell] setChecked:column.active];
-			
-			[mainTable addTableColumn:tableColumn];
-		}
-		
-		// loop columns again to bind them - must be done after adding to prevent a "was mutated while being enumerated" error
-		for (DataTableColumn *tableColumn in [mainTable tableColumns]) {
-			NSString *key = [tableColumn identifier];
-			
-			// first column with checkboxes
-			if ([@"_theHeaderRowColumn" isEqualToString:key]) {
-				[tableColumn bind:@"value"
-						 toObject:document.csvDocument.rowController
-					  withKeyPath:@"arrangedObjects.headerRow"
-						  options:nil];
-			}
-			
-			// data columns
-			else {
-				[tableColumn bind:@"value"
-						 toObject:document.csvDocument.rowController
-					  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", key]
-						  options:nil];
-			//	[tableColumn bind:@"active"
-			//			 toObject:document.csvDocument.columnDict
-			//		  withKeyPath:[NSString stringWithFormat:@"%@.active", key]
-			//			  options:nil];					// does somehow not work. Using the delegate method for now
-				
-				// also bind column header
-				[tableColumn bind:@"headerTitle"
-						 toObject:document.csvDocument.columnDict
-					  withKeyPath:[NSString stringWithFormat:@"%@.type", key]
-						  options:nil];
-			}
+			[self addColumn:column toTable:mainTable withWidth:columnWidth];
 		}
 		
 		[mainTable sizeLastColumnToFit];
 	}
-	
-	[mainTable setNeedsDisplay:YES];			// !! does not remove redundant column (graphical glitch)
+}
+
+- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView withWidth:(CGFloat)width
+{
+	if (aTableView == mainTable) {
+		[self willChangeValueForKey:@"canRemoveColumn"];
+		
+		// add the table column
+		DataTableColumn *tableColumn = [DataTableColumn column];
+		[tableColumn setIdentifier:newColumn.key];
+		[tableColumn setDataCell:[DataTableCell cell]];
+		[tableColumn setMinWidth:COLUMN_MIN_WIDTH];
+		if (width > COLUMN_MIN_WIDTH) {
+			[tableColumn setWidth:width];
+		}
+		[[tableColumn headerCell] setEditable:YES];
+		[[tableColumn headerCell] setChecked:newColumn.active];
+		
+		[mainTable addTableColumn:tableColumn];
+		
+		// bind the column row values
+		[tableColumn bind:@"value"
+				 toObject:document.csvDocument.rowController
+			  withKeyPath:[NSString stringWithFormat:@"arrangedObjects.rowValues.%@", newColumn.key]
+				  options:nil];
+		
+		//	[tableColumn bind:@"active"
+		//			 toObject:document.csvDocument.columnDict
+		//		  withKeyPath:[NSString stringWithFormat:@"%@.active", key]
+		//			  options:nil];					// does somehow not work. Using the delegate method for now
+		
+		// also bind column header
+		[tableColumn bind:@"headerTitle"
+				 toObject:document.csvDocument.columnDict
+			  withKeyPath:[NSString stringWithFormat:@"%@.type", newColumn.key]
+				  options:nil];
+		
+		[self didChangeValueForKey:@"canRemoveColumn"];
+	}
 }
 
 
 - (void) tableViewSelectionDidChange:(NSNotification *)notification
 {
+	[self willChangeValueForKey:@"canRemoveColumn"];
+	
 	NSInteger selected_row = [mainTable selectedRow];
 	if (selected_row >= 0) {
 		
@@ -190,16 +234,20 @@
 			[mainTable editColumn:1 row:selected_row withEvent:nil select:YES];
 		}
 	}
+	[self didChangeValueForKey:@"canRemoveColumn"];
 }
 
 
 - (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
+	[self willChangeValueForKey:@"canRemoveColumn"];
+	
 	// set sort descriptors
 	if (mainTable == tableView) {
 		[(DataTableView *)tableView setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn];
 		[document setDataIsAtOriginalOrder:NO];
 	}
+	[self didChangeValueForKey:@"canRemoveColumn"];
 }
 
 

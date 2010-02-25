@@ -39,8 +39,8 @@
 	copy.format = self.format;
 	copy.newline = self.newline;
 	
-	copy.keyFormat = [self.keyFormat copyWithZone:zone];
-	copy.valueFormat = [self.valueFormat copyWithZone:zone];
+	copy->keyFormat = [self.keyFormat copyWithZone:zone];
+	copy->valueFormat = [self.valueFormat copyWithZone:zone];
 	
 	return copy;
 }
