@@ -28,6 +28,7 @@
 @implementation CSVDocument
 
 @synthesize delegate;
+@synthesize document;
 @synthesize separator;
 @synthesize rows;
 @synthesize numRows;
@@ -72,6 +73,7 @@
 - (void) dealloc
 {
 	self.delegate = nil;
+	self.document = nil;
 	self.separator = nil;
 	self.rows = nil;
 	self.numRows = nil;
@@ -81,6 +83,7 @@
 	self.rowController = nil;
 #endif
 	
+
 	[super dealloc];
 }
 #pragma mark -
@@ -271,7 +274,7 @@
 				}
 			}
 			else {
-				newRow.headerRow = YES;
+				newRow.isHeaderRow = YES;
 			}
 			
 			num_rows++;

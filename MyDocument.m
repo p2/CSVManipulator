@@ -63,6 +63,7 @@
 		
 		self.csvDocument = [CSVDocument csvDocument];
 		csvDocument.delegate = self;
+		csvDocument.document = self;
 	}
 	
     return self;
@@ -599,6 +600,15 @@
 - (void) copy:(id)sender
 {
 	[self copySelectionToPasteboard:[NSPasteboard generalPasteboard] forTypes:[self writablePasteboardTypes]];
+}
+#pragma mark -
+
+
+
+#pragma mark Undo Manager
+- (BOOL) hasUndoManager
+{
+	return YES;
 }
 #pragma mark -
 

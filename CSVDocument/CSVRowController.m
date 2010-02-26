@@ -81,10 +81,28 @@
 	[super add:sender];
 }
 
+- (void) addObject:(id)object
+{
+	NSUndoManager *undoManager = [[document document] undoManager];
+	[undoManager registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
+	//[undoManager setActionName:NSLocalizedString(@"Add Row", nil)];
+	
+	[super addObject:object];
+}
+
 - (void) remove:(id)sender
 {
 	[super remove:sender];
 	[document setNumRowsWithInt:[[self content] count]];
+}
+
+- (void) removeObject:(id)object
+{
+	NSUndoManager *undoManager = [[document document] undoManager];
+	[undoManager registerUndoWithTarget:self selector:@selector(addObject:) object:object];
+	//[undoManager setActionName:NSLocalizedString(@"Remove Row", nil)];
+	
+	[super removeObject:object];
 }
 
 

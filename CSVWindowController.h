@@ -58,8 +58,8 @@
 
 
 // Row/Column control
-- (IBAction) addCSVColumn:(id)sender;
-- (IBAction) removeCSVColumn:(id)sender;
+- (IBAction) addNewColumn:(id)sender;
+- (IBAction) removeSelectedColumns:(id)sender;
 - (IBAction) addCSVRow:(id)sender;
 - (IBAction) removeCSVRow:(id)sender;
 

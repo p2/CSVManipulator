@@ -21,13 +21,13 @@
 @interface CSVRow : NSObject <NSCopying> {
 	CSVDocument *document;
 	NSMutableDictionary *rowValues;
-	BOOL headerRow;
+	BOOL isHeaderRow;
 	NSUInteger headerRowPosition;			// starts at 1 (uppermost row)
 }
 
 @property (nonatomic, assign) CSVDocument *document;
 @property (nonatomic, copy) NSMutableDictionary *rowValues;
-@property (nonatomic, assign, getter=isHeaderRow) BOOL headerRow;
+@property (nonatomic, assign) BOOL isHeaderRow;
 @property (nonatomic, assign) NSUInteger headerRowPosition;
 
 + (id) rowForDocument:(CSVDocument *)forDocument;
@@ -36,7 +36,6 @@
 - (NSArray *) valuesForColumns:(NSArray *)columns;
 - (NSArray *) valuesForColumnKeys:(NSArray *)columnKeys;
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString;
-- (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString quoted:(BOOL)quoteStrings;
 - (NSString *) valueForColumn:(CSVColumn *)column;
 - (NSString *) valueForColumnKey:(NSString *)columnKey;
 - (BOOL) valueForColumnIsEmpty:(CSVColumn *)column;

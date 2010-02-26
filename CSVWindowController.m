@@ -22,6 +22,14 @@
 #define COLUMN_MIN_WIDTH 40
 
 
+@interface CSVWindowController ()
+
+- (void) addColumnWithKey:(NSString *)columnKey;
+- (void) removeColumn:(NSTableColumn *)tableColumn;
+
+@end
+
+
 @implementation CSVWindowController
 
 @synthesize document;
@@ -81,32 +89,63 @@
 
 
 #pragma mark Data Control
-- (IBAction) addCSVColumn:(id)sender
+- (IBAction) addNewColumn:(id)sender
 {
-	CSVColumn *newColumn = [CSVColumn columnWithKey:[document.csvDocument nextAvailableColumnKey]];
+	[self addColumnWithKey:[document.csvDocument nextAvailableColumnKey]];
+}
+
+- (void) addColumnWithKey:(NSString *)columnKey
+{
+	CSVColumn *newColumn = [CSVColumn columnWithKey:columnKey];
 	if ([document.csvDocument addColumn:newColumn]) {
 		[self addColumn:newColumn toTable:mainTable withWidth:0.f];
-		document.documentEdited = YES;
+		
+		// allow undo
+		NSUndoManager *undoManager = [document undoManager];
+		[undoManager registerUndoWithTarget:self selector:@selector(removeColumnWithIdentifier:) object:columnKey];
+		//[undoManager setActionName:NSLocalizedString(@"Add Column", nil)];
 	}
 }
 
-- (IBAction) removeCSVColumn:(id)sender
+
+- (IBAction) removeSelectedColumns:(id)sender
 {
 	NSIndexSet *indexes = [mainTable selectedColumnIndexes];
 	if ([indexes count] > 0) {
 		NSArray *exColumns = [[mainTable tableColumns] objectsAtIndexes:indexes];
 		
 		for (NSTableColumn *tableColumn in exColumns) {
-			CSVColumn *csvColumn = [document.csvDocument columnWithKey:[tableColumn identifier]];
-			if ([document.csvDocument removeColumn:csvColumn]) {
-				[mainTable removeTableColumn:tableColumn];
-			}
-			else {
-				NSLog(@"Can't remove column %@ as it is not a valid column", csvColumn.key);
-			}
+			[self removeColumn:tableColumn];
 		}
-		
+	}
+}
+
+- (void) removeColumnWithIdentifier:(NSString *)columnIdentifier
+{
+	for (NSTableColumn *tableColumn in [mainTable tableColumns]) {
+		if ([[tableColumn identifier] isEqualToString:columnIdentifier]) {
+			[self removeColumn:tableColumn];
+			return;
+		}
+	}
+	NSLog(@"Could not remove column with identifier '%@'", columnIdentifier);
+}
+
+- (void) removeColumn:(NSTableColumn *)tableColumn
+{
+	NSUndoManager *undoManager = [document undoManager];
+	// TODO: Make undo insert the column at the original spot
+	[undoManager registerUndoWithTarget:self selector:@selector(addColumnWithKey:) object:[tableColumn identifier]];
+	//[undoManager setActionName:NSLocalizedString(@"Remove Column", nil)];
+	
+	// remove
+	CSVColumn *csvColumn = [document.csvDocument columnWithKey:[tableColumn identifier]];
+	if ([document.csvDocument removeColumn:csvColumn]) {
+		[mainTable removeTableColumn:tableColumn];
 		[mainTable sizeLastColumnToFit];
+	}
+	else {
+		NSLog(@"Can't remove column %@ as it is not a valid column", csvColumn.key);
 	}
 }
 			
@@ -170,7 +209,7 @@
 	// bind checkbox values
 	[firstTableColumn bind:@"value"
 				  toObject:document.csvDocument.rowController
-			   withKeyPath:@"arrangedObjects.headerRow"
+			   withKeyPath:@"arrangedObjects.isHeaderRow"
 				   options:nil];
 	
 	// new headers, new bindings
@@ -180,7 +219,7 @@
 		int columnWidth = ceilf((mainTableBounds.size.width - firstColumnWidth) / numColumns);
 		columnWidth = (columnWidth < COLUMN_MIN_WIDTH) ? COLUMN_MIN_WIDTH : columnWidth;
 		
-		// loop columns to add the columns
+		// loop columns to add the table columns
 		for (CSVColumn *column in [document columns]) {
 			[self addColumn:column toTable:mainTable withWidth:columnWidth];
 		}

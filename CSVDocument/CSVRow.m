@@ -18,7 +18,7 @@ static NSUInteger highestHeaderRowPos = 0;
 
 @synthesize document;
 @synthesize rowValues;
-@dynamic headerRow;
+@dynamic isHeaderRow;
 @synthesize headerRowPosition;
 
 
@@ -75,13 +75,17 @@ static NSUInteger highestHeaderRowPos = 0;
 #pragma mark KVC
 - (BOOL) isHeaderRow
 {
-	return headerRow;
+	return isHeaderRow;
 }
-- (void) setHeaderRow:(BOOL)isHeader
+- (void) setIsHeaderRow:(BOOL)isHeader
 {
-	if (isHeader != headerRow) {
+	if (isHeader != isHeaderRow) {
+		NSUndoManager *undoManager = [[document document] undoManager];
+		[[undoManager prepareWithInvocationTarget:self] setIsHeaderRow:isHeaderRow];
+		//[undoManager setActionName:NSLocalizedString(@"Set Header Row", @"")];
+		
 		[self changeHeaderRow:isHeader];
-		[document row:self didBecomeHeaderRow:headerRow];
+		[document row:self didBecomeHeaderRow:isHeaderRow];
 	}
 }
 
@@ -89,10 +93,10 @@ static NSUInteger highestHeaderRowPos = 0;
 {
 	// this _silently_ changes the headerRow flag, only use from ourself or self.document!
 	[self willChangeValueForKey:@"headerRow"];
-	headerRow = isHeader;
+	isHeaderRow = isHeader;
 	[self didChangeValueForKey:@"headerRow"];
 	
-	if (headerRow) {
+	if (isHeaderRow) {
 		highestHeaderRowPos += 1;
 		self.headerRowPosition = highestHeaderRowPos;
 	}
@@ -128,11 +132,6 @@ static NSUInteger highestHeaderRowPos = 0;
 }
 
 - (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString
-{
-	return [self valuesForColumns:columns combinedByString:sepString quoted:NO];
-}
-
-- (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString quoted:(BOOL)quoteStrings
 {
 	return [[self valuesForColumns:columns] componentsJoinedByString:sepString];
 }
@@ -170,7 +169,7 @@ static NSUInteger highestHeaderRowPos = 0;
 
 
 
-#pragma mark Setting Column Values
+#pragma mark Setting Values
 - (void) setValue:(id)value forColumn:(CSVColumn *)column
 {
 	[self setValue:value forColumnKey:column.key];
@@ -179,16 +178,32 @@ static NSUInteger highestHeaderRowPos = 0;
 - (void) setValue:(id)value forColumnKey:(NSString *)key
 {
 	if (nil != key) {
+		NSUndoManager *undoManager = [[document document] undoManager];
+		[[undoManager prepareWithInvocationTarget:self] setValue:[self valueForColumnKey:key] forColumnKey:key];
+		//[undoManager setActionName:NSLocalizedString(@"Set Value", nil)];
+		
 		value = (nil != value) ? value : [NSNull null];
 		[rowValues setObject:value forKey:key];
 	}
 }
-/*
+
 - (void) setValue:(id)value forKeyPath:(NSString *)keyPath
 {
-	NSLog(@"%@ -> %@", keyPath, value);
+	// if rowValues get changed, we end up here
+	if (0 == [keyPath rangeOfString:@"rowValues"].location) {
+		NSUndoManager *undoManager = [[document document] undoManager];
+		[[undoManager prepareWithInvocationTarget:self] setValue:[self valueForKeyPath:keyPath] forKeyPath:keyPath];
+		//[undoManager setActionName:NSLocalizedString(@"Set Value", nil)];
+		
+		// if we were editing the cell, an undo operation would not be visible, so circumvent this manually
+		if ([undoManager isUndoing]) {
+			// TODO: Update Cell
+			NSLog(@"Undoing row value change, update table cell content if currently editing...");
+		}
+	}
+	
 	[super setValue:value forKeyPath:keyPath];
-}	//	*/
+}
 #pragma mark -
 
 

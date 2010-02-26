@@ -26,6 +26,7 @@
 
 @interface CSVDocument : NSObject {
 	id <CSVDocumentDelegate> delegate;
+	NSDocument *document;					// we're keeping NSDocument separate from CSVDocument
 	NSString *separator;
 	
 	NSMutableArray *rows;
@@ -48,6 +49,7 @@
 }
 
 @property (nonatomic, assign) id delegate;
+@property (nonatomic, assign) NSDocument *document;
 @property (nonatomic, retain) NSString *separator;
 
 @property (nonatomic, retain) NSMutableArray *rows;

@@ -963,22 +963,6 @@
 					<int key="connectionID">100407</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">addCSVColumn:</string>
-						<reference key="source" ref="512844837"/>
-						<reference key="destination" ref="236734965"/>
-					</object>
-					<int key="connectionID">100408</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">removeCSVColumn:</string>
-						<reference key="source" ref="512844837"/>
-						<reference key="destination" ref="212672555"/>
-					</object>
-					<int key="connectionID">100409</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">addRowItem</string>
 						<reference key="source" ref="512844837"/>
@@ -1025,6 +1009,22 @@
 						<reference key="destination" ref="672269291"/>
 					</object>
 					<int key="connectionID">100421</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">addNewColumn:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="236734965"/>
+					</object>
+					<int key="connectionID">100423</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">removeSelectedColumns:</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="212672555"/>
+					</object>
+					<int key="connectionID">100424</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1432,7 +1432,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">100421</int>
+			<int key="maxID">100424</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1445,10 +1445,10 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>abortImport:</string>
-							<string>addCSVColumn:</string>
 							<string>addCSVRow:</string>
-							<string>removeCSVColumn:</string>
+							<string>addNewColumn:</string>
 							<string>removeCSVRow:</string>
+							<string>removeSelectedColumns:</string>
 							<string>restoreOriginalOrder:</string>
 							<string>showExportFormats:</string>
 							<string>showInspector:</string>
