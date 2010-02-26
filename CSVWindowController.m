@@ -348,8 +348,17 @@
 - (void) updateProgressSheetProgress:(CGFloat)percentage
 {
 	if ([progressSheet isVisible]) {
+		[progressIndicator setIndeterminate:NO];
 		[progressIndicator setDoubleValue:(double)percentage];
 		[progressPercentage setFloatValue:(100 * percentage)];
+	}
+}
+
+- (void) setProgressSheetIndeterminate:(NSNumber *)flag
+{
+	if ([progressSheet isVisible]) {
+		[progressIndicator setIndeterminate:[flag boolValue]];
+		[progressIndicator startAnimation:nil];
 	}
 }
 
@@ -357,6 +366,7 @@
 {
 	if ([progressSheet isVisible]) {
 		[self updateProgressSheetProgress:1.0];
+		[progressIndicator stopAnimation:nil];
 		
 		[progressSheet orderOut:nil];
 		[NSApp endSheet:progressSheet];

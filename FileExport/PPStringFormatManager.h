@@ -57,6 +57,7 @@
 - (IBAction) copySelectedFormat:(id)sender;
 
 - (IBAction) loadFormatPlugins:(NSError **)outError;
+- (BOOL) installFormat:(NSURL *)path error:(NSError **)outError;
 
 
 @end

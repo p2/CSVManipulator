@@ -78,6 +78,7 @@
 // Progress Sheet Actions
 - (void) showProgressSheet;
 - (void) updateProgressSheetProgress:(CGFloat)percentage;
+- (void) setProgressSheetIndeterminate:(NSNumber *)flag;
 - (void) hideProgressSheet;
 - (IBAction) abortImport:(id)sender;
 - (void) didAbortImport:(BOOL)flag;

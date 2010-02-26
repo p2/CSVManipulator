@@ -14,7 +14,7 @@
 #import "MyDocument.h"
 #import "CSVDocument.h"
 
-#define kPluginFormatFileExtension @"stringformat"
+#define kPluginFormatFileExtension @"exportformat"
 
 
 @interface PPStringFormatManager ()
@@ -349,13 +349,79 @@ static PPStringFormatManager *managerInstance = nil;
 			if ([[file pathExtension] isEqualToString:kPluginFormatFileExtension]) {
 				NSURL *fileURL = [NSURL fileURLWithPath:[pluginPath stringByAppendingPathComponent:file]];
 				
-				PPStringFormat *pluginFormat = [PPStringFormat formatFromFile:fileURL error:outError];
-				if (nil != pluginFormat) {
-					[formatController addObject:pluginFormat];
+				// only instantiate if it's not already open
+				BOOL alreadyOpen = NO;
+				for (PPStringFormat *openFormat in [formatController arrangedObjects]) {
+					if ([openFormat.fileURL isEqual:fileURL]) {
+						alreadyOpen = YES;
+						break;
+					}
+				}
+				
+				// not opened yet - instantiate
+				if (!alreadyOpen) {
+					PPStringFormat *pluginFormat = [PPStringFormat formatFromFile:fileURL error:outError];
+					if (nil != pluginFormat) {
+						[formatController addObject:pluginFormat];
+					}
 				}
 			}
 		}
 	}
+}
+
+- (BOOL) installFormat:(NSURL *)source error:(NSError **)outError
+{
+	if (nil != source) {
+		if ([self formatPluginDirectoryExistsOrCreate:outError]) {
+			NSString *pluginPath = [self formatPluginPath];
+			NSString *fileNameExt = [[[source path] lastPathComponent] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			
+			// failed replacing percent escape signs
+			if (nil == fileNameExt) {
+				NSString *err = [NSString stringWithFormat:@"The source path %@ could not be converted to UTF-8", source];
+				if (outError) {
+					NSDictionary *errorDict = [NSDictionary dictionaryWithObject:err forKey:NSLocalizedDescriptionKey];
+					*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:200 userInfo:errorDict];
+				}
+				else {
+					NSLog(@"%@", err);
+				}
+				return NO;
+			}
+			NSURL *destinationPath = [NSURL fileURLWithPath:[pluginPath stringByAppendingPathComponent:fileNameExt]];
+			
+			// is it already at the right spot?
+			if ([destinationPath isEqual:source]) {
+				[self loadFormatPlugins:outError];
+				return YES;
+			}
+			
+			// no; move there!
+			NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+			NSString *fileName = [fileNameExt stringByDeletingPathExtension];
+			NSString *name = fileName;
+			
+			// try whether this filename already exists
+			NSString *proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+			NSUInteger i = 0;
+			while ([fm fileExistsAtPath:proposedPath]) {
+				fileName = [NSString stringWithFormat:@"%@-%i", name, ++i];
+				proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+			}
+			
+			// move there
+			if ([fm moveItemAtPath:[source path] toPath:proposedPath error:outError]) {
+				[self loadFormatPlugins:outError];
+				return YES;
+			}
+			return NO;
+		}
+	}
+	else if (NULL != outError) {
+		
+	}
+	return NO;
 }
 #pragma mark -
 
@@ -389,17 +455,17 @@ static PPStringFormatManager *managerInstance = nil;
 
 - (NSURL *) possiblePathForName:(NSString *)name
 {
-	NSString *appSupportPath = [self formatPluginPath];
+	NSString *pluginPath = [self formatPluginPath];
 	NSString *fileName = name;
 	
-	NSString *proposedPath = [[appSupportPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+	NSString *proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
 	
 	// check if the file exists
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
-	NSUInteger i = 1;
+	NSUInteger i = 0;
 	while ([fm fileExistsAtPath:proposedPath]) {
-		fileName = [NSString stringWithFormat:@"%@-%i", name, i];
-		proposedPath = [[appSupportPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
+		fileName = [NSString stringWithFormat:@"%@-%i", name, ++i];
+		proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
 	}
 	
 	return [NSURL fileURLWithPath:proposedPath isDirectory:NO];

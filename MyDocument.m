@@ -12,6 +12,7 @@
 #import "CSVRow.h"
 #import "CSVColumn.h"
 #import "PPStringFormat.h"
+#import "PPStringFormatManager.h"
 
 #import "DataTableView.h"
 #import "DataTableColumn.h"
@@ -30,6 +31,7 @@
 @interface MyDocument ()
 
 @property (nonatomic, readwrite, retain) CSVWindowController *mainWindowController;
+
 - (void) detachStringParsing:(NSString *)string;
 
 @end
@@ -139,43 +141,55 @@
 
 - (BOOL) readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	self.documentLoaded = NO;
-	[self setFileURL:absoluteURL];
-	
-	// TODO: create an NSFileWrapper > fileWrapperOfType:error:
-	
-	// Load document data using NSStrings house methods
-	// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
-	NSStringEncoding stringEncoding;
-	NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
-	
-	// We could not open the file, explicitly try utf-8
-	if (nil == fileString) {
-		stringEncoding = NSUTF8StringEncoding;
-		fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
-		
-		// We could still not open the file, probably unknown encoding; try ISO-8859-1
-		if (nil == fileString) {
-			stringEncoding = NSISOLatin1StringEncoding;
-			fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
-			
-			// Still no success, give up
-			if (nil == fileString) {
-				[self presentError:(outError ? *outError : NULL)];
-				
-				return NO;
-			}
+	// an export format was loaded -> install
+	if ([typeName isEqualToString:@"Export Format"]) {
+		if ([[PPStringFormatManager sharedManager] installFormat:absoluteURL error:outError]) {
+			[PPStringFormatManager show:nil];
+			return YES;
 		}
 	}
 	
-	// parse the CSV on another thread
-	self.fileEncoding = stringEncoding;
-	numRowsToExpect = [csvDocument numRowsToExpect:fileString];
-	
-	// detach to new thread
-	[NSThread detachNewThreadSelector:@selector(detachStringParsing:) toTarget:self withObject:fileString];
-	
-	return YES;
+	// a csv/tsv document was opened -> parse
+	else {
+		self.documentLoaded = NO;
+		[self setFileURL:absoluteURL];
+		
+		// TODO: create an NSFileWrapper > fileWrapperOfType:error:
+		
+		// Load document data using NSStrings house methods
+		// For huge files, maybe guess file encoding using `file --brief --mime` and use NSFileHandle? Not for now...
+		NSStringEncoding stringEncoding;
+		NSString *fileString = [NSString stringWithContentsOfURL:absoluteURL usedEncoding:&stringEncoding error:outError];
+		
+		// We could not open the file, explicitly try utf-8
+		if (nil == fileString) {
+			stringEncoding = NSUTF8StringEncoding;
+			fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
+			
+			// We could still not open the file, probably unknown encoding; try ISO-8859-1
+			if (nil == fileString) {
+				stringEncoding = NSISOLatin1StringEncoding;
+				fileString = [NSString stringWithContentsOfURL:absoluteURL encoding:stringEncoding error:outError];
+				
+				// Still no success, give up
+				if (nil == fileString) {
+					[self presentError:(outError ? *outError : NULL)];
+					
+					return NO;
+				}
+			}
+		}
+		
+		// parse the CSV on another thread
+		self.fileEncoding = stringEncoding;
+		numRowsToExpect = [csvDocument numRowsToExpect:fileString];
+		
+		// detach to new thread
+		[NSThread detachNewThreadSelector:@selector(detachStringParsing:) toTarget:self withObject:fileString];
+		
+		return YES;
+	}
+	return NO;
 }
 
 - (void) detachStringParsing:(NSString *)string
@@ -197,6 +211,7 @@
 
 
 #pragma mark CSVDocument Delegate
+// The parsing delegate methods will be called from and run on the separate thread created in "detachStringParsing:" !!
 - (void) csvDocument:(CSVDocument *)document didParseNumRows:(NSUInteger)num_parsed
 {
 	CGFloat expecting = (numRowsToExpect > 0) ? (CGFloat)numRowsToExpect : 1.0;
@@ -210,6 +225,9 @@
 {
 	self.documentLoaded = YES;
 	
+	[mainWindowController performSelectorOnMainThread:@selector(setProgressSheetIndeterminate:)
+										   withObject:[NSNumber numberWithBool:YES]
+										waitUntilDone:NO];
 	[mainWindowController redefineTable];
 	[mainWindowController hideProgressSheet];
 	
@@ -330,6 +348,9 @@
 {
 	if (!documentLoaded) {
 		csvDocument.mustAbortImport = YES;
+	}
+	else {
+		[mainWindowController hideProgressSheet];
 	}
 }
 #pragma mark -
