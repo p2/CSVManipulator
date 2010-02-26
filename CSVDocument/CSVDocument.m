@@ -400,6 +400,7 @@
 		NSUInteger i = 0;
 		for (CSVColumn *column in columns) {
 			if (column == oldColumn) {
+				// TODO: Remove values from rows??
 				[columns removeObjectAtIndex:i];
 				[columnDict removeObjectForKey:column.key];
 				return YES;

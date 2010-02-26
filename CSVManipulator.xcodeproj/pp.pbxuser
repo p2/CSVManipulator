@@ -813,6 +813,40 @@
 			EE7149711137DCCC00418030 /* PBXTextBookmark */ = EE7149711137DCCC00418030 /* PBXTextBookmark */;
 			EE7149721137DCCC00418030 /* PBXTextBookmark */ = EE7149721137DCCC00418030 /* PBXTextBookmark */;
 			EE7149731137DCCC00418030 /* PBXTextBookmark */ = EE7149731137DCCC00418030 /* PBXTextBookmark */;
+			EE7149911137FFD000418030 /* PBXTextBookmark */ = EE7149911137FFD000418030 /* PBXTextBookmark */;
+			EE7149921137FFD000418030 /* XCBuildMessageTextBookmark */ = EE7149921137FFD000418030 /* XCBuildMessageTextBookmark */;
+			EE7149931137FFD000418030 /* PBXTextBookmark */ = EE7149931137FFD000418030 /* PBXTextBookmark */;
+			EE7149961137FFD400418030 /* PBXTextBookmark */ = EE7149961137FFD400418030 /* PBXTextBookmark */;
+			EE7149981138002300418030 /* PBXTextBookmark */ = EE7149981138002300418030 /* PBXTextBookmark */;
+			EE7149991138002300418030 /* PBXTextBookmark */ = EE7149991138002300418030 /* PBXTextBookmark */;
+			EE71499C1138005000418030 /* PBXTextBookmark */ = EE71499C1138005000418030 /* PBXTextBookmark */;
+			EE71499D1138005000418030 /* PBXTextBookmark */ = EE71499D1138005000418030 /* PBXTextBookmark */;
+			EE71499E1138005000418030 /* PBXTextBookmark */ = EE71499E1138005000418030 /* PBXTextBookmark */;
+			EE71499F1138005000418030 /* PBXTextBookmark */ = EE71499F1138005000418030 /* PBXTextBookmark */;
+			EE7149A21138005500418030 /* PBXTextBookmark */ = EE7149A21138005500418030 /* PBXTextBookmark */;
+			EE7149A41138007400418030 /* PBXTextBookmark */ = EE7149A41138007400418030 /* PBXTextBookmark */;
+			EE7149A51138007400418030 /* PBXTextBookmark */ = EE7149A51138007400418030 /* PBXTextBookmark */;
+			EE7149A81138011300418030 /* PBXTextBookmark */ = EE7149A81138011300418030 /* PBXTextBookmark */;
+			EE7149A91138011300418030 /* PBXTextBookmark */ = EE7149A91138011300418030 /* PBXTextBookmark */;
+			EE7149AA1138011300418030 /* PBXTextBookmark */ = EE7149AA1138011300418030 /* PBXTextBookmark */;
+			EE7149AB1138011300418030 /* PBXTextBookmark */ = EE7149AB1138011300418030 /* PBXTextBookmark */;
+			EE7149AC1138016600418030 /* PBXTextBookmark */ = EE7149AC1138016600418030 /* PBXTextBookmark */;
+			EE7149AF1138016C00418030 /* PBXTextBookmark */ = EE7149AF1138016C00418030 /* PBXTextBookmark */;
+			EE7149B5113801A200418030 /* PBXTextBookmark */ = EE7149B5113801A200418030 /* PBXTextBookmark */;
+			EE7149B6113801A200418030 /* PBXTextBookmark */ = EE7149B6113801A200418030 /* PBXTextBookmark */;
+			EE7149B71138036900418030 /* PBXTextBookmark */ = EE7149B71138036900418030 /* PBXTextBookmark */;
+			EE7149B81138036900418030 /* PBXTextBookmark */ = EE7149B81138036900418030 /* PBXTextBookmark */;
+			EE7149B91138036900418030 /* PBXTextBookmark */ = EE7149B91138036900418030 /* PBXTextBookmark */;
+			EE7149BA1138036900418030 /* PBXTextBookmark */ = EE7149BA1138036900418030 /* PBXTextBookmark */;
+			EE7149BD1138036F00418030 /* PBXTextBookmark */ = EE7149BD1138036F00418030 /* PBXTextBookmark */;
+			EE7149BF1138038500418030 /* PBXTextBookmark */ = EE7149BF1138038500418030 /* PBXTextBookmark */;
+			EE7149C01138038500418030 /* PBXTextBookmark */ = EE7149C01138038500418030 /* PBXTextBookmark */;
+			EE7149C31138038A00418030 /* PBXTextBookmark */ = EE7149C31138038A00418030 /* PBXTextBookmark */;
+			EE7149C71138046700418030 /* PBXTextBookmark */ = EE7149C71138046700418030 /* PBXTextBookmark */;
+			EE7149C81138046700418030 /* PBXTextBookmark */ = EE7149C81138046700418030 /* PBXTextBookmark */;
+			EE7149C91138046700418030 /* PlistBookmark */ = EE7149C91138046700418030 /* PlistBookmark */;
+			EE7149CA1138046700418030 /* PlistBookmark */ = EE7149CA1138046700418030 /* PlistBookmark */;
+			EE7149CB113804DB00418030 /* PlistBookmark */ = EE7149CB113804DB00418030 /* PlistBookmark */;
 			EE9961011104C4930011111E = EE9961011104C4930011111E /* PBXTextBookmark */;
 			EE9961121104C4C60011111E = EE9961121104C4C60011111E /* PBXTextBookmark */;
 			EE9961141104CDB90011111E = EE9961141104CDB90011111E /* PBXTextBookmark */;
@@ -832,9 +866,9 @@
 	};
 	2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1061, 9872}}";
-			sepNavSelRange = "{5834, 0}";
-			sepNavVisRange = "{5201, 1671}";
+			sepNavIntBoundsRect = "{{0, 0}, {1061, 10544}}";
+			sepNavSelRange = "{8428, 19}";
+			sepNavVisRange = "{7989, 675}";
 		};
 	};
 	2A37F4AEFDCFA73011CA2CEA /* MyDocument.h */ = {
@@ -2093,7 +2127,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 517";
 		rLen = 22;
-		rLoc = 14400;
+		rLoc = 14439;
 		rType = 0;
 		vrLen = 1250;
 		vrLoc = 13300;
@@ -2103,7 +2137,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 302";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1082;
 		vrLoc = 7004;
@@ -2113,7 +2147,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1092;
 		vrLoc = 7004;
@@ -2153,7 +2187,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1059;
 		vrLoc = 6952;
@@ -2163,7 +2197,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1078;
 		vrLoc = 6933;
@@ -2173,7 +2207,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1078;
 		vrLoc = 6933;
@@ -2193,7 +2227,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 380;
 		vrLoc = 7415;
@@ -2203,7 +2237,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1108;
 		vrLoc = 6933;
@@ -2223,7 +2257,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 385";
 		rLen = 0;
-		rLoc = 11774;
+		rLoc = 11813;
 		rType = 0;
 		vrLen = 1462;
 		vrLoc = 10222;
@@ -2233,7 +2267,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 380;
 		vrLoc = 7415;
@@ -2243,7 +2277,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 385";
 		rLen = 0;
-		rLoc = 11774;
+		rLoc = 11813;
 		rType = 0;
 		vrLen = 436;
 		vrLoc = 11140;
@@ -2353,7 +2387,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 522";
 		rLen = 0;
-		rLoc = 14479;
+		rLoc = 14518;
 		rType = 0;
 		vrLen = 1271;
 		vrLoc = 13366;
@@ -2363,7 +2397,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 522";
 		rLen = 0;
-		rLoc = 14479;
+		rLoc = 14518;
 		rType = 0;
 		vrLen = 1244;
 		vrLoc = 13366;
@@ -2373,7 +2407,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 522";
 		rLen = 0;
-		rLoc = 14479;
+		rLoc = 14518;
 		rType = 0;
 		vrLen = 455;
 		vrLoc = 13366;
@@ -2383,7 +2417,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 522";
 		rLen = 0;
-		rLoc = 14479;
+		rLoc = 14518;
 		rType = 0;
 		vrLen = 683;
 		vrLoc = 13115;
@@ -2413,7 +2447,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1093;
 		vrLoc = 7007;
@@ -2423,7 +2457,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1091;
 		vrLoc = 7007;
@@ -2433,7 +2467,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 304";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1144;
 		vrLoc = 7007;
@@ -2483,7 +2517,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 310";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1179;
 		vrLoc = 7007;
@@ -2493,7 +2527,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 310";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1206;
 		vrLoc = 7007;
@@ -2503,7 +2537,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 310";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1342;
 		vrLoc = 7531;
@@ -2513,7 +2547,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 522";
 		rLen = 0;
-		rLoc = 14479;
+		rLoc = 14518;
 		rType = 0;
 		vrLen = 455;
 		vrLoc = 13366;
@@ -2523,7 +2557,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 310";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 485;
 		vrLoc = 7533;
@@ -2543,7 +2577,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1206;
 		vrLoc = 7467;
@@ -2593,7 +2627,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 316";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 550;
 		vrLoc = 7533;
@@ -3372,7 +3406,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1324;
 		vrLoc = 7190;
@@ -3442,7 +3476,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1201;
 		vrLoc = 7397;
@@ -3452,7 +3486,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1201;
 		vrLoc = 7397;
@@ -3462,7 +3496,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 7397;
@@ -3472,7 +3506,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 312";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1154;
 		vrLoc = 7397;
@@ -3491,7 +3525,7 @@
 		isa = PBXTextBookmark;
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		rLen = 0;
-		rLoc = 315;
+		rLoc = 321;
 		rType = 1;
 	};
 	EE71461B11355D6D00418030 /* PBXTextBookmark */ = {
@@ -3499,7 +3533,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 309";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 618;
 		vrLoc = 7506;
@@ -3539,7 +3573,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 298";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 1538;
 		vrLoc = 12556;
@@ -3589,7 +3623,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 298";
 		rLen = 0;
-		rLoc = 8276;
+		rLoc = 8450;
 		rType = 0;
 		vrLen = 447;
 		vrLoc = 7506;
@@ -3739,7 +3773,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 375";
 		rLen = 0;
-		rLoc = 10400;
+		rLoc = 10574;
 		rType = 0;
 		vrLen = 879;
 		vrLoc = 9314;
@@ -3982,7 +4016,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 375";
 		rLen = 0;
-		rLoc = 10400;
+		rLoc = 10574;
 		rType = 0;
 		vrLen = 1628;
 		vrLoc = 8776;
@@ -4192,7 +4226,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 307";
 		rLen = 0;
-		rLoc = 8846;
+		rLoc = 8810;
 		rType = 0;
 		vrLen = 1387;
 		vrLoc = 7713;
@@ -4202,7 +4236,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 307";
 		rLen = 0;
-		rLoc = 8846;
+		rLoc = 8810;
 		rType = 0;
 		vrLen = 1157;
 		vrLoc = 8231;
@@ -4212,7 +4246,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 300";
 		rLen = 0;
-		rLoc = 8287;
+		rLoc = 8251;
 		rType = 0;
 		vrLen = 746;
 		vrLoc = 7713;
@@ -4222,7 +4256,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 300";
 		rLen = 0;
-		rLoc = 8287;
+		rLoc = 8251;
 		rType = 0;
 		vrLen = 1308;
 		vrLoc = 7363;
@@ -4262,7 +4296,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 324";
 		rLen = 0;
-		rLoc = 8833;
+		rLoc = 8797;
 		rType = 0;
 		vrLen = 1301;
 		vrLoc = 7657;
@@ -4272,7 +4306,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 305";
 		rLen = 0;
-		rLoc = 8338;
+		rLoc = 8302;
 		rType = 0;
 		vrLen = 1302;
 		vrLoc = 7657;
@@ -4282,7 +4316,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 305";
 		rLen = 0;
-		rLoc = 8338;
+		rLoc = 8302;
 		rType = 0;
 		vrLen = 944;
 		vrLoc = 7657;
@@ -4302,7 +4336,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 283";
 		rLen = 10;
-		rLoc = 8077;
+		rLoc = 8251;
 		rType = 0;
 		vrLen = 805;
 		vrLoc = 6736;
@@ -4372,7 +4406,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 387";
 		rLen = 0;
-		rLoc = 10137;
+		rLoc = 10101;
 		rType = 0;
 		vrLen = 735;
 		vrLoc = 7504;
@@ -7080,7 +7114,7 @@
 		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
 		name = "CSVDocument.m: 402";
 		rLen = 0;
-		rLoc = 11619;
+		rLoc = 11658;
 		rType = 0;
 		vrLen = 1087;
 		vrLoc = 11027;
@@ -7150,7 +7184,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 357";
 		rLen = 29;
-		rLoc = 9459;
+		rLoc = 9423;
 		rType = 0;
 		vrLen = 1017;
 		vrLoc = 8847;
@@ -7240,7 +7274,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 381";
 		rLen = 0;
-		rLoc = 10005;
+		rLoc = 9969;
 		rType = 0;
 		vrLen = 1002;
 		vrLoc = 9034;
@@ -7320,7 +7354,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 381";
 		rLen = 0;
-		rLoc = 10005;
+		rLoc = 9969;
 		rType = 0;
 		vrLen = 1029;
 		vrLoc = 9007;
@@ -7330,7 +7364,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 369";
 		rLen = 0;
-		rLoc = 9792;
+		rLoc = 9756;
 		rType = 0;
 		vrLen = 1105;
 		vrLoc = 9007;
@@ -7340,7 +7374,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 369";
 		rLen = 0;
-		rLoc = 9792;
+		rLoc = 9756;
 		rType = 0;
 		vrLen = 1105;
 		vrLoc = 9007;
@@ -7350,7 +7384,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 369";
 		rLen = 0;
-		rLoc = 9792;
+		rLoc = 9756;
 		rType = 0;
 		vrLen = 1105;
 		vrLoc = 9007;
@@ -7360,7 +7394,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 369";
 		rLen = 0;
-		rLoc = 9792;
+		rLoc = 9756;
 		rType = 0;
 		vrLen = 1103;
 		vrLoc = 9007;
@@ -7370,7 +7404,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 369";
 		rLen = 0;
-		rLoc = 9792;
+		rLoc = 9756;
 		rType = 0;
 		vrLen = 1105;
 		vrLoc = 9007;
@@ -7390,7 +7424,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 365";
 		rLen = 1;
-		rLoc = 9673;
+		rLoc = 9637;
 		rType = 0;
 		vrLen = 594;
 		vrLoc = 9253;
@@ -7400,7 +7434,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 363";
 		rLen = 0;
-		rLoc = 9645;
+		rLoc = 9609;
 		rType = 0;
 		vrLen = 1106;
 		vrLoc = 9007;
@@ -7440,7 +7474,7 @@
 		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
 		name = "MyDocument.m: 354";
 		rLen = 20;
-		rLoc = 8905;
+		rLoc = 9079;
 		rType = 0;
 		vrLen = 1088;
 		vrLoc = 8146;
@@ -7470,7 +7504,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 363";
 		rLen = 0;
-		rLoc = 9645;
+		rLoc = 9609;
 		rType = 0;
 		vrLen = 1133;
 		vrLoc = 8979;
@@ -7480,7 +7514,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 368";
 		rLen = 0;
-		rLoc = 9710;
+		rLoc = 9674;
 		rType = 0;
 		vrLen = 1162;
 		vrLoc = 8979;
@@ -7490,7 +7524,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 368";
 		rLen = 0;
-		rLoc = 9710;
+		rLoc = 9674;
 		rType = 0;
 		vrLen = 959;
 		vrLoc = 9191;
@@ -7500,7 +7534,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 368";
 		rLen = 0;
-		rLoc = 9710;
+		rLoc = 9674;
 		rType = 0;
 		vrLen = 594;
 		vrLoc = 9253;
@@ -7510,7 +7544,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 353";
 		rLen = 0;
-		rLoc = 9286;
+		rLoc = 9250;
 		rType = 0;
 		vrLen = 1114;
 		vrLoc = 9069;
@@ -7520,7 +7554,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 353";
 		rLen = 0;
-		rLoc = 9286;
+		rLoc = 9250;
 		rType = 0;
 		vrLen = 995;
 		vrLoc = 9188;
@@ -7530,7 +7564,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 351";
 		rLen = 0;
-		rLoc = 9288;
+		rLoc = 9252;
 		rType = 0;
 		vrLen = 584;
 		vrLoc = 9191;
@@ -7540,7 +7574,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 361";
 		rLen = 42;
-		rLoc = 9599;
+		rLoc = 9563;
 		rType = 0;
 		vrLen = 1050;
 		vrLoc = 9069;
@@ -7550,7 +7584,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 362";
 		rLen = 0;
-		rLoc = 9601;
+		rLoc = 9565;
 		rType = 0;
 		vrLen = 1157;
 		vrLoc = 9069;
@@ -7590,7 +7624,7 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 361";
 		rLen = 0;
-		rLoc = 9599;
+		rLoc = 9563;
 		rType = 0;
 		vrLen = 1188;
 		vrLoc = 8930;
@@ -7600,10 +7634,349 @@
 		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
 		name = "CSVWindowController.m: 361";
 		rLen = 0;
-		rLoc = 9601;
+		rLoc = 9565;
 		rType = 0;
 		vrLen = 1096;
 		vrLoc = 8928;
+	};
+	EE7149911137FFD000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 361";
+		rLen = 0;
+		rLoc = 9565;
+		rType = 0;
+		vrLen = 1133;
+		vrLoc = 8890;
+	};
+	EE7149921137FFD000418030 /* XCBuildMessageTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "Invalid receiver type 'NSError **'";
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		fallbackIsa = XCBuildMessageTextBookmark;
+		rLen = 1;
+		rLoc = 271;
+		rType = 1;
+	};
+	EE7149931137FFD000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 276";
+		rLen = 0;
+		rLoc = 7364;
+		rType = 0;
+		vrLen = 1560;
+		vrLoc = 6279;
+	};
+	EE7149961137FFD400418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 276";
+		rLen = 0;
+		rLoc = 7364;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 6279;
+	};
+	EE7149981138002300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 351";
+		rLen = 0;
+		rLoc = 9252;
+		rType = 0;
+		vrLen = 602;
+		vrLoc = 9191;
+	};
+	EE7149991138002300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 282";
+		rLen = 0;
+		rLoc = 7454;
+		rType = 0;
+		vrLen = 717;
+		vrLoc = 6952;
+	};
+	EE71499C1138005000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 282";
+		rLen = 0;
+		rLoc = 7454;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 6279;
+	};
+	EE71499D1138005000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B30F13AA720081E83D /* CSVWindowController.h */;
+		name = "CSVWindowController.h: 81";
+		rLen = 0;
+		rLoc = 2393;
+		rType = 0;
+		vrLen = 1605;
+		vrLoc = 959;
+	};
+	EE71499E1138005000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 1359;
+		vrLoc = 1153;
+	};
+	EE71499F1138005000418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 1359;
+		vrLoc = 1153;
+	};
+	EE7149A21138005500418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 1359;
+		vrLoc = 1153;
+	};
+	EE7149A41138007400418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 282";
+		rLen = 0;
+		rLoc = 7454;
+		rType = 0;
+		vrLen = 717;
+		vrLoc = 6952;
+	};
+	EE7149A51138007400418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 598;
+		vrLoc = 1536;
+	};
+	EE7149A81138011300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 1361;
+		vrLoc = 1153;
+	};
+	EE7149A91138011300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10EF10429B7300554687 /* CSVDocument.h */;
+		name = "CSVDocument.h: 70";
+		rLen = 0;
+		rLoc = 2001;
+		rType = 0;
+		vrLen = 1961;
+		vrLoc = 1127;
+	};
+	EE7149AA1138011300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 390";
+		rLen = 10;
+		rLoc = 11370;
+		rType = 0;
+		vrLen = 1339;
+		vrLoc = 10414;
+	};
+	EE7149AB1138011300418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 390";
+		rLen = 10;
+		rLoc = 11370;
+		rType = 0;
+		vrLen = 1339;
+		vrLoc = 10414;
+	};
+	EE7149AC1138016600418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 390";
+		rLen = 10;
+		rLoc = 11370;
+		rType = 0;
+		vrLen = 1339;
+		vrLoc = 10414;
+	};
+	EE7149AF1138016C00418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 390";
+		rLen = 10;
+		rLoc = 11370;
+		rType = 0;
+		vrLen = 1327;
+		vrLoc = 10414;
+	};
+	EE7149B5113801A200418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 83";
+		rLen = 0;
+		rLoc = 1588;
+		rType = 0;
+		vrLen = 598;
+		vrLoc = 1536;
+	};
+	EE7149B6113801A200418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 386";
+		rLen = 0;
+		rLoc = 11306;
+		rType = 0;
+		vrLen = 456;
+		vrLoc = 11000;
+	};
+	EE7149B71138036900418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 389";
+		rLen = 7;
+		rLoc = 11337;
+		rType = 0;
+		vrLen = 971;
+		vrLoc = 10470;
+	};
+	EE7149B81138036900418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 2A37F4ACFDCFA73011CA2CEA /* MyDocument.m */;
+		name = "MyDocument.m: 321";
+		rLen = 19;
+		rLoc = 8428;
+		rType = 0;
+		vrLen = 675;
+		vrLoc = 7989;
+	};
+	EE7149B91138036900418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		rLen = 0;
+		rLoc = 7467;
+		rType = 0;
+	};
+	EE7149BA1138036900418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 262";
+		rLen = 0;
+		rLoc = 7215;
+		rType = 0;
+		vrLen = 1478;
+		vrLoc = 6901;
+	};
+	EE7149BD1138036F00418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 262";
+		rLen = 0;
+		rLoc = 7215;
+		rType = 0;
+		vrLen = 1466;
+		vrLoc = 7219;
+	};
+	EE7149BF1138038500418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 386";
+		rLen = 0;
+		rLoc = 11306;
+		rType = 0;
+		vrLen = 456;
+		vrLoc = 11000;
+	};
+	EE7149C01138038500418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 262";
+		rLen = 0;
+		rLoc = 7215;
+		rType = 0;
+		vrLen = 620;
+		vrLoc = 6901;
+	};
+	EE7149C31138038A00418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 262";
+		rLen = 0;
+		rLoc = 7215;
+		rType = 0;
+		vrLen = 1604;
+		vrLoc = 6499;
+	};
+	EE7149C71138046700418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EEE8F3B40F13AA720081E83D /* CSVWindowController.m */;
+		name = "CSVWindowController.m: 262";
+		rLen = 0;
+		rLoc = 7215;
+		rType = 0;
+		vrLen = 1604;
+		vrLoc = 6499;
+	};
+	EE7149C81138046700418030 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = EE9E10F010429B7300554687 /* CSVDocument.m */;
+		name = "CSVDocument.m: 403";
+		rLen = 0;
+		rLoc = 11658;
+		rType = 0;
+		vrLen = 1097;
+		vrLoc = 10830;
+	};
+	EE7149C91138046700418030 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/pp/Cocoa/CSVManipulator/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	EE7149CA1138046700418030 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/pp/Cocoa/CSVManipulator/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	EE7149CB113804DB00418030 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/pp/Cocoa/CSVManipulator/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775807;
 	};
 	EE9961011104C4930011111E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -7637,16 +8010,16 @@
 	};
 	EE9E10EF10429B7300554687 /* CSVDocument.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1094, 1664}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1061, 1664}}";
 			sepNavSelRange = "{2001, 0}";
-			sepNavVisRange = "{1127, 1960}";
+			sepNavVisRange = "{1127, 1961}";
 		};
 	};
 	EE9E10F010429B7300554687 /* CSVDocument.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1061, 8768}}";
-			sepNavSelRange = "{10983, 0}";
-			sepNavVisRange = "{8327, 1302}";
+			sepNavIntBoundsRect = "{{0, 0}, {1061, 9440}}";
+			sepNavSelRange = "{11658, 0}";
+			sepNavVisRange = "{10830, 1097}";
 		};
 	};
 	EE9E10F110429B7300554687 /* CSVRow.h */ = {
@@ -7785,9 +8158,9 @@
 	};
 	EEE8F3B40F13AA720081E83D /* CSVWindowController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1061, 6544}}";
-			sepNavSelRange = "{9601, 0}";
-			sepNavVisRange = "{8928, 1096}";
+			sepNavIntBoundsRect = "{{0, 0}, {1061, 5760}}";
+			sepNavSelRange = "{7215, 0}";
+			sepNavVisRange = "{6499, 1604}";
 		};
 	};
 	EEE8F5260F13DBE80081E83D /* PBXBookmark */ = {

@@ -268,6 +268,12 @@
 		
 		// save the file
 		success = [finalString writeToURL:absoluteURL atomically:YES encoding:NSUTF8StringEncoding error:outError];
+		if (!success) {
+			NSLog(@"Error while saving: %@", [*outError localizedDescription]);
+		}
+	}
+	else {
+		NSLog(@"Error while saving: %@", [*outError localizedDescription]);
 	}
 	
 	self.documentEdited = !success;

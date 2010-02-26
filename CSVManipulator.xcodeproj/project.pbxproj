@@ -455,7 +455,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "REV=`svnversion -n | sed -e 's/[0-9]+://;s/[^0-9]*//g'`\n/usr/libexec/PlistBuddy -c \"Set :SVNRevision $REV\" ${PROJECT_DIR}/Info.plist";
+			shellScript = "REV=`svnversion -n | sed -e 's/.+?://; s/[^0-9]*//g'`\n/usr/libexec/PlistBuddy -c \"Set :SVNRevision $REV\" ${PROJECT_DIR}/Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 

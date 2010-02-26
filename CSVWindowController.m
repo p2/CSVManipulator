@@ -259,7 +259,7 @@
 - (void) tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
 {
 	if (mainTable == tableView) {
-		NSMutableArray *arr = [NSMutableArray array];
+		NSMutableArray *arr = document.csvDocument.columns;
 		
 		// propagate changes to CSVDocument
 		for (DataTableColumn *col in [tableView tableColumns]) {
@@ -268,7 +268,7 @@
 				[arr addObject:csvCol];
 			}
 		}
-		document.csvDocument.columns = [arr copy];
+		
 		document.documentEdited = YES;
 	}
 }
