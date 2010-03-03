@@ -19,6 +19,11 @@
 #define kDocumentDidBecomeInactive @"CSVManip_DocumentDidBecomeInactive"
 #define kDocumentDidChangeColumns @"CSVManip_DocumentDidChangeColumns"
 
+#define kCalculationKeySourceColumn @"CSVManip_CalcSourceColumn"
+#define kCalculationKeyTargetColumn @"CSVManip_CalcTargetColumn"
+#define kCalculationKeySourceRegEx @"CSVManip_CalcSourceRegEx"
+#define kCalculationKeyTargetExpression @"CSVManip_CalcTargetExpression"
+
 
 @interface MyDocument : NSDocument <CSVDocumentDelegate>
 {
@@ -52,7 +57,7 @@
 @property (nonatomic, retain) PPStringFormat *exportFormat;
 
 @property (nonatomic, assign) BOOL exportHeaders;
-@property (nonatomic, assign) BOOL calculationShouldTerminate;
+@property (assign) BOOL calculationShouldTerminate;
 
 
 // Data control

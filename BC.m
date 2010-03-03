@@ -24,7 +24,7 @@
 	NSData *inData, *outData;
 	NSString *outString;
 	
-	// the input must end with a new line character or you'll get syntax errors
+	// the input must end with a new line character or we'll get syntax errors
 	if ([op characterAtIndex:[op length]-1] != '\n') {
 		op = [op stringByAppendingString:@"\n"];
 	}

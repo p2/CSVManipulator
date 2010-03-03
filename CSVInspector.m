@@ -205,36 +205,59 @@ static CSVInspector *inspectorInstance = nil;
 #pragma mark Calculations
 - (IBAction) performCalculation:(id)sender
 {
+	if (nil == currentDocument) {
+		ALog(@"currentDocument is nil!");
+		return;
+	}
+	
 	// should cancel
 	if (calculationIsRunning) {
-//		[document setCalculationShouldTerminate:YES];
+		[currentDocument setCalculationShouldTerminate:YES];
+		[self updateCalculationStatus:[NSNumber numberWithInt:1]];
 		return;
 	}
 	
 	calculationIsRunning = YES;
-//	[document setCalculationShouldTerminate:NO];
+	[currentDocument setCalculationShouldTerminate:NO];
 	[calculationStartButton setTitle:@"Cancel"];
 	[calculationProgress startAnimation:nil];
-	/*
-	//--
-	NSString *sourceKey = [[[calculationSourcePopup selectedItem] title] stringByMatching:@"\\(([^\\(\\)]+)\\)$" capture:1];
-	NSString *targetKey = [[[calculationTargetPopup selectedItem] title] stringByMatching:@"\\(([^\\(\\)]+)\\)$" capture:1];
-	//--
-	NSString *regExp = [calculationSourceRegExp stringValue];
-	NSString *expression = [calculationTargetExpr stringValue];
-	/*
-	// detach a new thread
-	NSDictionary *args = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:sourceKey, targetKey, regExp, expression, nil]
-													 forKeys:[NSArray arrayWithObjects:@"sourceKey", @"targetKey", @"regExp", @"expression", nil]];
 	
-	[NSThread detachNewThreadSelector:@selector(performCalculationWithArgs:)
-							 toTarget:document
-						   withObject:args];			// args is automatically retained for the duration of the loop	*/
+	// get source and target columns
+	NSArray *columns = [currentDocument columns];
+	NSInteger sourceIndex = [calculationSourcePopup indexOfSelectedItem];
+	if (sourceIndex >= 0 && sourceIndex < [columns count]) {
+		NSInteger targetIndex = [calculationTargetPopup indexOfSelectedItem];
+		if (targetIndex >= 0 && targetIndex < [columns count]) {
+			
+			// get source/target key and expressions
+			NSString *sourceKey = [(CSVColumn *)[columns objectAtIndex:sourceIndex] key];
+			NSString *targetKey = [(CSVColumn *)[columns objectAtIndex:targetIndex] key];
+			
+			NSString *regExp = [calculationSourceRegExp stringValue];
+			NSString *expression = [calculationTargetExpr stringValue];
+			
+			// detach a new thread
+			NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+								  sourceKey, kCalculationKeySourceColumn,
+								  targetKey, kCalculationKeyTargetColumn,
+								  regExp, kCalculationKeySourceRegEx,
+								  expression, kCalculationKeyTargetExpression, nil];
+			[NSThread detachNewThreadSelector:@selector(performCalculationWithArgs:)
+									 toTarget:currentDocument
+								   withObject:args];			// args is automatically retained for the duration of the loop	*/
+		}
+		else {
+			ALog(@"Target Column %i does not exist", targetIndex);
+		}
+	}
+	else {
+		ALog(@"Source Column %i does not exist", sourceIndex);
+	}
 }
 
 - (void) updateCalculationStatus:(NSNumber *)alreadyDone
 {
-	if ([alreadyDone isLessThan:[NSNumber numberWithInt:100]]) {
+	if ([alreadyDone isLessThan:[NSNumber numberWithInt:1]]) {
 		[calculationProgress setDoubleValue:[alreadyDone doubleValue]];
 	}
 	

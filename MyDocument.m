@@ -13,6 +13,7 @@
 #import "CSVColumn.h"
 #import "PPStringFormat.h"
 #import "PPStringFormatManager.h"
+#import "CSVInspector.h"
 
 #import "DataTableView.h"
 #import "DataTableColumn.h"
@@ -382,105 +383,101 @@
 {
 	NSAutoreleasePool* myAutoreleasePool = [[NSAutoreleasePool alloc] init];
 	
-	NSString *sourceKey = [args objectForKey:@"sourceKey"];
-	NSString *targetKey = [args objectForKey:@"targetKey"];
+	NSString *sourceKey = [args objectForKey:kCalculationKeySourceColumn];
+	NSString *targetKey = [args objectForKey:kCalculationKeyTargetColumn];
 	
-	NSString *regExp = [args objectForKey:@"regExp"];
-	NSString *expression = [args objectForKey:@"expression"];
+	NSString *regExp = [args objectForKey:kCalculationKeySourceRegEx];
+	NSString *expression = [args objectForKey:kCalculationKeyTargetExpression];
 	
 	
 	// *****
-	// compose the operation string (from "$1 * $2 / ($2 + $3)" to "XX * XX / (XX + XX)" >> [1, 2, 2, 3])
-	NSMutableArray *operationStrings = [NSMutableArray array];
-	NSMutableArray *operationCaptures = [NSMutableArray array];
+	// parse unique match numbers (from "$1 * $2 / ($2 + $3)"  ==>  [1, 2, 3])
+	NSMutableArray *matchIndexes = [NSMutableArray array];
 	NSInteger i;
 	
 	NSScanner *scanner = [NSScanner scannerWithString:expression];
-	while (NO == [scanner isAtEnd]) {
-		NSMutableString *operationString = [NSMutableString string];
-		NSString *tempString;
-		if ([scanner scanUpToString:@"$" intoString:&tempString]) {
-			[operationString appendString:tempString];
-		}
+	while (![scanner isAtEnd]) {
+		[scanner scanUpToString:@"$" intoString:NULL];
 		
 		// found a Dollar sign "$"
-		if ([scanner scanString:@"$" intoString:nil]) {
-			[operationString appendString:@"XX"];
+		if ([scanner scanString:@"$" intoString:NULL]) {
 			[scanner scanInt:&i];
 			
-			// remember which RegExp-Match we want here
-			[operationCaptures addObject:[NSNumber numberWithInt:i]];
+			// add to the collection if not already there
+			NSNumber *iNum = [NSNumber numberWithInt:i];
+			if (![matchIndexes containsObject:iNum]) {
+				[matchIndexes addObject:iNum];
+			}
 		}
-		
-		// add to stack
-		[operationStrings addObject:[[operationString copy] autorelease]];
 	}
 	
 	
 	// *****
 	// walk the data and perform the calculation
-	NSArray *dataArr = [csvDocument.rowController arrangedObjects];
-	NSUInteger numRows = [dataArr count];
-	NSEnumerator *walker = [dataArr objectEnumerator];
-	CSVRow *row;
-	
-	NSUInteger captureCount = [NSString captureCountForRegex:regExp];
-	NSUInteger operationCapturesCount = [operationCaptures count];
-	
+	NSArray *rowArr = [csvDocument arrangedRows];
+	NSUInteger numRows = [rowArr count];
 	
 	// loop rows
 	NSUInteger currentIndex = 0;
-	while (row = [walker nextObject]) {
+	for (CSVRow *row in rowArr) {
 		
 		// should we stop?
 		if (calculationShouldTerminate) {
 			break;
 		}
 		
-		// cell value
+		// get cell value
 		NSString *cellString = [row valueForColumnKey:sourceKey];
 		if (nil == cellString) {
 			continue;
 		}
 		
-		// create the evaluation
-		NSMutableString *evaluation = [NSMutableString string];
-		NSUInteger c;
-		for (c = 0; c < [operationStrings count]; c++) {
-			NSInteger captureIndex = (c < operationCapturesCount) ? [[operationCaptures objectAtIndex:c] intValue] : -1;
-			if ((captureIndex > 0) && (captureIndex <= captureCount)) {
-				NSString *matchedString = [cellString stringByMatching:regExp capture:captureIndex];
-				if (NULL != matchedString) {
-					[evaluation appendString:[[operationStrings objectAtIndex:c] stringByReplacingOccurrencesOfString:@"XX" withString:matchedString]];
+		// get matches
+		NSArray *fullMatches = [cellString arrayOfCaptureComponentsMatchedByRegex:regExp];
+		if ([fullMatches count] < 1) {
+			continue;
+		}
+		NSArray *matches = [fullMatches objectAtIndex:0];
+		NSUInteger num_matches = [matches count];
+		if (num_matches > 0) {
+			NSMutableString *evalString = [expression mutableCopy];
+			NSRange fullRange;
+			
+			for (NSNumber *iNum in matchIndexes) {
+				NSUInteger i = [iNum unsignedIntValue];
+				if (i >= 0 && i < num_matches) {
+					NSString *match = [matches objectAtIndex:i];
+					fullRange = NSMakeRange(0, [evalString length]);
+					
+					[evalString replaceOccurrencesOfString:[NSString stringWithFormat:@"$%i", i]
+												withString:match
+												   options:0
+													 range:fullRange];
 				}
 			}
-			else {
-				[evaluation appendString:[operationStrings objectAtIndex:c]];
+			
+			// detach to 'bc'
+			NSString *result = [BC performMathOperation:evalString];
+			if (result) {
+				[row setValue:result forColumnKey:targetKey];
 			}
 		}
 		
-		// detach to 'bc'
-		NSString *result = [BC performMathOperation:evaluation];
-		if (result) {
-			[row setValue:result forColumnKey:targetKey];
-		}
-		//NSLog(@"evaluation evaluates to: %@ which results in %@", evaluation, result);
-		
-		// show progress
+		// show progress and clean the pool
 		if (0 == currentIndex % 20) {
-			NSNumber *alreadyDone = [NSNumber numberWithDouble:(double)((float)(currentIndex + 1) / (float)numRows) * 100];		// progress bar goes from 0 to 100
-			[mainWindowController performSelectorOnMainThread:@selector(updateCalculationStatus:)
-												   withObject:alreadyDone				// alreadyDone is automatically retained until selector has finished
-												waitUntilDone:NO];
+			NSNumber *alreadyDone = [NSNumber numberWithDouble:(double)(currentIndex + 1) / numRows];
+			[[CSVInspector sharedInspector] performSelectorOnMainThread:@selector(updateCalculationStatus:)
+															 withObject:alreadyDone			// will be retained as long as necessary
+														  waitUntilDone:NO];
 		}
 		
 		currentIndex++;
 	}
 	
 	// finish
-	[mainWindowController performSelectorOnMainThread:@selector(updateCalculationStatus:)
-										   withObject:[NSNumber numberWithDouble:100.00]
-										waitUntilDone:NO];
+	[[CSVInspector sharedInspector] performSelectorOnMainThread:@selector(updateCalculationStatus:)
+													 withObject:[NSNumber numberWithInt:1]
+												  waitUntilDone:NO];
 	self.documentEdited = YES;
 	[myAutoreleasePool release];
 }

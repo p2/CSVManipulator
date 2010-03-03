@@ -45,7 +45,7 @@
 - (void) setValue:(id)value forColumn:(CSVColumn *)column;
 - (void) setValue:(id)value forColumnKey:(NSString *)key;
 
-- (void) changeHeaderRow:(BOOL)isHeader;			// changes the header row status without telling the document - only the document should use this!
+- (void) changeHeaderRow:(BOOL)isHeader;		// changes the header row status without telling the document - only the document should use this!
 
 
 @end

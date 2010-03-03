@@ -43,7 +43,6 @@
 		EE24A39B0D6ECCCB00C251A6 /* CSVRowController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE24A39A0D6ECCCB00C251A6 /* CSVRowController.m */; };
 		EE2EE5770DFD392B005764C0 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE5760DFD392B005764C0 /* RegexKitLite.m */; };
 		EE2EE5820DFD3B32005764C0 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2EE5810DFD3B32005764C0 /* libicucore.dylib */; };
-		EE2EE5AC0DFD3C3A005764C0 /* RKLMatchEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE5AB0DFD3C3A005764C0 /* RKLMatchEnumerator.m */; };
 		EE2EE6E80DFD8BDF005764C0 /* BC.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2EE6E70DFD8BDF005764C0 /* BC.m */; };
 		EE64B5A41049D9E6000DF5D2 /* PPStringFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B5A31049D9E6000DF5D2 /* PPStringFormat.m */; };
 		EE64B6281049E967000DF5D2 /* MyDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE64B6271049E967000DF5D2 /* MyDocumentController.m */; };
@@ -118,8 +117,6 @@
 		EE2EE5750DFD392B005764C0 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
 		EE2EE5760DFD392B005764C0 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
 		EE2EE5810DFD3B32005764C0 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
-		EE2EE5AA0DFD3C3A005764C0 /* RKLMatchEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKLMatchEnumerator.h; sourceTree = "<group>"; };
-		EE2EE5AB0DFD3C3A005764C0 /* RKLMatchEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKLMatchEnumerator.m; sourceTree = "<group>"; };
 		EE2EE6E60DFD8BDE005764C0 /* BC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BC.h; sourceTree = "<group>"; };
 		EE2EE6E70DFD8BDF005764C0 /* BC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BC.m; sourceTree = "<group>"; };
 		EE64B5A21049D9E6000DF5D2 /* PPStringFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormat.h; sourceTree = "<group>"; };
@@ -237,8 +234,6 @@
 			children = (
 				EE2EE6E60DFD8BDE005764C0 /* BC.h */,
 				EE2EE6E70DFD8BDF005764C0 /* BC.m */,
-				EE2EE5AA0DFD3C3A005764C0 /* RKLMatchEnumerator.h */,
-				EE2EE5AB0DFD3C3A005764C0 /* RKLMatchEnumerator.m */,
 				EE2EE5750DFD392B005764C0 /* RegexKitLite.h */,
 				EE2EE5760DFD392B005764C0 /* RegexKitLite.m */,
 				32DBCF750370BD2300C91783 /* CSVManipulator_Prefix.pch */,
@@ -471,7 +466,6 @@
 				EE1512200D7F048D0092C02F /* DataTableColumn.m in Sources */,
 				EE1512210D7F048D0092C02F /* DataTableHeaderCell.m in Sources */,
 				EE2EE5770DFD392B005764C0 /* RegexKitLite.m in Sources */,
-				EE2EE5AC0DFD3C3A005764C0 /* RKLMatchEnumerator.m in Sources */,
 				EE2EE6E80DFD8BDF005764C0 /* BC.m in Sources */,
 				EEE8F3B50F13AA720081E83D /* CSVWindowController.m in Sources */,
 				EEE8FA460F1523B70081E83D /* AppController.m in Sources */,

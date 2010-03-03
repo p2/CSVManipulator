@@ -282,8 +282,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>15</integer>
-									<integer>12</integer>
+									<integer>7</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -326,7 +325,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>EEF027910D6D8015000532A4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>CSVWindowController.m</string>
+								<string>MyDocument.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -334,22 +333,17 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>EEF027920D6D8015000532A4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>CSVWindowController.m</string>
+										<string>MyDocument.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>EE6C8B24113E9CCC001C7A92</string>
+										<string>EE6C8C00113EC6AE001C7A92</string>
 										<key>history</key>
 										<array>
 											<string>EECAA3C10D803E5200AE2D4A</string>
 											<string>EE2EE7510DFDA3C6005764C0</string>
 											<string>EEE8F3680F13A00F0081E83D</string>
 											<string>EEE8F5260F13DBE80081E83D</string>
-											<string>EE9E112F1042D26300554687</string>
-											<string>EE9E11301042D26300554687</string>
-											<string>EE64B712104AADA2000DF5D2</string>
-											<string>EE64B713104AADA2000DF5D2</string>
-											<string>EE64B714104AADA2000DF5D2</string>
 											<string>EEF072F4108630B900C05DE9</string>
 											<string>EEF07453108781AD00C05DE9</string>
 											<string>EE13773B1088A0B700D31816</string>
@@ -366,7 +360,6 @@
 											<string>EE1A5DD910BAF46D0041C5BF</string>
 											<string>EE7144E9113538C800418030</string>
 											<string>EE7144EA113538C800418030</string>
-											<string>EE71466611356A4600418030</string>
 											<string>EE71466711356A4600418030</string>
 											<string>EE71466911356A4600418030</string>
 											<string>EE71467C113582F400418030</string>
@@ -393,23 +386,27 @@
 											<string>EE7149201137D7C900418030</string>
 											<string>EE7149DE1138129E00418030</string>
 											<string>EE7149F2113814AD00418030</string>
-											<string>EE714AC011383B1E00418030</string>
 											<string>EE6C88D3113D733A001C7A92</string>
 											<string>EE6C88D4113D733A001C7A92</string>
 											<string>EE6C8A4D113E8929001C7A92</string>
 											<string>EE6C8A4F113E8929001C7A92</string>
-											<string>EE6C8A81113E8A97001C7A92</string>
-											<string>EE6C8A82113E8A97001C7A92</string>
-											<string>EE6C8A8F113E8B1E001C7A92</string>
-											<string>EE6C8A9A113E8C74001C7A92</string>
-											<string>EE6C8AD2113E9130001C7A92</string>
 											<string>EE6C8AEF113E94DE001C7A92</string>
-											<string>EE6C8AF0113E94DE001C7A92</string>
 											<string>EE6C8AFE113E956C001C7A92</string>
-											<string>EE6C8AFF113E956C001C7A92</string>
-											<string>EE6C8B1D113E969D001C7A92</string>
-											<string>EE6C8B1E113E969D001C7A92</string>
-											<string>EE6C8B1F113E969D001C7A92</string>
+											<string>EE6C8B2E113EA130001C7A92</string>
+											<string>EE6C8B2F113EA130001C7A92</string>
+											<string>EE6C8B4F113EA3AE001C7A92</string>
+											<string>EE6C8B60113EA577001C7A92</string>
+											<string>EE6C8B71113EA704001C7A92</string>
+											<string>EE6C8B7D113EB3F5001C7A92</string>
+											<string>EE6C8B7E113EB3F5001C7A92</string>
+											<string>EE6C8B7F113EB3F5001C7A92</string>
+											<string>EE6C8B89113EB800001C7A92</string>
+											<string>EE6C8B8A113EB800001C7A92</string>
+											<string>EE6C8B99113EB92C001C7A92</string>
+											<string>EE6C8B9A113EB92C001C7A92</string>
+											<string>EE6C8BBA113EC0AF001C7A92</string>
+											<string>EE6C8BF8113EC661001C7A92</string>
+											<string>EE6C8BFF113EC69C001C7A92</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -745,6 +742,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>EE6C8BFE113EC666001C7A92</string>
 		<string>EE6C88B7113D6F0D001C7A92</string>
 		<string>EE6C88B8113D6F0D001C7A92</string>
 		<string>/Users/pp/Cocoa/CSVManipulator/CSVManipulator.xcodeproj</string>

@@ -178,9 +178,23 @@ static NSUInteger highestHeaderRowPos = 0;
 - (void) setValue:(id)value forColumnKey:(NSString *)key
 {
 	if (nil != key) {
-		// this is currently only used when parsing CSV, so no need for the undo manager here
-		value = (nil != value) ? value : [NSNull null];
-		[rowValues setObject:value forKey:key];
+		if (document.parseSuccessful) {
+			NSUndoManager *undoManager = [[document document] undoManager];
+			[[undoManager prepareWithInvocationTarget:self] setValue:[self valueForColumnKey:key] forColumnKey:key];
+			[undoManager setActionName:NSLocalizedString(@"Value Change", nil)];
+		}
+		
+		if (nil != value) {
+			[rowValues setObject:value forKey:key];
+		}
+		else {
+			[rowValues removeObjectForKey:key];
+		}
+		
+		// if we are a header row, maybe the column name changed
+		if (document.parseSuccessful && isHeaderRow) {
+			[document updateColumnNames];
+		}
 	}
 }
 

@@ -104,7 +104,9 @@
 {
 	NSUInteger num_rows = 0;
 	BOOL success = YES;
-	parseNumHeaderRows = 1;
+	parseSuccessful = NO;
+	parseNumHeaderRows = 1;			// TODO: Move this to the open dialog
+	
 	// this thing is thread safe
 	[string retain];
 	NSAutoreleasePool *outerPool = [[NSAutoreleasePool alloc] init];
@@ -525,6 +527,15 @@
 	// TODO: rearrange on iPhone!
 #else
 	[rowController rearrangeObjects];
+#endif
+}
+
+- (NSArray *) arrangedRows
+{
+#ifdef IPHONE
+	return rows;
+#else
+	return [rowController arrangedObjects];
 #endif
 }
 

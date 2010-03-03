@@ -98,6 +98,7 @@
 - (NSUInteger) numHeaderRows;
 - (void) changeNumHeaderRows:(NSUInteger)newNum;
 - (void) rearrangeRows;
+- (NSArray *) arrangedRows;
 - (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid;
 - (void) removeRow:(CSVRow *)row;
 
