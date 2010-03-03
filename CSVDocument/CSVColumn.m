@@ -71,6 +71,20 @@
 
 
 #pragma mark Utilities
+- (NSString *) fullName
+{
+	NSString *fullName = nil;
+	
+	if ([name length] > 0) {
+		fullName = [NSString stringWithFormat:@"%@ (%@)", self.name, self.key];
+	}
+	else {
+		fullName = self.key;
+	}
+	
+	return fullName;
+}
+
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"%@ <0x%X>; %@ -> %@, active: %i", NSStringFromClass([self class]), self, key, name, active];

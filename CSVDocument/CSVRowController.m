@@ -85,7 +85,7 @@
 {
 	NSUndoManager *undoManager = [[document document] undoManager];
 	[undoManager registerUndoWithTarget:self selector:@selector(removeObject:) object:object];
-	//[undoManager setActionName:NSLocalizedString(@"Add Row", nil)];
+	[undoManager setActionName:NSLocalizedString([undoManager isUndoing] ? @"Delete Row" : @"Add Row", nil)];
 	
 	[super addObject:object];
 }
@@ -100,7 +100,7 @@
 {
 	NSUndoManager *undoManager = [[document document] undoManager];
 	[undoManager registerUndoWithTarget:self selector:@selector(addObject:) object:object];
-	//[undoManager setActionName:NSLocalizedString(@"Remove Row", nil)];
+	[undoManager setActionName:NSLocalizedString([undoManager isUndoing] ? @"Add Row" : @"Delete Row", nil)];
 	
 	[super removeObject:object];
 }

@@ -25,5 +25,8 @@
 - (void) csvDocument:(CSVDocument *)document didParseRow:(CSVRow *)row;
 
 - (void) csvDocument:(CSVDocument *)document didChangeRowOrderToOriginalOrder:(BOOL)isOriginalOrder;
+- (void) csvDocumentDidChangeColumnNames:(CSVDocument *)document;
+- (void) csvDocumentDidChangeNumColumns:(CSVDocument *)document;
+
 
 @end

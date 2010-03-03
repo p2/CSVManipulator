@@ -20,12 +20,15 @@
 #import "PPToolbarView.h"
 
 #define COLUMN_MIN_WIDTH 40
+#define kHeaderColumnIdentifier @"_theHeaderRowColumn"
 
 
 @interface CSVWindowController ()
 
-- (void) addColumnWithKey:(NSString *)columnKey;
+- (void) addColumnWithKey:(NSString *)columnKey atPosition:(NSUInteger)position;
 - (void) removeColumn:(NSTableColumn *)tableColumn;
+- (void) moveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition;
+- (void) didMoveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition;
 
 @end
 
@@ -70,6 +73,12 @@
 {
 	mainToolbar.borderWidth = PPBorderWidthMake(1.f, 0.f, 0.f, 0.f);
 	
+	// the following enables prevention of moving a column before the first column
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(tableViewColumnDidMove:)
+												 name:NSTableViewColumnDidMoveNotification
+											   object:mainTable];
+	
 	// document is still loading
 	if (!document.documentLoaded) {
 		[self performSelector:@selector(showProgressSheet) withObject:nil afterDelay:0.01f];
@@ -91,19 +100,20 @@
 #pragma mark Data Control
 - (IBAction) addNewColumn:(id)sender
 {
-	[self addColumnWithKey:[document.csvDocument nextAvailableColumnKey]];
+	[self addColumnWithKey:[document.csvDocument nextAvailableColumnKey] atPosition:UINT_MAX];
+	// TODO: Tell the CSVInspector when we do crazy stuff like this
 }
 
-- (void) addColumnWithKey:(NSString *)columnKey
+- (void) addColumnWithKey:(NSString *)columnKey atPosition:(NSUInteger)position
 {
 	CSVColumn *newColumn = [CSVColumn columnWithKey:columnKey];
 	if ([document.csvDocument addColumn:newColumn]) {
-		[self addColumn:newColumn toTable:mainTable withWidth:0.f];
+		[self addColumn:newColumn toTable:mainTable atPosition:position withWidth:0.f];
 		
 		// allow undo
 		NSUndoManager *undoManager = [document undoManager];
 		[undoManager registerUndoWithTarget:self selector:@selector(removeColumnWithIdentifier:) object:columnKey];
-		//[undoManager setActionName:NSLocalizedString(@"Add Column", nil)];
+		[undoManager setActionName:NSLocalizedString([undoManager isUndoing] ? @"Remove Column" : @"Add Column", nil)];
 	}
 }
 
@@ -128,26 +138,60 @@
 			return;
 		}
 	}
-	NSLog(@"Could not remove column with identifier '%@'", columnIdentifier);
+	NSLog(@"Can't remove column with identifier '%@'", columnIdentifier);
 }
 
 - (void) removeColumn:(NSTableColumn *)tableColumn
 {
 	NSUndoManager *undoManager = [document undoManager];
-	// TODO: Make undo insert the column at the original spot
-	[undoManager registerUndoWithTarget:self selector:@selector(addColumnWithKey:) object:[tableColumn identifier]];
-	//[undoManager setActionName:NSLocalizedString(@"Remove Column", nil)];
+	
+	id columnIdentifier = [tableColumn identifier];
+	NSUInteger columnIndex = [mainTable columnWithIdentifier:columnIdentifier];
+	
+	[[undoManager prepareWithInvocationTarget:self] addColumnWithKey:columnIdentifier atPosition:columnIndex];
+	[undoManager setActionName:NSLocalizedString([undoManager isUndoing] ? @"Add Column" : @"Remove Column", nil)];
 	
 	// remove
-	CSVColumn *csvColumn = [document.csvDocument columnWithKey:[tableColumn identifier]];
+	CSVColumn *csvColumn = [document.csvDocument columnWithKey:columnIdentifier];
 	if ([document.csvDocument removeColumn:csvColumn]) {
 		[mainTable removeTableColumn:tableColumn];
 		[mainTable sizeLastColumnToFit];
 	}
 	else {
-		NSLog(@"Can't remove column %@ as it is not a valid column", csvColumn.key);
+		NSLog(@"Can't remove column %@ as it is not a valid column", columnIdentifier);
 	}
 }
+
+- (void) moveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
+{
+	if (oldPosition != newPosition) {
+		[mainTable moveColumn:oldPosition toColumn:newPosition];
+		[self didMoveColumn:oldPosition ofTable:aTableView to:newPosition];
+	}
+}
+
+- (void) didMoveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
+{
+	if (oldPosition != newPosition) {
+		NSUndoManager *undoManager = [document undoManager];
+		[[undoManager prepareWithInvocationTarget:self] moveColumn:newPosition ofTable:aTableView to:oldPosition];
+		[undoManager setActionName:NSLocalizedString(@"Column Order", nil)];
+		
+		// collect column keys
+		NSArray *allColumns = [aTableView tableColumns];
+		NSMutableArray *arr = [NSMutableArray arrayWithCapacity:[allColumns count]];
+		for (DataTableColumn *col in allColumns) {
+			if (![kHeaderColumnIdentifier isEqualToString:[col identifier]]) {
+				[arr addObject:[col identifier]];
+			}
+		}
+		
+		// propagate changes to CSVDocument
+		[document.csvDocument setColumnOrderByKeys:arr];
+		document.documentEdited = YES;
+	}
+}
+
 			
 - (IBAction) addCSVRow:(id)sender
 {
@@ -159,6 +203,18 @@
 {
 	[document.csvDocument.rowController remove:sender];
 	document.documentEdited = YES;
+}
+
+- (void) removeSelectedRows:(id)sender
+{
+	NSIndexSet *indexes = [mainTable selectedRowIndexes];
+	if ([indexes count] > 0) {
+		NSArray *exRows = [document.csvDocument.rows objectsAtIndexes:indexes];
+		
+		for (CSVRow *row in exRows) {
+			[document.csvDocument removeRow:row];
+		}
+	}
 }
 
 - (IBAction) restoreOriginalOrder:(id)sender;
@@ -196,7 +252,7 @@
 	[firstDataCell setTitle:@""];
 	
 	DataTableColumn *firstTableColumn = [DataTableColumn column];
-	[firstTableColumn setIdentifier:@"_theHeaderRowColumn"];
+	[firstTableColumn setIdentifier:kHeaderColumnIdentifier];
 	[firstTableColumn setDataCell:firstDataCell];
 	[firstTableColumn setWidth:firstColumnWidth];
 	firstTableColumn.resizingMask = NSTableColumnNoResizing;
@@ -221,18 +277,18 @@
 		
 		// loop columns to add the table columns
 		for (CSVColumn *column in [document columns]) {
-			[self addColumn:column toTable:mainTable withWidth:columnWidth];
+			[self addColumn:column toTable:mainTable atPosition:UINT_MAX withWidth:columnWidth];
 		}
 		
 		[mainTable sizeLastColumnToFit];
 	}
 }
 
-- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView withWidth:(CGFloat)width
+- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width
 {
 	if (aTableView == mainTable) {
 		
-		// add the table column
+		// create the table column
 		DataTableColumn *tableColumn = [DataTableColumn column];
 		[tableColumn setIdentifier:newColumn.key];
 		[tableColumn setDataCell:[DataTableCell cell]];
@@ -242,8 +298,6 @@
 		}
 		[[tableColumn headerCell] setEditable:YES];
 		[[tableColumn headerCell] setChecked:newColumn.active];
-		
-		[mainTable addTableColumn:tableColumn];
 		
 		// bind the column row values
 		[tableColumn bind:@"value"
@@ -261,6 +315,13 @@
 				 toObject:document.csvDocument.columnDict
 			  withKeyPath:[NSString stringWithFormat:@"%@.type", newColumn.key]
 				  options:nil];
+			
+		// add the column
+		[mainTable addTableColumn:tableColumn];
+		NSUInteger lastColumnIndex = [[mainTable tableColumns] count] - 1;
+		if (position < lastColumnIndex) {
+			[mainTable moveColumn:lastColumnIndex toColumn:position];
+		}
 	}
 }
 
@@ -295,21 +356,61 @@
 }
 
 
+- (void) tableView:(NSTableView*)aTableView mouseDownInHeaderOfTableColumn:(NSTableColumn*)tableColumn
+{
+	if (0 == [[aTableView tableColumns] indexOfObject:tableColumn]) {
+		[aTableView setAllowsColumnReordering:NO];
+	}
+	else {
+		[aTableView setAllowsColumnReordering:YES];
+	}
+}
+
 - (void) tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
 {
 	if (mainTable == tableView) {
-		NSMutableArray *arr = document.csvDocument.columns;
-		
-		// propagate changes to CSVDocument
-		for (DataTableColumn *col in [tableView tableColumns]) {
-			CSVColumn *csvCol = [document.csvDocument.columnDict objectForKey:[col identifier]];
-			if (nil != csvCol) {
-				[arr addObject:csvCol];
+		if (![kHeaderColumnIdentifier isEqualToString:[tableColumn identifier]]) {
+			NSInteger newPos = [[tableView tableColumns] indexOfObject:tableColumn];
+			
+			// a move only happened when newPos is >= 0
+			if (newPos >= 0) {
+				
+				// determine old position for the undo operation
+				NSInteger oldPos = 0;
+				for (CSVColumn *column in document.csvDocument.columns) {
+					if ([column.key isEqualToString:[tableColumn identifier]]) {
+						break;
+					}
+					oldPos++;
+				}
+				oldPos++;			// compensating for the first column, which is not a column of csvDocument
+				
+				[self didMoveColumn:oldPos ofTable:mainTable to:newPos];
 			}
 		}
-		
-		document.documentEdited = YES;
 	}
+}
+
+- (void) tableViewColumnDidMove:(NSNotification*)aNotification
+{
+	NSDictionary* userInfo = [aNotification userInfo];
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+	
+	// temporarily stop listening to column moves to prevent recursion
+	[center removeObserver:self name:NSTableViewColumnDidMoveNotification object:nil];
+	
+	// if the user tries to move the first column out, move it back (should not be possible since we disable moving the first column)
+	if (0 == [[userInfo objectForKey:@"NSOldColumn"] intValue]) {
+		[mainTable moveColumn:[[userInfo objectForKey:@"NSNewColumn"] intValue] toColumn:0];
+	}
+	
+	// if the user tries to move a column in front of the first column, move it back
+	else if (0 == [[userInfo objectForKey:@"NSNewColumn"] intValue]) {
+		[mainTable moveColumn:0 toColumn:[[userInfo objectForKey:@"NSOldColumn"] intValue]];
+	}
+	
+	// listen again for column moves
+	[center addObserver:self selector:@selector(tableViewColumnDidMove:) name:NSTableViewColumnDidMoveNotification object:mainTable];
 }
 #pragma mark -
 
@@ -429,6 +530,25 @@
 - (IBAction) showExportFormats:(id)sender
 {
 	[PPStringFormatManager show:sender];
+}
+#pragma mark -
+
+
+
+#pragma mark Notifications
+- (void) windowDidBecomeMain:(NSNotification *)notification
+{
+	[document windowDidBecomeMain:notification];
+}
+
+- (void) windowDidResignMain:(NSNotification *)notification
+{
+	[document windowDidResignMain:notification];
+}
+
+- (void) windowWillClose:(NSNotification *)notification
+{
+	[document windowDidResignMain:notification];
 }
 
 

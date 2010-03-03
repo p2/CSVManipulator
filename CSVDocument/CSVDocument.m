@@ -18,7 +18,6 @@
 
 @property (nonatomic, readwrite, retain) NSMutableDictionary *columnDict;
 
-- (void) updateColumnNames;
 - (void) notifyDelegateOfParsedRow:(CSVRow *)newRow;
 
 @end
@@ -43,7 +42,7 @@
 @synthesize didAbortImport;
 @synthesize reportEveryRowParsed;
 @synthesize columns;
-@synthesize numHeaderRows;
+@synthesize parseNumHeaderRows;
 
 
 - (id) init
@@ -105,7 +104,7 @@
 {
 	NSUInteger num_rows = 0;
 	BOOL success = YES;
-	
+	parseNumHeaderRows = 1;
 	// this thing is thread safe
 	[string retain];
 	NSAutoreleasePool *outerPool = [[NSAutoreleasePool alloc] init];
@@ -150,7 +149,6 @@
 		BOOL finishedRow = NO;				// used for the inner while loop
 		BOOL skipWhitespace = (NSNotFound == [separator rangeOfCharacterFromSet:whiteSpaceChars].location);
 		BOOL isNewColumn = NO;				// will be YES when a new column is created
-		BOOL columnHasName = NO;			// we use a BOOL here to avoid calling [column hasName] all too often
 		NSMutableString *currentCellString = [[NSMutableString alloc] init];
 		NSUInteger colIndex = 0;
 		CSVColumn *column;
@@ -183,13 +181,11 @@
 				// get the current column or create a new one, if needed
 				if ([columns count] > colIndex) {
 					column = [columns objectAtIndex:colIndex];
-					columnHasName = [column hasName];
 				}
 				else {
 					column = [CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, colIndex]];
 					column.active = YES;
 					isNewColumn = YES;
-					columnHasName = NO;
 				}
 				
 				// Scan characters into our string
@@ -217,15 +213,8 @@
 					else {					// This is a column separating separator
 						NSString *newCellString = [[currentCellString copy] autorelease];
 						if (isNewColumn) {
-							if (![newCellString isEqualToString:@""]) {
-								column.name = newCellString;
-								columnHasName = YES;
-							}
 							[self addColumn:column];
 							isNewColumn = NO;
-						}
-						if (!columnHasName) {
-							column.name = newCellString;
 						}
 						
 						[newRow setValue:newCellString forColumn:column];
@@ -247,15 +236,8 @@
 					else {													// a real newline or the end
 						NSString *newCellString = [[currentCellString copy] autorelease];
 						if (isNewColumn) {
-							if (![newCellString isEqualToString:@""]) {
-								column.name = newCellString;
-								columnHasName = YES;
-							}
 							[self addColumn:column];
 							isNewColumn = NO;
-						}
-						if (!columnHasName) {
-							column.name = newCellString;
 						}
 						
 						[newRow setValue:newCellString forColumn:column];
@@ -268,7 +250,7 @@
 			// one row scanned - add to our array, save the columns and report to delegate if desired
 			[rows addObject:newRow];
 			
-			if (num_rows >= numHeaderRows) {
+			if (num_rows >= parseNumHeaderRows) {
 				if (sendRowUpdateToDelegate) {
 					[self performSelectorOnMainThread:@selector(notifyDelegateOfParsedRow:) withObject:newRow waitUntilDone:NO];
 				}
@@ -305,6 +287,9 @@
 		}
 		success = NO;
 	}
+	
+	// header rows?
+	[self changeNumHeaderRows:parseNumHeaderRows];
 	
 	// clean the outer pool
 	[outerPool release];
@@ -392,6 +377,11 @@
 		[columns addObject:newColumn];
 		[columnDict setObject:newColumn forKey:newColumn.key];
 		
+		// inform delegate
+		if ([delegate respondsToSelector:@selector(csvDocumentDidChangeNumColumns:)]) {
+			[delegate csvDocumentDidChangeNumColumns:self];
+		}
+		
 		return YES;
 	}
 	return NO;
@@ -406,6 +396,12 @@
 				// TODO: Remove values from rows??
 				[columns removeObjectAtIndex:i];
 				[columnDict removeObjectForKey:column.key];
+				
+				// inform delegate
+				if ([delegate respondsToSelector:@selector(csvDocumentDidChangeNumColumns:)]) {
+					[delegate csvDocumentDidChangeNumColumns:self];
+				}
+				
 				return YES;
 			}
 			i++;
@@ -455,7 +451,8 @@
 
 - (void) updateColumnNames
 {
-	if (numHeaderRows < 1) {
+	NSUInteger nHeaderRows = [self numHeaderRows];
+	if (nHeaderRows < 1) {
 		for (CSVColumn *column in columns) {
 			column.name = nil;
 		}
@@ -463,10 +460,15 @@
 	else {
 		CSVRow *firstRow = [self rowAtIndex:0];
 		for (CSVColumn *column in columns) {
-			if (![column hasName]) {
+			if ((1 == nHeaderRows) || ![column hasName]) {
 				column.name = [firstRow valueForColumn:column];
 			}
 		}
+	}
+	
+	// inform delegate
+	if ([delegate respondsToSelector:@selector(csvDocumentDidChangeColumnNames:)]) {
+		[delegate csvDocumentDidChangeColumnNames:self];
 	}
 }
 #pragma mark -
@@ -483,21 +485,37 @@
 #endif
 }
 
+- (NSUInteger) numHeaderRows
+{
+	NSUInteger num = 0;
+#ifdef IPHONE
+	for (CSVRow *row in rows)
+#else
+	for (CSVRow *row in [rowController arrangedObjects])
+#endif
+	{
+		if (row.isHeaderRow) {
+			num++;
+		}
+		else {
+			break;		// we can break here since header rows are sorted first
+		}
+	}
+	return num;
+}
+
 - (void) changeNumHeaderRows:(NSUInteger)newNum
 {
 	NSUInteger i;
-	NSUInteger num = (newNum > numHeaderRows) ? newNum : numHeaderRows;
 	NSUInteger num_rows = [rows count];
+	NSUInteger num = MIN(MAX([self numHeaderRows], newNum), num_rows);
 	
 	for (i = 0; i < num; i++) {
-		if (num_rows > i) {
-			CSVRow *row = [self rowAtIndex:i];
-			[row changeHeaderRow:(i < newNum)];
-		}
+		CSVRow *row = [self rowAtIndex:i];
+		[row changeHeaderRow:(i < newNum)];
 	}
 	
 	[self rearrangeRows];
-	self.numHeaderRows = newNum;
 	[self updateColumnNames];
 }
 
@@ -519,16 +537,6 @@
 
 - (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid
 {
-	// keep the number of header rows up to date (maybe strip this counting entirely?)
-	if (nil != thisRow) {
-		if (itDid) {
-			numHeaderRows += 1;
-		}
-		else {
-			numHeaderRows -= 1;
-		}
-	}
-	
 	// rearrange
 	[self rearrangeRows];
 	if ([delegate respondsToSelector:@selector(csvDocument:didChangeRowOrderToOriginalOrder:)]) {
@@ -537,6 +545,17 @@
 	
 	// update column names
 	[self updateColumnNames];
+}
+
+- (void) removeRow:(CSVRow *)row
+{
+	if (nil != row) {
+#ifdef IPHONE
+		[rows removeObject:row];
+#else
+		[rowController removeObject:row];
+#endif
+	}
 }
 #pragma mark -
 

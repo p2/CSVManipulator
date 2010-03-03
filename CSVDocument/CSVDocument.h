@@ -39,9 +39,9 @@
 	NSMutableArray *columns;			// needs to be an array to preserve column order
 	NSMutableDictionary *columnDict;	// readonly to allow fast access to columns by key
 	
+	NSUInteger parseNumHeaderRows;		// if set before parsing, the first x rows will be header rows
 	BOOL parseSuccessful;
 	BOOL autoDetectSeparator;			// if YES will check for other separators (";" and TAB) than the comma
-	NSUInteger numHeaderRows;			// first x rows contain header data
 	
 	BOOL mustAbortImport;
 	BOOL didAbortImport;
@@ -64,7 +64,7 @@
 
 @property (nonatomic, assign) BOOL parseSuccessful;
 @property (nonatomic, assign) BOOL autoDetectSeparator;
-@property (nonatomic, assign) NSUInteger numHeaderRows;
+@property (nonatomic, assign) NSUInteger parseNumHeaderRows;
 
 @property (assign) BOOL mustAbortImport;
 @property (nonatomic, assign) BOOL didAbortImport;
@@ -91,12 +91,15 @@
 - (CSVColumn *) columnWithKey:(NSString *)columnKey;
 - (void) setColumnOrderByKeys:(NSArray *)newOrderKeys;
 - (void) setColumnActive:(BOOL)active forColumnKey:(NSString *)columnKey;
+- (void) updateColumnNames;
 
 // row handling
 - (CSVRow *) rowAtIndex:(NSUInteger)rowIndex;
+- (NSUInteger) numHeaderRows;
 - (void) changeNumHeaderRows:(NSUInteger)newNum;
 - (void) rearrangeRows;
 - (void) row:(CSVRow *)thisRow didBecomeHeaderRow:(BOOL)itDid;
+- (void) removeRow:(CSVRow *)row;
 
 // utils
 - (NSString *) nextAvailableColumnKey;

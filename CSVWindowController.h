@@ -69,7 +69,7 @@
 
 // TableView delegate
 - (void) redefineTable;
-- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView withWidth:(CGFloat)width;
+- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width;
 - (void) refreshData;
 
 // Inspector

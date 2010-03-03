@@ -29,6 +29,7 @@
 
 + (id) columnWithKey:(NSString *)newKey;
 - (BOOL) hasName;
+- (NSString *) fullName;
 
 
 @end

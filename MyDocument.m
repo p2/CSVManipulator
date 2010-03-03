@@ -85,6 +85,7 @@
 #pragma mark KVC
 - (BOOL) isDocumentEdited
 {
+	// TODO: Rewrite using NSUndoManager info
 	return documentEdited || !dataIsAtOriginalOrder;
 }
 - (void) setDocumentEdited:(BOOL)flag
@@ -242,6 +243,18 @@
 	if (isOriginalOrder) {
 		[mainWindowController didRestoreOriginalOrder];
 	}
+}
+
+- (void) csvDocumentDidChangeColumnNames:(CSVDocument *)document
+{
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:kDocumentDidChangeColumns object:self];
+}
+
+- (void) csvDocumentDidChangeNumColumns:(CSVDocument *)document
+{
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:kDocumentDidChangeColumns object:self];
 }
 #pragma mark -
 
@@ -614,7 +627,26 @@
 
 
 
-#pragma mark Document Based Musts
+#pragma mark Document Windows
+- (void) windowDidBecomeMain:(NSNotification *)notification
+{
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:kDocumentDidBecomeActive object:self];
+}
+
+- (void) windowDidResignMain:(NSNotification *)notification
+{
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:kDocumentDidBecomeInactive object:self];
+}
+
+- (void) windowWillClose:(NSNotification *)notification
+{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:kDocumentDidBecomeInactive object:self];
+}
+
+
 - (NSString *) windowNibName
 {
     return @"MyDocument";

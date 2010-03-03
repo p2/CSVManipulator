@@ -107,6 +107,35 @@
 
 
 
+#pragma mark TEST
+- (void) keyDown:(NSEvent *)event
+{
+	unichar u = [[event charactersIgnoringModifiers] characterAtIndex:0];
+	
+	if (u == NSDeleteCharacter || u == NSDeleteFunctionKey) {
+		[self interpretKeyEvents:[NSArray arrayWithObject:event]];
+	}
+	else {
+		[super keyDown:event];
+	}
+}
+
+- (void) deleteForward:(id)sender
+{
+	[self deleteBackward:sender];
+}
+
+- (void) deleteBackward:(id)sender
+{
+	id dataSource = [self dataSource];
+	if ([dataSource respondsToSelector:@selector(removeSelectedRows:)]) {
+		[dataSource performSelector:@selector(removeSelectedRows:) withObject:nil];
+	}
+}
+#pragma mark -
+
+
+
 #pragma mark Drawing
 - (void) drawRow:(NSInteger)rowIndex clipRect:(NSRect)clipRect
 {

@@ -15,6 +15,9 @@
 @class PPStringFormat;
 @class DataTableView;
 
+#define kDocumentDidBecomeActive @"CSVManip_DocumentDidBecomeActive"
+#define kDocumentDidBecomeInactive @"CSVManip_DocumentDidBecomeInactive"
+#define kDocumentDidChangeColumns @"CSVManip_DocumentDidChangeColumns"
 
 
 @interface MyDocument : NSDocument <CSVDocumentDelegate>
@@ -72,6 +75,11 @@
 
 // calculations
 - (void) performCalculationWithArgs:(NSDictionary *)args;
+
+// window notifications
+- (void) windowDidBecomeMain:(NSNotification *)notification;
+- (void) windowDidResignMain:(NSNotification *)notification;
+- (void) windowWillClose:(NSNotification *)notification;
 
 
 @end

@@ -82,7 +82,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	if (isHeader != isHeaderRow) {
 		NSUndoManager *undoManager = [[document document] undoManager];
 		[[undoManager prepareWithInvocationTarget:self] setIsHeaderRow:isHeaderRow];
-		//[undoManager setActionName:NSLocalizedString(@"Set Header Row", @"")];
+		[undoManager setActionName:NSLocalizedString(@"Header Row", nil)];
 		
 		[self changeHeaderRow:isHeader];
 		[document row:self didBecomeHeaderRow:isHeaderRow];
@@ -178,10 +178,7 @@ static NSUInteger highestHeaderRowPos = 0;
 - (void) setValue:(id)value forColumnKey:(NSString *)key
 {
 	if (nil != key) {
-		NSUndoManager *undoManager = [[document document] undoManager];
-		[[undoManager prepareWithInvocationTarget:self] setValue:[self valueForColumnKey:key] forColumnKey:key];
-		//[undoManager setActionName:NSLocalizedString(@"Set Value", nil)];
-		
+		// this is currently only used when parsing CSV, so no need for the undo manager here
 		value = (nil != value) ? value : [NSNull null];
 		[rowValues setObject:value forKey:key];
 	}
@@ -193,7 +190,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	if (0 == [keyPath rangeOfString:@"rowValues"].location) {
 		NSUndoManager *undoManager = [[document document] undoManager];
 		[[undoManager prepareWithInvocationTarget:self] setValue:[self valueForKeyPath:keyPath] forKeyPath:keyPath];
-		//[undoManager setActionName:NSLocalizedString(@"Set Value", nil)];
+		[undoManager setActionName:NSLocalizedString(@"Value Change", nil)];
 		
 		// if we were editing the cell, an undo operation would not be visible, so circumvent this manually
 		if ([undoManager isUndoing]) {
@@ -203,6 +200,11 @@ static NSUInteger highestHeaderRowPos = 0;
 	}
 	
 	[super setValue:value forKeyPath:keyPath];
+	
+	// if we are a header row, maybe the column name changed
+	if (isHeaderRow) {
+		[document updateColumnNames];
+	}
 }
 #pragma mark -
 
