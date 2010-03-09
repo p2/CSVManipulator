@@ -457,6 +457,7 @@
 			}
 			
 			// detach to 'bc'
+			// TODO: This is slow as hell!
 			NSString *result = [BC performMathOperation:evalString];
 			if (result) {
 				[row setValue:result forColumnKey:targetKey];

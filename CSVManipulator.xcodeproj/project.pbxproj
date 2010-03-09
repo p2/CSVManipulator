@@ -66,16 +66,6 @@
 		EEF072F01086302800C05DE9 /* DataTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEF072EF1086302700C05DE9 /* DataTableHeaderView.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		EE1377061088769500D31816 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EE1377031088767D00D31816;
-			remoteInfo = "Save IB Files";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
@@ -373,7 +363,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				EE1377071088769500D31816 /* PBXTargetDependency */,
 			);
 			name = CSVManipulator;
 			productInstallPath = "$(HOME)/Applications";
@@ -490,14 +479,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		EE1377071088769500D31816 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EE1377031088767D00D31816 /* Save IB Files */;
-			targetProxy = EE1377061088769500D31816 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {

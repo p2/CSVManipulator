@@ -14,6 +14,8 @@
 #import "PPStringFormatManager.h"
 #import "PPStringFormat.h"
 
+#define kDocsOpenAtQuitKey @"DocsOpenAtQuit"
+
 
 @interface AppController ()
 
@@ -37,6 +39,74 @@
 	
 	[super dealloc];
 }
+#pragma mark -
+
+
+
+#pragma mark Application Delegate
+- (BOOL) applicationShouldOpenUntitledFile:(NSApplication *)sender
+{
+	return NO;
+}
+
+- (void) applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+	//NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	// load the open documents, if desired
+	if (YES) {
+		NSError *error = nil;
+		
+		/*
+		NSArray *lastOpenDocs = [defaults objectForKey:kDocsOpenAtQuitKey];
+		
+		// open all
+		for (NSString *URLString in lastOpenDocs) {
+			NSURL *latestPath = [NSURL URLWithString:URLString];
+			DLog(@"%@", latestPath);
+			if (![[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:latestPath display:YES error:&error]) {
+				ALog(@"Failed to open recent document: %@", [error userInfo]);
+			}
+		}	//	*/
+		
+		// does not work, so for now we open the most recently opened document
+		NSArray *recentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+		if ([recentURLs count] > 0) {
+			NSURL *mostRecentURL = [recentURLs objectAtIndex:0];
+			if (![[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:mostRecentURL display:YES error:&error]) {
+				ALog(@"Error opening most recent document at %@: %@", mostRecentURL, [error userInfo]);
+			}
+		}
+	}
+	
+	// create empty file if desired
+	if (NO) {
+		[[NSDocumentController sharedDocumentController] newDocument:self];
+	}
+}
+/*
+- (NSApplicationTerminateReply) applicationShouldTerminate:(NSApplication *)sender
+{
+	// save open document URLs - PROBLEM & TODO: When we arrive here, the document controller already closed all documents
+	NSArray *openDocs = [[NSDocumentController sharedDocumentController] documents];
+	NSMutableArray *openURLs = [NSMutableArray arrayWithCapacity:[openDocs count]];
+	
+	if ([openDocs count] > 0) {
+		for (NSDocument *document in openDocs) {
+			NSURL *url = [document fileURL];
+			if (nil != url) {
+				[openURLs addObject:[url absoluteString]];
+			}
+		}
+	}
+	
+	// save to prefs
+	DLog(@"%@", openDocs);
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setObject:openDocs forKey:kDocsOpenAtQuitKey];
+	
+	return NSTerminateNow;
+}	//	*/
 #pragma mark -
 
 
