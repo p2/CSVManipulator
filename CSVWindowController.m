@@ -3,7 +3,8 @@
 //  CSVManipulator
 //
 //  Created by Pascal Pfiffner on 06.01.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  This sourcecode is released under the Apache License, Version 2.0
+//  http://www.apache.org/licenses/LICENSE-2.0.html
 //
 
 #import "CSVWindowController.h"

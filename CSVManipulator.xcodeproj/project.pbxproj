@@ -355,7 +355,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "CSVManipulator" */;
 			buildPhases = (
-				EE13771B10887D9800D31816 /* ShellScript */,
 				8D15AC2B0486D014006FF6A4 /* Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
@@ -377,7 +376,14 @@
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "CSVManipulator" */;
 			compatibilityVersion = "Xcode 3.0";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* CSVManipulator */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -426,20 +432,6 @@
 			shellPath = /bin/sh;
 			shellScript = "if [ -f \"/Users/pp/Programming/SaveIBFiles.scpt\" ]; then\n\tosascript \"/Users/pp/Programming/SaveIBFiles.scpt\"\nfi";
 			showEnvVarsInLog = 0;
-		};
-		EE13771B10887D9800D31816 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			comments = "Automatically inserts current revision number";
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "REV=`svnversion -n | sed -e 's/.+?://; s/[^0-9]*//g'`\n/usr/libexec/PlistBuddy -c \"Set :SVNRevision $REV\" ${PROJECT_DIR}/Info.plist";
 		};
 /* End PBXShellScriptBuildPhase section */
 
