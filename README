@@ -17,7 +17,7 @@ Features
 * Change cell data (currently everything is treated as NSString)
 * Undo (implemented, but the need-to-save indicator is not updating correctly)
 * Perform math operations on columns, e.g. write the result from col_a + col_b into a third column
-* Export to various formats which the user can create. Predefined formats include CSV, SQL and LaTeX.
+* Export to various formats which the user can create. Predefined formats include CSV, SQL, LaTeX and MediaWiki (Wikipedia) tables.
 
 
 Exporting
