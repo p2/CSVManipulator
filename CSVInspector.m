@@ -101,7 +101,7 @@ static CSVInspector *inspectorInstance = nil;
     return UINT_MAX;
 }
 
-- (void) release			// ha, try to release this!
+- (oneway void) release			// ha, try to release this!
 {
 }
 

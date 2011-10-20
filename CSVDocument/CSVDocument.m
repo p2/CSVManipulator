@@ -125,7 +125,7 @@
 			
 			NSUInteger testStringLength = MIN([string length], 200);
 			NSString *testString = [string substringToIndex:testStringLength];
-			NSArray *possSeparators = [NSArray arrayWithObjects:@";", @"	", nil];
+			NSArray *possSeparators = [NSArray arrayWithObjects:@";", @"	", @"|", nil];
 			
 			for(NSString *s in possSeparators) {
 				if ([[testString componentsSeparatedByString:s] count] > [[testString componentsSeparatedByString:separator] count]) {
@@ -371,7 +371,7 @@
 		
 		// check if the key is free
 		if (nil != [columnDict objectForKey:newColumn.key]) {
-			NSLog(@"Column with key '%@' is already present, we would replace that one!");
+			NSLog(@"Column with key '%@' is already present, we would replace that one!", newColumn.key);
 			return NO;
 		}
 		

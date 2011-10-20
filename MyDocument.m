@@ -201,6 +201,7 @@
 	NSAutoreleasePool *detachPool = [[NSAutoreleasePool alloc] init];
 	NSError *error;
 	
+	csvDocument.autoDetectSeparator = YES;
 	if ([csvDocument parseCSVString:string maxRows:0 error:&error]) {
 		self.importFormat = [PPStringFormat csvFormat];
 	}
@@ -446,7 +447,7 @@
 			
 			for (NSNumber *iNum in matchIndexes) {
 				NSUInteger i = [iNum unsignedIntValue];
-				if (i >= 0 && i < num_matches) {
+				if (i < num_matches) {
 					NSString *match = [matches objectAtIndex:i];
 					fullRange = NSMakeRange(0, [evalString length]);
 					

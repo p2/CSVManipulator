@@ -41,7 +41,7 @@
 	
 	NSUInteger parseNumHeaderRows;		// if set before parsing, the first x rows will be header rows
 	BOOL parseSuccessful;
-	BOOL autoDetectSeparator;			// if YES will check for other separators (";" and TAB) than the comma
+	BOOL autoDetectSeparator;			// NO by default. If YES will check for other separators (";", TAB and "|") than the comma
 	
 	BOOL mustAbortImport;
 	BOOL didAbortImport;
