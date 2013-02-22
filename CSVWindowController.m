@@ -170,7 +170,7 @@
 	}
 }
 
-- (void) didMoveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
+- (void)didMoveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
 {
 	if (oldPosition != newPosition) {
 		NSUndoManager *undoManager = [document undoManager];
@@ -188,24 +188,21 @@
 		
 		// propagate changes to CSVDocument
 		[document.csvDocument setColumnOrderByKeys:arr];
-		document.documentEdited = YES;
 	}
 }
 
 			
-- (IBAction) addCSVRow:(id)sender
+- (IBAction)addCSVRow:(id)sender
 {
 	[document.csvDocument.rowController add:sender];
-	document.documentEdited = YES;
 }
 
-- (IBAction) removeCSVRow:(id)sender
+- (IBAction)removeCSVRow:(id)sender
 {
 	[document.csvDocument.rowController remove:sender];
-	document.documentEdited = YES;
 }
 
-- (void) removeSelectedRows:(id)sender
+- (void)removeSelectedRows:(id)sender
 {
 	NSIndexSet *indexes = [mainTable selectedRowIndexes];
 	if ([indexes count] > 0) {
@@ -217,23 +214,22 @@
 	}
 }
 
-- (IBAction) restoreOriginalOrder:(id)sender;
+- (IBAction)restoreOriginalOrder:(id)sender;
 {
 	[document restoreOriginalOrder];
 }
 
-- (void) didRestoreOriginalOrder
+- (void)didRestoreOriginalOrder
 {
 	[mainTable setSortDescriptors:nil];
 	[mainTable setSortDescriptorsWithColumn:nil];		// necessary since we have overridden setSortDescriptors:
 	[[mainTable headerView] setNeedsDisplay:YES];
 }
-#pragma mark -
 
 
 
-#pragma mark TableView Delegate
-- (void) redefineTable
+#pragma mark - TableView Delegate
+- (void)redefineTable
 {
 	// remove OLD columns
 	NSArray *columnsToRemove = [[mainTable tableColumns] copy];
@@ -284,7 +280,7 @@
 	}
 }
 
-- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width
+- (void)addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width
 {
 	if (aTableView == mainTable) {
 		
@@ -326,7 +322,7 @@
 }
 
 
-- (void) tableViewSelectionDidChange:(NSNotification *)notification
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
 	NSInteger selected_row = [mainTable selectedRow];
 	if (selected_row >= 0) {
@@ -339,7 +335,7 @@
 }
 
 
-- (void) tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
+- (void)tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn
 {
 	// set sort descriptors
 	if (mainTable == tableView) {
@@ -349,14 +345,13 @@
 }
 
 
-- (void) tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn
+- (void)tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn
 {
 	[document.csvDocument setColumnActive:tableColumn.active forColumnKey:[tableColumn identifier]];
-	document.documentEdited = YES;
 }
 
 
-- (void) tableView:(NSTableView*)aTableView mouseDownInHeaderOfTableColumn:(NSTableColumn*)tableColumn
+- (void)tableView:(NSTableView*)aTableView mouseDownInHeaderOfTableColumn:(NSTableColumn*)tableColumn
 {
 	if (0 == [[aTableView tableColumns] indexOfObject:tableColumn]) {
 		[aTableView setAllowsColumnReordering:NO];
@@ -366,7 +361,7 @@
 	}
 }
 
-- (void) tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
+- (void)tableView:(NSTableView *)tableView didDragTableColumn:(NSTableColumn *)tableColumn
 {
 	if (mainTable == tableView) {
 		if (![kHeaderColumnIdentifier isEqualToString:[tableColumn identifier]]) {
@@ -391,7 +386,7 @@
 	}
 }
 
-- (void) tableViewColumnDidMove:(NSNotification*)aNotification
+- (void)tableViewColumnDidMove:(NSNotification*)aNotification
 {
 	NSDictionary* userInfo = [aNotification userInfo];
 	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -433,16 +428,15 @@
 	document.dataIsAtOriginalOrder = (nil == currentDescriptors || 0 == [currentDescriptors count]);
 }
 
-- (void) refreshData
+- (void)refreshData
 {
 	[mainTable reloadData];
 }
-#pragma mark -
 
 
 
-#pragma mark Toolbar
-- (BOOL) validateToolbarItem:(NSToolbarItem *)theItem
+#pragma mark - Toolbar
+- (BOOL)validateToolbarItem:(NSToolbarItem *)theItem
 {
 	if (addRowItem == theItem) {
 		return [document.csvDocument.rowController canInsert];
@@ -460,20 +454,18 @@
 		return YES;
 	}
 	if (restoreOrderItem == theItem) {
-		return document.documentEdited;
+		return !document.dataIsAtOriginalOrder;
 	}
 	return YES;
 }
-#pragma mark -
 
 
 
-#pragma mark Inspector
+#pragma mark - Inspector
 - (IBAction) showInspector:(id)sender
 {
 	[CSVInspector show:sender];
 }
-#pragma mark -
 
 
 

@@ -46,7 +46,6 @@
 @synthesize fileEncoding;
 @synthesize csvDocument;
 @synthesize documentLoaded;
-@dynamic documentEdited;
 @dynamic dataIsAtOriginalOrder;
 @synthesize exportHeaders;
 @synthesize calculationShouldTerminate;
@@ -54,8 +53,8 @@
 @dynamic exportFormat;
 
 
-#pragma mark Generic
-- (id) init
+#pragma mark - Generic
+- (id)init
 {
 	self = [super init];
 	if (nil != self) {
@@ -71,7 +70,7 @@
     return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	self.mainWindowController = nil;
 	self.csvDocument = nil;
@@ -80,41 +79,24 @@
  	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark KVC
-- (BOOL) isDocumentEdited
-{
-	// TODO: Rewrite using NSUndoManager info
-	return documentEdited || !dataIsAtOriginalOrder;
-}
-- (void) setDocumentEdited:(BOOL)flag
-{
-	if (flag != documentEdited) {
-		[self willChangeValueForKey:@"documentEdited"];
-		documentEdited = flag;
-		[self didChangeValueForKey:@"documentEdited"];
-	}
-}
-
-- (BOOL) dataIsAtOriginalOrder
+#pragma mark - KVC
+- (BOOL)dataIsAtOriginalOrder
 {
 	return dataIsAtOriginalOrder;
 }
-- (void) setDataIsAtOriginalOrder:(BOOL)flag
+- (void)setDataIsAtOriginalOrder:(BOOL)flag
 {
 	if (flag != dataIsAtOriginalOrder) {
 		[self willChangeValueForKey:@"dataIsAtOriginalOrder"];
-		[self willChangeValueForKey:@"documentEdited"];
 		dataIsAtOriginalOrder = flag;
 		[self didChangeValueForKey:@"dataIsAtOriginalOrder"];
-		[self didChangeValueForKey:@"documentEdited"];
 	}
 }
 
-- (PPStringFormat *) exportFormat
+- (PPStringFormat *)exportFormat
 {
 	if (nil == exportFormat) {
 		self.exportFormat = [PPStringFormat csvFormat];
@@ -122,7 +104,7 @@
 	
 	return exportFormat;
 }
-- (void) setExportFormat:(PPStringFormat *)newFormat
+- (void)setExportFormat:(PPStringFormat *)newFormat
 {
 	if (newFormat != exportFormat) {
 		[exportFormat release];
@@ -270,7 +252,7 @@
 //	fileWrapperOfType:error:					<< NSDocument >>
 //	writeToFile:atomically:updateFilenames:		<< NSFileWrapper >>
 
-- (BOOL) writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
 	PPStringFormat *thisFormat = self.exportFormat;
 	if ([typeName isEqualToString:@"csv"]) {
@@ -293,7 +275,6 @@
 		NSLog(@"Error while saving: %@", [*outError localizedDescription]);
 	}
 	
-	self.documentEdited = !success;
 	return success;
 }
 
@@ -481,22 +462,20 @@
 	[[CSVInspector sharedInspector] performSelectorOnMainThread:@selector(updateCalculationStatus:)
 													 withObject:[NSNumber numberWithInt:1]
 												  waitUntilDone:NO];
-	self.documentEdited = YES;
 	[myAutoreleasePool release];
 }
-#pragma mark -
 
 
 
-#pragma mark Clipboard
-- (NSArray *) writablePasteboardTypes
+#pragma mark - Clipboard
+- (NSArray *)writablePasteboardTypes
 {
     return [NSArray arrayWithObjects:NSFilesPromisePboardType, NSRTFPboardType, NSStringPboardType, nil];		// NSFilenamesPboardType, @"SFVNativePBMetaDataPBType08", @"SFVNativePBClassesListPBType08", @"SFVNativePBObject08"
 }
 
 
 // TODO: put into PPStringFormat
-- (NSArray *) fileSuffixesForFormat:(PPStringFormat *)format
+- (NSArray *)fileSuffixesForFormat:(PPStringFormat *)format
 {
 	NSArray *suffixes = nil;
 	/*

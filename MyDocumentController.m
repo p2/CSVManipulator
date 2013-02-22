@@ -23,12 +23,11 @@
 	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark Open Panel
-- (void) panelSelectionDidChange:(id)sender
+#pragma mark - Open Panel
+- (void)panelSelectionDidChange:(id)sender
 {
 	NSArray *curFiles = [sender filenames];
 	
@@ -48,7 +47,7 @@
 	*/
 }
 
-- (void) openDocument:(id)sender
+- (void)openDocument:(id)sender
 {
 	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 	
@@ -71,7 +70,6 @@
 		}
 	}
 }
-#pragma mark -
 
 
 @end

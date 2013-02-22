@@ -34,7 +34,6 @@
 	CSVDocument *csvDocument;
 	
 	BOOL documentLoaded;
-	BOOL documentEdited;
 	BOOL dataIsAtOriginalOrder;
 	NSUInteger numRowsToExpect;
 	PPStringFormat *importFormat;
@@ -52,7 +51,6 @@
 @property (nonatomic, retain) CSVDocument *csvDocument;
 
 @property (nonatomic, assign) BOOL documentLoaded;
-@property (assign, getter=isDocumentEdited) BOOL documentEdited;
 @property (nonatomic, assign) BOOL dataIsAtOriginalOrder;
 @property (nonatomic, retain) PPStringFormat *importFormat;
 @property (nonatomic, retain) PPStringFormat *exportFormat;
