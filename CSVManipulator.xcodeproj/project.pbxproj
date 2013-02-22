@@ -73,7 +73,6 @@
 		EE118BCD109B46770072804F /* PPStringFormatTransformPair.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatTransformPair.m; sourceTree = "<group>"; };
 		EE118C5510A1B7AB0072804F /* PPStringFormatPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStringFormatPreviewController.h; sourceTree = "<group>"; };
 		EE118C5610A1B7AB0072804F /* PPStringFormatPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStringFormatPreviewController.m; sourceTree = "<group>"; };
-		EE1377641088A54D00D31816 /* DataTableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataTableViewDelegate.h; sourceTree = "<group>"; };
 		EE137AB71090568600D31816 /* TB_add_column.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_add_column.png; sourceTree = "<group>"; };
 		EE137AB81090568600D31816 /* TB_inspector.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = TB_inspector.tiff; sourceTree = "<group>"; };
 		EE137AB91090568600D31816 /* TB_remove_column.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TB_remove_column.png; sourceTree = "<group>"; };
@@ -268,7 +267,6 @@
 		EE1512230D7F04910092C02F /* DataTable */ = {
 			isa = PBXGroup;
 			children = (
-				EE1377641088A54D00D31816 /* DataTableViewDelegate.h */,
 				EE0D3A280D6F02350009A7B2 /* DataTableView.h */,
 				EE0D3A290D6F02350009A7B2 /* DataTableView.m */,
 				EE15121C0D7F048D0092C02F /* DataTableColumn.h */,
@@ -361,7 +359,7 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "CSVManipulator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -490,6 +488,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -507,6 +506,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -566,6 +566,7 @@
 		EE714643113568CA00418030 /* Debug Plus */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;

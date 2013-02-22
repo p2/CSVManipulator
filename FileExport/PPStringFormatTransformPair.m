@@ -104,7 +104,7 @@
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%x> from '%@' to '%@'", NSStringFromClass([self class]), self, from, to];
+	return [NSString stringWithFormat:@"%@ <%p> from '%@' to '%@'", NSStringFromClass([self class]), self, from, to];
 }
 
 

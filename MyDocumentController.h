@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MyDocumentController : NSDocumentController {
+@interface MyDocumentController : NSDocumentController <NSOpenSavePanelDelegate> {
 	IBOutlet NSView *openPanelAccessoryView;
 	IBOutlet NSTextField *openPanelFilename;
 }

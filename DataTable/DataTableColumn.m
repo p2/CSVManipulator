@@ -79,7 +79,7 @@
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%x>, active: %i", NSStringFromClass([self class]), self, active];
+	return [NSString stringWithFormat:@"%@ <%p>, active: %i", NSStringFromClass([self class]), self, active];
 }
 
 

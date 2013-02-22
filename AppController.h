@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface AppController : NSObject {
+@interface AppController : NSObject <NSOpenSavePanelDelegate> {
 	IBOutlet NSView *exportAccessoryView;
 	IBOutlet NSButton *exportHeadersCheckbox;
 	IBOutlet NSPopUpButton *exportFormatSelector;

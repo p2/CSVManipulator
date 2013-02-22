@@ -53,7 +53,7 @@
 		self.rows = [NSMutableArray array];
 		self.columns = [NSMutableArray array];
 		self.columnDict = [NSMutableDictionary dictionary];
-		[self addColumn:[CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, 0]]];
+		[self addColumn:[CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, (unsigned long)0]]];
 		
 #ifndef IPHONE
 		self.rowController = [[[CSVRowController alloc] initWithContent:rows] autorelease];
@@ -185,7 +185,7 @@
 					column = [columns objectAtIndex:colIndex];
 				}
 				else {
-					column = [CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, colIndex]];
+					column = [CSVColumn columnWithKey:[NSString stringWithFormat:kColumnKeyMask, (unsigned long)colIndex]];
 					column.active = YES;
 					isNewColumn = YES;
 				}
@@ -577,11 +577,11 @@
 {
 	NSUInteger i = 0;
 	NSArray *keyArr = [columnDict allKeys];
-	NSMutableString *nextKey = [NSMutableString stringWithFormat:kColumnKeyMask, i];
+	NSMutableString *nextKey = [NSMutableString stringWithFormat:kColumnKeyMask, (unsigned long)i];
 	
 	while ([keyArr containsObject:nextKey]) {
 		i++;
-		[nextKey setString:[NSMutableString stringWithFormat:kColumnKeyMask, i]];
+		[nextKey setString:[NSMutableString stringWithFormat:kColumnKeyMask, (unsigned long)i]];
 	}
 	
 	return nextKey;
@@ -594,7 +594,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@ rows", NSStringFromClass([self class]), self, numRows];
+	return [NSString stringWithFormat:@"%@ <%p>; %@ rows", NSStringFromClass([self class]), self, numRows];
 }
 
 

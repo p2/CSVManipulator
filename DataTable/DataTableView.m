@@ -8,7 +8,6 @@
 //
 
 #import "DataTableView.h"
-#import "DataTableViewDelegate.h"
 #import "MyDocument.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderView.h"
@@ -70,7 +69,7 @@
 #pragma mark Column Delegate
 
 // this controls sorting - overridden since we don't want the table to re-sort when we click the checkbox in the header, we...
-- (void) setSortDescriptors:(NSArray *) array
+- (void)setSortDescriptors:(NSArray *) array
 {
 	if (sortDescriptorsArray != array) {
 		[sortDescriptorsArray release];
@@ -79,7 +78,7 @@
 }
 
 // ...call the super implementation ourselves whenever necessary
-- (void) setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn
+- (void)setSortDescriptorsWithColumn:(DataTableColumn *)tableColumn
 {
 	[super setSortDescriptors:sortDescriptorsArray];
 	
@@ -96,19 +95,29 @@
 	}
 }
 
-- (void) columnDidChangeCheckedStatus:(DataTableColumn *)tableColumn
+- (void)columnDidChangeCheckedStatus:(DataTableColumn *)tableColumn
 {
 	if (nil != tableColumn) {
 		if (self.delegate && [self.delegate respondsToSelector:@selector(tableView:didChangeTableColumnState:)]) {
 			[self.delegate tableView:self didChangeTableColumnState:tableColumn];
 		}
+		
+		// (de)select the column
+		NSInteger colIndex = [self.tableColumns indexOfObject:tableColumn];
+		if (NSNotFound != colIndex) {
+			if (tableColumn.active) {
+				[self selectColumnIndexes:[NSIndexSet indexSetWithIndex:colIndex] byExtendingSelection:NO];
+			}
+			else {
+				[self deselectColumn:colIndex];
+			}
+		}
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark TEST
+#pragma mark - TEST
 - (void) keyDown:(NSEvent *)event
 {
 	unichar u = [[event charactersIgnoringModifiers] characterAtIndex:0];

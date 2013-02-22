@@ -96,7 +96,7 @@ static CSVInspector *inspectorInstance = nil;
 	return self;
 }
 
-- (unsigned) retainCount
+- (NSUInteger) retainCount
 {
     return UINT_MAX;
 }
@@ -248,11 +248,11 @@ static CSVInspector *inspectorInstance = nil;
 								   withObject:args];			// args is automatically retained for the duration of the loop	*/
 		}
 		else {
-			ALog(@"Target Column %i does not exist", targetIndex);
+			ALog(@"Target Column %lu does not exist", (unsigned long)targetIndex);
 		}
 	}
 	else {
-		ALog(@"Source Column %i does not exist", sourceIndex);
+		ALog(@"Source Column %lu does not exist", (unsigned long)sourceIndex);
 	}
 }
 

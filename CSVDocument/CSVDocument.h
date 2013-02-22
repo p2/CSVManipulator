@@ -17,7 +17,7 @@
 
 #import "CSVDocumentDelegate.h"
 
-#define kColumnKeyMask @"col_%i"			// must containt one integer placeholder (%i or %d) !
+#define kColumnKeyMask @"col_%lu"			// must contain one int/long placeholder
 
 @class CSVRow;
 @class CSVColumn;

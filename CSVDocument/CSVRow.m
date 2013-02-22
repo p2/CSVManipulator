@@ -227,7 +227,7 @@ static NSUInteger highestHeaderRowPos = 0;
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@", NSStringFromClass([self class]), self, rowValues];
+	return [NSString stringWithFormat:@"%@ <%p>; %@", NSStringFromClass([self class]), self, rowValues];
 }
 
 

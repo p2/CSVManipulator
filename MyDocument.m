@@ -403,7 +403,7 @@
 		
 		// found a Dollar sign "$"
 		if ([scanner scanString:@"$" intoString:NULL]) {
-			[scanner scanInt:&i];
+			[scanner scanInteger:&i];
 			
 			// add to the collection if not already there
 			NSNumber *iNum = [NSNumber numberWithInt:i];
@@ -451,7 +451,7 @@
 					NSString *match = [matches objectAtIndex:i];
 					fullRange = NSMakeRange(0, [evalString length]);
 					
-					[evalString replaceOccurrencesOfString:[NSString stringWithFormat:@"$%i", i]
+					[evalString replaceOccurrencesOfString:[NSString stringWithFormat:@"$%lu", (unsigned long)i]
 												withString:match
 												   options:0
 													 range:fullRange];

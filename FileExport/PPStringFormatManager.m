@@ -101,7 +101,7 @@ static PPStringFormatManager *managerInstance = nil;
 	return self;
 }
 
-- (unsigned) retainCount
+- (NSUInteger) retainCount
 {
     return UINT_MAX;
 }
@@ -407,7 +407,7 @@ static PPStringFormatManager *managerInstance = nil;
 			NSString *proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
 			NSUInteger i = 0;
 			while ([fm fileExistsAtPath:proposedPath]) {
-				fileName = [NSString stringWithFormat:@"%@-%i", name, ++i];
+				fileName = [NSString stringWithFormat:@"%@-%lu", name, (unsigned long)++i];
 				proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
 			}
 			
@@ -465,7 +465,7 @@ static PPStringFormatManager *managerInstance = nil;
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
 	NSUInteger i = 0;
 	while ([fm fileExistsAtPath:proposedPath]) {
-		fileName = [NSString stringWithFormat:@"%@-%i", name, ++i];
+		fileName = [NSString stringWithFormat:@"%@-%lu", name, (unsigned long)++i];
 		proposedPath = [[pluginPath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:kPluginFormatFileExtension];
 	}
 	

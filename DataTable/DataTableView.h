@@ -12,6 +12,15 @@
 @class DataTableColumn;
 
 
+@protocol DataTableViewDelegate <NSObject>
+
+@optional
+- (void)tableView:(DataTableView *)tableView didChangeTableColumnState:(DataTableColumn *)tableColumn;
+
+
+@end
+
+
 @interface DataTableView : NSTableView {
 	NSArray *sortDescriptorsArray;
 	NSInteger titleRowColumnIndex;			// we ask this column's value wether we are a title row which has a different background

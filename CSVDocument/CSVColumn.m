@@ -88,7 +88,7 @@
 
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%X>; %@ -> %@, active: %i", NSStringFromClass([self class]), self, key, name, active];
+	return [NSString stringWithFormat:@"%@ <%p>; %@ -> %@, active: %i", NSStringFromClass([self class]), self, key, name, active];
 }
 
 

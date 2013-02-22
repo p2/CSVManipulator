@@ -425,7 +425,7 @@
 #pragma mark Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <0x%x> %@ (system: %i)", NSStringFromClass([self class]), self, name, systemFormat];
+	return [NSString stringWithFormat:@"%@ <%p> %@ (system: %i)", NSStringFromClass([self class]), self, name, systemFormat];
 }
 
 

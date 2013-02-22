@@ -14,7 +14,6 @@
 #import "CSVDocument.h"
 #import "CSVColumn.h"
 #import "CSVInspector.h"
-#import "DataTableView.h"
 #import "DataTableColumn.h"
 #import "DataTableHeaderCell.h"
 #import "DataTableCell.h"

@@ -9,11 +9,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <AppKit/AppKit.h>
-#import "DataTableViewDelegate.h"
+#import "DataTableView.h"
 @class MyDocument;
 @class CSVColumn;
 @class PPStringFormat;
-@class DataTableView;
 @class PPToolbarView;
 
 
