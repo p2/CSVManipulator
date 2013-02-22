@@ -93,22 +93,21 @@
 - (void) windowWillClose:(NSNotification *)notification
 {
 }	//*/
-#pragma mark -
 
 
 
-#pragma mark Data Control
-- (IBAction) addNewColumn:(id)sender
+#pragma mark - Data Control
+- (IBAction)addNewColumn:(id)sender
 {
 	[self addColumnWithKey:[document.csvDocument nextAvailableColumnKey] atPosition:UINT_MAX];
 	// TODO: Tell the CSVInspector when we do crazy stuff like this
 }
 
-- (void) addColumnWithKey:(NSString *)columnKey atPosition:(NSUInteger)position
+- (void)addColumnWithKey:(NSString *)columnKey atPosition:(NSUInteger)position
 {
 	CSVColumn *newColumn = [CSVColumn columnWithKey:columnKey];
 	if ([document.csvDocument addColumn:newColumn]) {
-		[self addColumn:newColumn toTable:mainTable atPosition:position withWidth:0.f];
+		[self addColumn:newColumn toTable:mainTable atPosition:position withWidth:0.f resizeTable:YES];
 		
 		// allow undo
 		NSUndoManager *undoManager = [document undoManager];
@@ -118,7 +117,7 @@
 }
 
 
-- (IBAction) removeSelectedColumns:(id)sender
+- (IBAction)removeSelectedColumns:(id)sender
 {
 	NSIndexSet *indexes = [mainTable selectedColumnIndexes];
 	if ([indexes count] > 0) {
@@ -130,7 +129,7 @@
 	}
 }
 
-- (void) removeColumnWithIdentifier:(NSString *)columnIdentifier
+- (void)removeColumnWithIdentifier:(NSString *)columnIdentifier
 {
 	for (NSTableColumn *tableColumn in [mainTable tableColumns]) {
 		if ([[tableColumn identifier] isEqualToString:columnIdentifier]) {
@@ -141,7 +140,7 @@
 	NSLog(@"Can't remove column with identifier '%@'", columnIdentifier);
 }
 
-- (void) removeColumn:(NSTableColumn *)tableColumn
+- (void)removeColumn:(NSTableColumn *)tableColumn
 {
 	NSUndoManager *undoManager = [document undoManager];
 	
@@ -162,7 +161,7 @@
 	}
 }
 
-- (void) moveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
+- (void)moveColumn:(NSInteger)oldPosition ofTable:(NSTableView *)aTableView to:(NSInteger)newPosition
 {
 	if (oldPosition != newPosition) {
 		[mainTable moveColumn:oldPosition toColumn:newPosition];
@@ -273,14 +272,14 @@
 		
 		// loop columns to add the table columns
 		for (CSVColumn *column in [document columns]) {
-			[self addColumn:column toTable:mainTable atPosition:UINT_MAX withWidth:columnWidth];
+			[self addColumn:column toTable:mainTable atPosition:UINT_MAX withWidth:columnWidth resizeTable:NO];
 		}
 		
 		[mainTable sizeLastColumnToFit];
 	}
 }
 
-- (void)addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width
+- (void)addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width resizeTable:(BOOL)resize
 {
 	if (aTableView == mainTable) {
 		
@@ -317,6 +316,11 @@
 		NSUInteger lastColumnIndex = [[mainTable tableColumns] count] - 1;
 		if (position < lastColumnIndex) {
 			[mainTable moveColumn:lastColumnIndex toColumn:position];
+		}
+		
+		// resize the table width
+		if (resize) {
+			[mainTable sizeToFit];
 		}
 	}
 }

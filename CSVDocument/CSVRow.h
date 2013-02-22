@@ -30,22 +30,22 @@
 @property (nonatomic, assign) BOOL isHeaderRow;
 @property (nonatomic, assign) NSUInteger headerRowPosition;
 
-+ (id) rowForDocument:(CSVDocument *)forDocument;
-+ (id) rowFromDict:(NSMutableDictionary *)dict forDocument:(CSVDocument *)forDocument;
++ (id)rowForDocument:(CSVDocument *)forDocument;
++ (id)rowFromDict:(NSMutableDictionary *)dict forDocument:(CSVDocument *)forDocument;
 
-- (NSArray *) valuesForColumns:(NSArray *)columns;
-- (NSArray *) valuesForColumnKeys:(NSArray *)columnKeys;
-- (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString;
-- (NSString *) valueForColumn:(CSVColumn *)column;
-- (NSString *) valueForColumnKey:(NSString *)columnKey;
-- (BOOL) valueForColumnIsEmpty:(CSVColumn *)column;
-- (BOOL) valueForColumnKeyIsEmpty:(NSString *)columnKey;
-- (BOOL) isEmptyRow;
+- (NSArray *)valuesForColumns:(NSArray *)columns;
+- (NSArray *)valuesForColumnKeys:(NSArray *)columnKeys;
+- (NSString *)valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString;
+- (NSString *)valueForColumn:(CSVColumn *)column;
+- (NSString *)valueForColumnKey:(NSString *)columnKey;
+- (BOOL)valueForColumnIsEmpty:(CSVColumn *)column;
+- (BOOL)valueForColumnKeyIsEmpty:(NSString *)columnKey;
+- (BOOL)isEmptyRow;
 
-- (void) setValue:(id)value forColumn:(CSVColumn *)column;
-- (void) setValue:(id)value forColumnKey:(NSString *)key;
+- (void)setValue:(id)value forColumn:(CSVColumn *)column;
+- (void)setValue:(id)value forColumnKey:(NSString *)key;
 
-- (void) changeHeaderRow:(BOOL)isHeader;		// changes the header row status without telling the document - only the document should use this!
+- (void)changeHeaderRow:(BOOL)isHeader;		// changes the header row status without telling the document - only the document should use this!
 
 
 @end

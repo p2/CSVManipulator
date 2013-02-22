@@ -443,7 +443,7 @@
 			// TODO: This is slow as hell!
 			NSString *result = [BC performMathOperation:evalString];
 			if (result) {
-				[row setValue:result forColumnKey:targetKey];
+				[row setValue:[result stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]] forColumnKey:targetKey];
 			}
 		}
 		

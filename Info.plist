@@ -64,7 +64,7 @@
 	<key>CFBundleIconFile</key>
 	<string>CSVManipulatorIcon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>ch.iiaprism.unibe.CSVManipulator</string>
+	<string>com.github.p2.CSVManipulator</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -74,7 +74,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.2</string>
+	<string>0.3</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

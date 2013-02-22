@@ -58,34 +58,33 @@
 
 
 // Row/Column control
-- (IBAction) addNewColumn:(id)sender;
-- (IBAction) removeSelectedColumns:(id)sender;
-- (IBAction) addCSVRow:(id)sender;
-- (IBAction) removeCSVRow:(id)sender;
+- (IBAction)addNewColumn:(id)sender;
+- (IBAction)removeSelectedColumns:(id)sender;
+- (IBAction)addCSVRow:(id)sender;
+- (IBAction)removeCSVRow:(id)sender;
 
 // Display options
-- (IBAction) restoreOriginalOrder:(id)sender;
-- (void) didRestoreOriginalOrder;
+- (IBAction)restoreOriginalOrder:(id)sender;
+- (void)didRestoreOriginalOrder;
 
 // TableView delegate
-- (void) redefineTable;
-- (void) addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width;
-- (void) refreshData;
+- (void)redefineTable;
+- (void)addColumn:(CSVColumn *)newColumn toTable:(NSTableView *)aTableView atPosition:(NSUInteger)position withWidth:(CGFloat)width resizeTable:(BOOL)resize;
+- (void)refreshData;
 
 // Inspector
-- (IBAction) showInspector:(id)sender;
+- (IBAction)showInspector:(id)sender;
 
 // Progress Sheet Actions
-- (void) showProgressSheet;
-- (void) updateProgressSheetProgress:(CGFloat)percentage;
-- (void) setProgressSheetIndeterminate:(NSNumber *)flag;
-- (void) hideProgressSheet;
-- (IBAction) abortImport:(id)sender;
-- (void) didAbortImport:(BOOL)flag;
+- (void)showProgressSheet;
+- (void)updateProgressSheetProgress:(CGFloat)percentage;
+- (void)setProgressSheetIndeterminate:(NSNumber *)flag;
+- (void)hideProgressSheet;
+- (IBAction)abortImport:(id)sender;
+- (void)didAbortImport:(BOOL)flag;
 
 // Export Sheet
-- (IBAction) showExportFormats:(id)sender;
-
+- (IBAction)showExportFormats:(id)sender;
 
 
 @end

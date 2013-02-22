@@ -106,7 +106,7 @@
 		NSInteger colIndex = [self.tableColumns indexOfObject:tableColumn];
 		if (NSNotFound != colIndex) {
 			if (tableColumn.active) {
-				[self selectColumnIndexes:[NSIndexSet indexSetWithIndex:colIndex] byExtendingSelection:NO];
+				[self selectColumnIndexes:[NSIndexSet indexSetWithIndex:colIndex] byExtendingSelection:YES];
 			}
 			else {
 				[self deselectColumn:colIndex];

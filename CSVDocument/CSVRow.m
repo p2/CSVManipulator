@@ -22,7 +22,7 @@ static NSUInteger highestHeaderRowPos = 0;
 @synthesize headerRowPosition;
 
 
-+ (id) rowForDocument:(CSVDocument *)forDocument
++ (id)rowForDocument:(CSVDocument *)forDocument
 {
 	CSVRow *row = [[[self alloc] init] autorelease];
 	row.document = forDocument;
@@ -30,7 +30,7 @@ static NSUInteger highestHeaderRowPos = 0;
 }
 
 
-+ (id) rowFromDict:(NSMutableDictionary *)dict forDocument:(CSVDocument *)forDocument
++ (id)rowFromDict:(NSMutableDictionary *)dict forDocument:(CSVDocument *)forDocument
 {
 	CSVRow *row = [self rowForDocument:forDocument];
 	
@@ -41,7 +41,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	return row;
 }
 
-- (id) init
+- (id)init
 {
 	self = [super init];
 	if (self) {
@@ -52,7 +52,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	return self;
 }
 
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
 	CSVRow *copy = [[[self class] allocWithZone:zone] init];
 	copy.rowValues = rowValues;
@@ -61,23 +61,22 @@ static NSUInteger highestHeaderRowPos = 0;
 	return copy;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	self.document = nil;
 	self.rowValues = nil;
 	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark KVC
-- (BOOL) isHeaderRow
+#pragma mark - KVC
+- (BOOL)isHeaderRow
 {
 	return isHeaderRow;
 }
-- (void) setIsHeaderRow:(BOOL)isHeader
+- (void)setIsHeaderRow:(BOOL)isHeader
 {
 	if (isHeader != isHeaderRow) {
 		NSUndoManager *undoManager = [[document document] undoManager];
@@ -89,7 +88,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	}
 }
 
-- (void) changeHeaderRow:(BOOL)isHeader
+- (void)changeHeaderRow:(BOOL)isHeader
 {
 	// this _silently_ changes the headerRow flag, only use from ourself or self.document!
 	[self willChangeValueForKey:@"headerRow"];
@@ -104,12 +103,11 @@ static NSUInteger highestHeaderRowPos = 0;
 		self.headerRowPosition = UINT_MAX;
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark Returning Column Values
-- (NSArray *) valuesForColumns:(NSArray *)columns
+#pragma mark - Returning Column Values
+- (NSArray *)valuesForColumns:(NSArray *)columns
 {
 	if ((nil != columns) && (nil != rowValues)) {
 		NSMutableArray *columnKeys = [NSMutableArray arrayWithCapacity:[columns count]];
@@ -122,7 +120,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	return nil;
 }
 
-- (NSArray *) valuesForColumnKeys:(NSArray *)columnKeys
+- (NSArray *)valuesForColumnKeys:(NSArray *)columnKeys
 {
 	if ((nil != columnKeys) && (nil != rowValues)) {
 		return [rowValues objectsForKeys:columnKeys notFoundMarker:@""];
@@ -131,17 +129,17 @@ static NSUInteger highestHeaderRowPos = 0;
 	return nil;
 }
 
-- (NSString *) valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString
+- (NSString *)valuesForColumns:(NSArray *)columns combinedByString:(NSString *)sepString
 {
 	return [[self valuesForColumns:columns] componentsJoinedByString:sepString];
 }
 
-- (NSString *) valueForColumn:(CSVColumn *)column
+- (NSString *)valueForColumn:(CSVColumn *)column
 {
 	return [self valueForColumnKey:column.key];
 }
 
-- (NSString *) valueForColumnKey:(NSString *)columnKey
+- (NSString *)valueForColumnKey:(NSString *)columnKey
 {
 	if (nil != columnKey) {
 		return [rowValues objectForKey:columnKey];
@@ -150,32 +148,31 @@ static NSUInteger highestHeaderRowPos = 0;
 	return nil;
 }
 
-- (BOOL) valueForColumnIsEmpty:(CSVColumn *)column
+- (BOOL)valueForColumnIsEmpty:(CSVColumn *)column
 {
 	return [self valueForColumnKeyIsEmpty:column.key];
 }
 
-- (BOOL) valueForColumnKeyIsEmpty:(NSString *)columnKey
+- (BOOL)valueForColumnKeyIsEmpty:(NSString *)columnKey
 {
 	return [@"" isEqualToString:[self valueForColumnKey:columnKey]];
 }
 
 
-- (BOOL) isEmptyRow
+- (BOOL)isEmptyRow
 {
 	return ([rowValues count] < 1);
 }
-#pragma mark -
 
 
 
-#pragma mark Setting Values
-- (void) setValue:(id)value forColumn:(CSVColumn *)column
+#pragma mark - Setting Values
+- (void)setValue:(id)value forColumn:(CSVColumn *)column
 {
 	[self setValue:value forColumnKey:column.key];
 }
 
-- (void) setValue:(id)value forColumnKey:(NSString *)key
+- (void)setValue:(id)value forColumnKey:(NSString *)key
 {
 	if (nil != key) {
 		if (document.parseSuccessful) {
@@ -198,7 +195,7 @@ static NSUInteger highestHeaderRowPos = 0;
 	}
 }
 
-- (void) setValue:(id)value forKeyPath:(NSString *)keyPath
+- (void)setValue:(id)value forKeyPath:(NSString *)keyPath
 {
 	// if rowValues get changed, we end up here
 	if (0 == [keyPath rangeOfString:@"rowValues"].location) {
@@ -220,12 +217,11 @@ static NSUInteger highestHeaderRowPos = 0;
 		[document updateColumnNames];
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark Utilities
-- (NSString *) description
+#pragma mark - Utilities
+- (NSString *)description
 {
 	return [NSString stringWithFormat:@"%@ <%p>; %@", NSStringFromClass([self class]), self, rowValues];
 }
