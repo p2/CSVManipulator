@@ -27,10 +27,10 @@
 @dynamic documentColumns;
 
 
-#pragma mark Singleton Overrides
+#pragma mark - Singleton Overrides
 static CSVInspector *inspectorInstance = nil;
 
-+ (CSVInspector *) sharedInspector
++ (CSVInspector *)sharedInspector
 {
 	@synchronized (self) {
 		if (nil == inspectorInstance ) {
@@ -59,7 +59,7 @@ static CSVInspector *inspectorInstance = nil;
 }
 
 
-+ (id) allocWithZone:(NSZone *)zone
++ (id)allocWithZone:(NSZone *)zone
 {
 	@synchronized (self) {
 		if (nil == inspectorInstance) {
@@ -70,7 +70,7 @@ static CSVInspector *inspectorInstance = nil;
 	return inspectorInstance;
 }
 
-- (id) init
+- (id)init
 {
 	Class myClass = [self class];
 	@synchronized (myClass) {
@@ -86,31 +86,31 @@ static CSVInspector *inspectorInstance = nil;
 	return inspectorInstance;
 }
 
-- (id) copyWithZone:(NSZone *)zone
+- (id)copyWithZone:(NSZone *)zone
 {
 	return self;
 }
 
-- (id) retain
+- (id)retain
 {
 	return self;
 }
 
-- (NSUInteger) retainCount
+- (NSUInteger)retainCount
 {
     return UINT_MAX;
 }
 
-- (oneway void) release			// ha, try to release this!
+- (oneway void)release			// ha, try to release this!
 {
 }
 
-- (id) autorelease
+- (id)autorelease
 {
 	return self;
 }
 
-- (void) dealloc			// will never be called! (Singleton)
+- (void)dealloc			// will never be called! (Singleton)
 {
 	self.currentDocument = nil;
 	self.documentColumns = nil;
@@ -118,16 +118,15 @@ static CSVInspector *inspectorInstance = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:nil];
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark KVC
-- (MyDocument *) currentDocument
+#pragma mark - KVC
+- (MyDocument *)currentDocument
 {
 	return currentDocument;
 }
-- (void) setCurrentDocument:(MyDocument *)newDocument
+- (void)setCurrentDocument:(MyDocument *)newDocument
 {
 	if (newDocument != currentDocument) {
 		currentDocument = newDocument;
@@ -138,14 +137,14 @@ static CSVInspector *inspectorInstance = nil;
 	}
 }
 
-- (NSArrayController *) documentColumns
+- (NSArrayController *)documentColumns
 {
 	if (nil == documentColumns) {
 		self.documentColumns = [[[NSArrayController alloc] init] autorelease];
 	}
 	return documentColumns;
 }
-- (void) setDocumentColumns:(NSArrayController *)newColumns
+- (void)setDocumentColumns:(NSArrayController *)newColumns
 {
 	if (newColumns != documentColumns) {
 		[self willChangeValueForKey:@"documentColumns"];
@@ -154,12 +153,11 @@ static CSVInspector *inspectorInstance = nil;
 		[self didChangeValueForKey:@"documentColumns"];
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark GUI
-+ (void) show:(id)sender
+#pragma mark - GUI
++ (void)show:(id)sender
 {
 	CSVInspector *i = [CSVInspector sharedInspector];
 	
@@ -167,44 +165,42 @@ static CSVInspector *inspectorInstance = nil;
 	[i showWindow:sender];
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
 	// DEBUGGING
 	[calculationSourceRegExp setStringValue:@"(\\d+)\\.(\\d+)"];
 	[calculationTargetExpr setStringValue:@"$1 * $2"];
 }
 
-- (NSString *) windowFrameAutosaveName
+- (NSString *)windowFrameAutosaveName
 {
 	return @"CSVInspectorMainWindow";
 }
-#pragma mark -
 
 
 
-#pragma mark Notifications
-- (void) documentBecameActiveNotification:(NSNotification *)notification
+#pragma mark - Notifications
+- (void)documentBecameActiveNotification:(NSNotification *)notification
 {
 	MyDocument *document = [notification object];
 	self.currentDocument = document;
 }
 
-- (void) documentBecameInactiveNotification:(NSNotification *)notification
+- (void)documentBecameInactiveNotification:(NSNotification *)notification
 {
 	self.currentDocument = nil;
 }
 
-- (void) documentDidChangeColumns:(NSNotification *)notification
+- (void)documentDidChangeColumns:(NSNotification *)notification
 {
 	[self willChangeValueForKey:@"documentColumns"];
 	[self didChangeValueForKey:@"documentColumns"];
 }
-#pragma mark -
 
 
 
-#pragma mark Calculations
-- (IBAction) performCalculation:(id)sender
+#pragma mark - Calculations
+- (IBAction)performCalculation:(id)sender
 {
 	if (nil == currentDocument) {
 		ALog(@"currentDocument is nil!");
@@ -256,7 +252,7 @@ static CSVInspector *inspectorInstance = nil;
 	}
 }
 
-- (void) updateCalculationStatus:(NSNumber *)alreadyDone
+- (void)updateCalculationStatus:(NSNumber *)alreadyDone
 {
 	if ([alreadyDone isLessThan:[NSNumber numberWithInt:1]]) {
 		[calculationProgress setDoubleValue:[alreadyDone doubleValue]];
@@ -265,6 +261,7 @@ static CSVInspector *inspectorInstance = nil;
 	// we've now finished
 	else if (calculationIsRunning) {
 		[calculationStartButton setTitle:@"Go"];
+		[calculationProgress setDoubleValue:1.0];
 		[calculationProgress stopAnimation:nil];
 		calculationIsRunning = NO;
 	}
