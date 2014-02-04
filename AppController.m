@@ -98,6 +98,7 @@
 		// configure the panel
 		NSSavePanel *exportPanel = [NSSavePanel savePanel];
 		[exportPanel setDelegate:self];
+		[exportPanel setExtensionHidden:YES];
 		[exportPanel setAccessoryView:exportAccessoryView];
 		
 		[self updateExportFormatSelector];
@@ -116,6 +117,7 @@
 				frontDoc.exportHeaders = (NSOnState == [exportHeadersCheckbox state]);
 				
 				// WRITE!
+				[exportPanel setAllowedFileTypes:@[frontDoc.exportFormat.type]];
 				[frontDoc writeToURL:[exportPanel URL] ofType:frontDoc.exportFormat.type error:&error];
 			}
 			
