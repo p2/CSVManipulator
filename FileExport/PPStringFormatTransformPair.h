@@ -13,10 +13,7 @@
 /**
  *  A class that transforms occurrences of "from" to "to" in a mutable string.
  */
-@interface PPStringFormatTransformPair : NSObject <NSCoding> {
-	NSString *from;
-	NSString *to;
-}
+@interface PPStringFormatTransformPair : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, retain) NSString *from;
 @property (nonatomic, retain) NSString *to;

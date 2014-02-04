@@ -422,21 +422,18 @@
 	myself.exportHeaders = NO;
 	
 	// Setup CSV properties
-	NSArray *keyPairs = [PPStringFormatTransformPair transformPairsFromTo:
+	NSArray *transformPairs = [PPStringFormatTransformPair transformPairsFromTo:
+						 @"\\", @"\\\\", 
 						 @"\"", @"\\\"",
 						 @"'", @"\\'",
-						 @"\\", @"\\\\", nil];
-	NSArray *valuePairs = [PPStringFormatTransformPair transformPairsFromTo:
-						   @"\"", @"\\\"",
-						   @"'", @"\\'",
-						   @"\\", @"\\\\", nil];
+						 nil];
 	
 	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
 	valueEntity.separator = @",\n\t\t";
 	valueEntity.stringFormat = @"\"$key\":\"$value\"";
 	valueEntity.numberFormat = @"\"$key\":$value";
-	valueEntity.keyTransforms = keyPairs;
-	valueEntity.valueTransforms = valuePairs;
+	valueEntity.keyTransforms = transformPairs;
+	valueEntity.valueTransforms = transformPairs;
 	
 	PPStringFormatRow *row = [PPStringFormatRow formatRow];
 	row.format = @"\t{\n\t\t@values\n\t},\n";
