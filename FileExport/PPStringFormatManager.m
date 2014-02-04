@@ -48,7 +48,7 @@
 @synthesize previewPanelController;
 
 
-#pragma mark Singleton Overrides
+#pragma mark - Singleton Overrides
 static PPStringFormatManager *managerInstance = nil;
 
 + (PPStringFormatManager *) sharedManager
@@ -126,11 +126,10 @@ static PPStringFormatManager *managerInstance = nil;
 	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark KVC
+#pragma mark - KVC
 - (NSMutableArray *) formats
 {
 	if (nil == formats) {
@@ -154,6 +153,7 @@ static PPStringFormatManager *managerInstance = nil;
 		self.systemFormats = [NSArray arrayWithObjects:
 							  [PPStringFormat csvFormat],
 							  [PPStringFormat tabFormat],
+							  [PPStringFormat jsonFormat],
 							  [PPStringFormat flatXMLFormat],
 							  [PPStringFormat sqlFormat],
 							  nil];
@@ -171,16 +171,12 @@ static PPStringFormatManager *managerInstance = nil;
 - (PPStringFormat *) selectedFormat
 {
 	NSArray *selectedObjects = [formatController selectedObjects];
-	if ([selectedObjects count] > 0) {
-		return [selectedObjects objectAtIndex:0];
-	}
-	return nil;
+	return [selectedObjects firstObject];
 }
-#pragma mark -
 
 
 
-#pragma mark Awakening and Closing
+#pragma mark - Awakening and Closing
 - (void) awakeFromNib
 {
 	[super awakeFromNib];
@@ -215,17 +211,17 @@ static PPStringFormatManager *managerInstance = nil;
 		}
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark Table and Text Delegate
+#pragma mark - Table and Text Delegate
 - (void) tableViewSelectionDidChange:(NSNotification *)aNotification
 {
 	// change the subview accordingly
 	if (formatTable == aNotification.object) {
-		if ([self selectedFormat]) {
-			BOOL isSystemFormat = [self selectedFormat].isSystemFormat;
+		PPStringFormat *selected = [self selectedFormat];
+		if (selected) {
+			BOOL isSystemFormat = selected.isSystemFormat;
 			[[detailContainer subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
 			
 			NSView *newSubview = isSystemFormat ? systemFormatDetails : userFormatDetails;
@@ -241,11 +237,10 @@ static PPStringFormatManager *managerInstance = nil;
 {
 	[self updatePreview:nil];
 }
-#pragma mark -
 
 
 
-#pragma mark Actions
+#pragma mark - Actions
 - (IBAction) askToRemoveFormat:(id)sender
 {
 	formatToBeRemoved = [[formatController selectedObjects] objectAtIndex:0];		// Error checking, anyone??
@@ -299,11 +294,11 @@ static PPStringFormatManager *managerInstance = nil;
 		NSDocumentController *docController = [NSDocumentController sharedDocumentController];
 		MyDocument *frontDoc = [docController currentDocument];
 		CSVDocument *csvDoc = frontDoc.csvDocument;
-		if (nil != csvDoc) {
+		if (csvDoc) {
 			
 			// get current format
 			PPStringFormat *frontFormat = [self selectedFormat];
-			if (nil != frontFormat) {
+			if (frontFormat) {
 				NSIndexSet *testSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 8)];
 				NSError *myError = nil;
 				NSString *previewString = [csvDoc stringInFormat:frontFormat withColumns:csvDoc.activeColumns forRowIndexes:testSet includeHeaders:YES  error:&myError];
@@ -424,11 +419,10 @@ static PPStringFormatManager *managerInstance = nil;
 	}
 	return NO;
 }
-#pragma mark -
 
 
 
-#pragma mark Showing/Hiding
+#pragma mark - Showing/Hiding
 + (void) show:(id)sender
 {
 	PPStringFormatManager *manager = [PPStringFormatManager sharedManager];
@@ -444,11 +438,10 @@ static PPStringFormatManager *managerInstance = nil;
 {
 	return @"PPStringFormatManager";
 }
-#pragma mark -
 
 
 
-#pragma mark Utilities
+#pragma mark - Utilities
 - (NSString *) formatPluginPath
 {
 	return [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Application Support/CSVManipulator/Formats"];

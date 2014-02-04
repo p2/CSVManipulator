@@ -10,11 +10,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PPStringFormatsController : NSArrayController {
-	
-}
+@interface PPStringFormatsController : NSArrayController
 
 - (BOOL) canRemoveSelectedObjects;
-
 
 @end

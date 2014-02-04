@@ -56,9 +56,10 @@
 	[openPanel setAccessoryView:openPanelAccessoryView];
 	NSArray *fileTypes = nil;
 	[openPanel setAllowsMultipleSelection:YES];
+	[openPanel setAllowedFileTypes:fileTypes];
 	
 	// open all selected files
-	NSInteger result = [openPanel runModalForDirectory:nil file:nil types:fileTypes];
+	NSInteger result = [openPanel runModal];
 	if (result == NSOKButton) {
 		for (NSURL *filePath in [openPanel URLs]) {
 			NSError *error;

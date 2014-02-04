@@ -14,15 +14,7 @@
 @implementation PPStringFormatsController
 
 
-- (void) dealloc
-{
-	[super dealloc];
-}
-#pragma mark -
-
-
-
-#pragma mark Array States
+#pragma mark - Array States
 - (void) addObject:(id)object
 {
 	[self willChangeValueForKey:@"canRemoveSelectedObjects"];
@@ -50,11 +42,10 @@
 	}
 	return flag;
 }
-#pragma mark -
 
 
 
-#pragma mark KVO
+#pragma mark - KVO
 - (Class) objectClass
 {
 	return [PPStringFormat class];
@@ -64,7 +55,6 @@
 //{
 //	return [NSSet setWithObjects:@"contentArray", @"selectionIndex", @"selectionIndexes", nil];
 //}
-
 
 
 @end

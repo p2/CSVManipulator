@@ -18,8 +18,6 @@
 @property (nonatomic, copy) NSString *panelTitle;
 @property (nonatomic, retain) IBOutlet NSTextView *previewField;
 
-
 - (void) previewString:(NSString *)string;
-
 
 @end

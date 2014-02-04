@@ -46,6 +46,7 @@
 
 + (PPStringFormat *) csvFormat;
 + (PPStringFormat *) tabFormat;
++ (PPStringFormat *) jsonFormat;
 + (PPStringFormat *) flatXMLFormat;
 + (PPStringFormat *) sqlFormat;
 

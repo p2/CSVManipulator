@@ -76,11 +76,10 @@
 	
 	return copy;
 }
-#pragma mark -
 
 
 
-#pragma mark NSCoding
+#pragma mark - NSCoding
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [self init]) {
@@ -112,11 +111,10 @@
 	[aCoder encodeObject:headerFormat forKey:@"headerFormat"];
 	[aCoder encodeObject:valueFormat forKey:@"valueFormat"];
 }
-#pragma mark -
 
 
 
-#pragma mark Formatting
+#pragma mark - Formatting
 - (NSString *) stringForRows:(NSArray *)csvRows andColumns:(NSArray *)columns;
 {
 	NSMutableString *string = nil;
@@ -129,7 +127,6 @@
 		// add rows (if there are any)
 		if ([csvRows count] > 0) {
 			NSMutableArray *keys = [NSMutableArray arrayWithCapacity:[columns count]];
-			NSAutoreleasePool *myPool = [[NSAutoreleasePool alloc] init];
 			
 			// extract the keys (actually: names) from the columns
 			for (CSVColumn *column in columns) {
@@ -138,24 +135,22 @@
 			}
 			
 			// loop the rows
-			NSUInteger i = 0;
-			for (CSVRow *row in csvRows) {
-				if (!row.isHeaderRow) {
-					[string appendString:[valueFormat rowForKeys:keys values:[row valuesForColumns:columns]]];		// value row
-					i++;
-				}
-				else if (exportHeaders) {
-					[string appendString:[headerFormat rowForKeys:keys values:[row valuesForColumns:columns]]];		// header row
-					i++;
-				}
-				
-				// let's clean the pool from time to time
-				if (0 == i % 50) {
-					[myPool release];
-					myPool = [[NSAutoreleasePool alloc] init];
+			@autoreleasepool {
+				for (CSVRow *row in csvRows) {
+					if (!row.isHeaderRow) {
+						NSString *rowStr = [valueFormat rowForKeys:keys values:[row valuesForColumns:columns]];			// value row
+						if (rowStr) {
+							[string appendString:rowStr];		
+						}
+					}
+					else if (exportHeaders) {
+						NSString *rowStr = [headerFormat rowForKeys:keys values:[row valuesForColumns:columns]];		// header row
+						if (rowStr) {
+							[string appendString:rowStr];
+						}
+					}
 				}
 			}
-			[myPool release];
 		}
 		
 		// append the suffix
@@ -176,11 +171,10 @@
 {
 	return [valueFormat rowForKeys:keys values:values];
 }
-#pragma mark -
 
 
 
-#pragma mark Loading and Saving from/to file
+#pragma mark - Loading and Saving from/to file
 + (PPStringFormat *) formatFromFile:(NSURL *)aFileURL error:(NSError **)outError
 {
 	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
@@ -249,11 +243,10 @@
 	
 	return YES;
 }
-#pragma mark -
 
 
 
-#pragma mark Predefined formats
+#pragma mark - Predefined formats
 + (PPStringFormat *) csvFormat
 {
 	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"CSV"];
@@ -418,11 +411,47 @@
 	
 	return [myself autorelease];
 }
-#pragma mark -
+
++ (PPStringFormat *) jsonFormat
+{
+	PPStringFormat *myself = [[PPStringFormat alloc] initWithName:@"json"];
+	myself.systemFormat = YES;
+	myself.name = @"JSON";
+	myself.type = @"json";
+	myself.formatDescription = @"A format that exports your file to JSON";
+	myself.exportHeaders = NO;
+	
+	// Setup CSV properties
+	NSArray *keyPairs = [PPStringFormatTransformPair transformPairsFromTo:
+						 @"\"", @"\\\"",
+						 @"'", @"\\'",
+						 @"\\", @"\\\\", nil];
+	NSArray *valuePairs = [PPStringFormatTransformPair transformPairsFromTo:
+						   @"\"", @"\\\"",
+						   @"'", @"\\'",
+						   @"\\", @"\\\\", nil];
+	
+	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
+	valueEntity.separator = @",\n\t\t";
+	valueEntity.stringFormat = @"\"$key\":\"$value\"";
+	valueEntity.numberFormat = @"\"$key\":$value";
+	valueEntity.keyTransforms = keyPairs;
+	valueEntity.valueTransforms = valuePairs;
+	
+	PPStringFormatRow *row = [PPStringFormatRow formatRow];
+	row.format = @"\t{\n\t\t@values\n\t},\n";
+	row.valueFormat = valueEntity;
+	
+	myself.prefix = @"{\"rows\":[\n";
+	myself.suffix = @"]";
+	myself.valueFormat = row;
+	
+	return [myself autorelease];
+}
 
 
 
-#pragma mark Utilities
+#pragma mark - Utilities
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"%@ <%p> %@ (system: %i)", NSStringFromClass([self class]), self, name, systemFormat];

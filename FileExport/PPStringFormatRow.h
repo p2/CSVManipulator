@@ -11,16 +11,17 @@
 @class PPStringFormatEntity;
 
 
+/**
+ *  A string format row applies holds transformation entities for header and value rows and applies these sub-transformations to its format of one CSV row.
+ */
 @interface PPStringFormatRow : NSObject <NSCopying, NSCoding> {
 	NSString *format;							// e.g. <row>\n\t@values\n</row>
-	BOOL newline;								// if YES adds a newline after the row
 	
 	PPStringFormatEntity *keyFormat;			// the format to apply to @keys
 	PPStringFormatEntity *valueFormat;			// the format to apply to @values
 }
 
 @property (nonatomic, copy) NSString *format;
-@property (nonatomic, assign) BOOL newline;
 
 @property (nonatomic, retain) PPStringFormatEntity *keyFormat;
 @property (nonatomic, retain) PPStringFormatEntity *valueFormat;
@@ -28,6 +29,5 @@
 + (PPStringFormatRow *) formatRow;
 
 - (NSString *) rowForKeys:(NSArray *)keys values:(NSArray *)values;
-
 
 @end

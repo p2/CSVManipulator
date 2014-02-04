@@ -48,11 +48,10 @@
 	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark NSCoding
+#pragma mark - NSCoding
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [self init]) {
@@ -74,11 +73,10 @@
 	[aCoder encodeObject:keyTransforms forKey:@"keyTransforms"];
 	[aCoder encodeObject:valueTransforms forKey:@"valueTransforms"];
 }
-#pragma mark -
 
 
 
-#pragma mark Formatting
+#pragma mark - Formatting
 - (NSString *) stringForKeys:(NSArray *)keys values:(NSArray *)values
 {
 	NSString *string = @"";

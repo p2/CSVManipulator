@@ -10,6 +10,9 @@
 #import <Cocoa/Cocoa.h>
 
 
+/**
+ *  A string format entity applies transformations to one CSV row.
+ */
 @interface PPStringFormatEntity : NSObject <NSCopying, NSCoding> {
 	NSString *separator;				// will be put between each key/value pair
 	NSString *stringFormat;				// e.g. <$key>$value</$key>
@@ -26,7 +29,9 @@
 
 + (PPStringFormatEntity *) formatEntity;
 
+/**
+ *  Applies the receiver's transformations to the keys (i.e. CSV header names) and values (i.e. CSV row values).
+ */
 - (NSString *) stringForKeys:(NSArray *)keys values:(NSArray *)values;
-
 
 @end

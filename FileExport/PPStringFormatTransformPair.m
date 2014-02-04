@@ -43,18 +43,18 @@
 }
 
 
-+ (PPStringFormatTransformPair *) pairFrom:(NSString *)newFrom to:(NSString *)newTo
++ (PPStringFormatTransformPair *) pairFrom:(NSString *)fromStr to:(NSString *)toStr
 {
-	PPStringFormatTransformPair *newPair = [[self alloc] initFrom:newFrom to:newTo];
+	PPStringFormatTransformPair *newPair = [[self alloc] initFrom:fromStr to:toStr];
 	return [newPair autorelease];
 }
 
-- (id) initFrom:(NSString *)newFrom to:(NSString *)newTo
+- (id) initFrom:(NSString *)fromStr to:(NSString *)toStr
 {
 	self = [super init];
 	if (self) {
-		self.from = newFrom;
-		self.to = newTo;
+		self.from = fromStr;
+		self.to = toStr;
 	}
 	return self;
 }
@@ -66,11 +66,10 @@
 	
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark NSCoding
+#pragma mark - NSCoding
 - (id) initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [self init]) {
@@ -85,11 +84,10 @@
 	[aCoder encodeObject:from forKey:@"from"];
 	[aCoder encodeObject:to forKey:@"to"];
 }
-#pragma mark -
 
 
 
-#pragma mark Transforming
+#pragma mark - Transforming
 - (NSMutableString *) transform:(NSMutableString *)string
 {
 	if (nil != string) {
@@ -97,11 +95,10 @@
 	}
 	return string;
 }
-#pragma mark -
 
 
 
-#pragma mark Utilities
+#pragma mark - Utilities
 - (NSString *) description
 {
 	return [NSString stringWithFormat:@"%@ <%p> from '%@' to '%@'", NSStringFromClass([self class]), self, from, to];

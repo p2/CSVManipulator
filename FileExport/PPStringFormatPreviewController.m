@@ -23,11 +23,10 @@
 
 	[super dealloc];
 }
-#pragma mark -
 
 
 
-#pragma mark KVC
+#pragma mark - KVC
 - (NSString *) panelTitle
 {
 	return panelTitle;
@@ -43,11 +42,10 @@
 		}
 	}
 }
-#pragma mark -
 
 
 
-#pragma mark Window Handling
+#pragma mark - Window Handling
 - (void) windowDidLoad
 {
 	[previewField setFont:[NSFont fontWithName:@"Monaco" size:12.0]];
@@ -57,11 +55,10 @@
 {
 	return @"PPStringFormatPrevievWindow";
 }
-#pragma mark -
 
 
 
-#pragma mark Previewing
+#pragma mark - Previewing
 - (void) previewString:(NSString *)string
 {
 	[previewField setString:string];
