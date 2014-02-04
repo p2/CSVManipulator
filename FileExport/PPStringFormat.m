@@ -424,9 +424,7 @@
 	// Setup CSV properties
 	NSArray *transformPairs = [PPStringFormatTransformPair transformPairsFromTo:
 						 @"\\", @"\\\\", 
-						 @"\"", @"\\\"",
-						 @"'", @"\\'",
-						 nil];
+						 @"\"", @"\\\"", nil];
 	
 	PPStringFormatEntity *valueEntity = [PPStringFormatEntity formatEntity];
 	valueEntity.separator = @",\n\t\t";
