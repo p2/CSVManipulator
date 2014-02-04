@@ -13,6 +13,9 @@
 
 @implementation PPStringFormatTransformPair
 
+@synthesize from;
+@synthesize to;
+
 
 + (NSArray *) transformPairsFromTo:(NSString *)first, ...
 {
@@ -78,8 +81,8 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder
 {
-	[aCoder encodeObject:_from forKey:@"from"];
-	[aCoder encodeObject:_to forKey:@"to"];
+	[aCoder encodeObject:from forKey:@"from"];
+	[aCoder encodeObject:to forKey:@"to"];
 }
 
 
@@ -88,8 +91,8 @@
 - (id) copyWithZone:(NSZone *)zone
 {
 	PPStringFormatTransformPair *copy = [[self class] new];
-	copy.from = _from;
-	copy.to = _to;
+	copy.from = from;
+	copy.to = to;
 	
 	return copy;
 }
@@ -100,7 +103,7 @@
 - (NSMutableString *) transform:(NSMutableString *)string
 {
 	if (nil != string) {
-		[string replaceOccurrencesOfString:_from withString:_to options:0 range:NSMakeRange(0, [string length])];
+		[string replaceOccurrencesOfString:from withString:to options:0 range:NSMakeRange(0, [string length])];
 	}
 	return string;
 }
@@ -110,7 +113,7 @@
 #pragma mark - Utilities
 - (NSString *) description
 {
-	return [NSString stringWithFormat:@"%@ <%p> from '%@' to '%@'", NSStringFromClass([self class]), self, _from, _to];
+	return [NSString stringWithFormat:@"%@ <%p> from '%@' to '%@'", NSStringFromClass([self class]), self, from, to];
 }
 
 
